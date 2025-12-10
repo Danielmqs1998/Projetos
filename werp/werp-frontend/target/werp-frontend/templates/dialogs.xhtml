@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<h:form>
+		<p:dialog header="Erro" widgetVar="dialogErroConsultaCliente"
+			showEffect="fade" hideEffect="fade" modal="true" draggable="false"
+			onHide="fecharDialog()">
+			<h:outputText value="Falha ao consultar dados do cliente." />
+		</p:dialog>
+
+		<p:dialog header="Confirmar" width="400"
+			widgetVar="dialogConfirmarDelecao" showEffect="fade"
+			hideEffect="fade" modal="true" draggable="false">
+			<h:outputText id="txt-cliente-remocao" value="Deseja remover o cliente #{visualizarClienteController.clienteRemocao} ?" />
+			<f:facet name="footer">
+				<p:commandButton type="button" value="Não"
+					styleClass="ui-button-flat mr-2" style="width: 6rem" />
+				<p:commandButton type="button" value="Sim"
+					onclick="PF('dialogInformarSenha').show(); PF('dialogConfirmarDelecao').hide()"
+					style="width: 6rem" />
+			</f:facet>
+		</p:dialog>
+
+		<p:dialog widgetVar="dialogInformarSenha" width="400"
+			showEffect="fade" hideEffect="fade" modal="true" draggable="false">
+			<label for="senha">Informe a senha</label>
+			<h:inputSecret class="form-control" id="senha" />
+			<f:facet name="footer">
+				<h:commandButton oncomplete="PF('dialogInformarSenha').hide();"
+					value="Confirmar"
+					action="#{visualizarClienteController.removerCliente}"
+					class="btn btn-primary btn-bg mt-1 mx-auto" style="width: 6rem" />
+			</f:facet>
+		</p:dialog>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,91 @@
+  <div class="container">
+    <div class="bloco-dados-principais">
+      <div id="carousel">
+
+      </div>
+
+      <div class="dados-pagamento">
+        <span class="text-txt-nome-produto_2-60">Nome do produto</span>
+        <span class="text-txt-parcela-produto_15-25">R$ 777,77</span>
+        <span class="text-txt-valor-produto_15-27">10 x R$ 777,77</span>
+        <div id="avaliacao">
+          <app-rating [produto]="produto"></app-rating>
+          <span class="text-txt-valor-produto_17-419">(200)</span>
+        </div>
+      </div>
+
+      <div id="opcoes">
+        <!-- Dados do fabricante/pagamento -->
+        <div class="dados-fabricante">  
+          <div class="frame-12_17-1102">
+            <span class="text-dados-do-fabricante_17-1103">Dados do fabricante</span>
+
+
+          </div>
+
+
+          <div class="opcoes-pagamento-1104">
+            <span class="text-formas-de-pagamento_17-1107">Formas de pagamento</span>
+            <div class="frame-14_17-1119">
+          
+            
+            </div>
+          </div>
+        </div>
+        
+        <!-- Endereço de entrega + CEP-->
+        <div class="building-blocks-primary-tabs-label-only_17-512">
+
+        </div>
+
+        <!-- Quantidade-->
+        <div class="botoes-pagamento">
+          <mat-form-field>
+            <mat-label>Quantidade</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let quantidade of [1, 2, 3]" [value]="quantidade">
+                  {{ quantidade }}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+          <div id="btn-comprar">
+            <button mat-flat-button (click)="teste()">Comprar</button>
+          </div>
+          <div id="btn-adicionar-carrinho">
+            <button mat-flat-button (click)="teste()">Adicionar ao carrinho</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="topicos">
+        <div class="topico-descricao">
+          <app-divisor titulo="Descrição do produto"></app-divisor>
+          <p class="txt-descricao-produto">ABawdqweaweaawrawrawrawrawraraw
+            523ABawdqweaweaawrawrawrawrawrarawrABawdqw15343awrawrawrawrarawrABawdqweaweaawrawraw
+            rawrawrarawrABawdqweaweaawrawrawrawrawrarawrA7546457awdqweaweaawrawrawrawrawrarawrAB
+            awdqweaweaatetwrewrwt545wrawrararr
+          </p>
+        </div>
+
+        <div class="topico-especificacoes">
+          <app-divisor titulo="Especificações"></app-divisor>
+          <div class="frame-6_2-8790">
+          </div>
+        </div>
+
+        <div class="topico-avaliacoes">
+          <app-divisor titulo="Avaliações"></app-divisor>
+          <div class="frame-6_2-8790">
+          </div>
+        </div>
+
+        <div class="topico-relacionados">
+          <app-divisor titulo="Produtos relacionados"></app-divisor>
+          <div class="frame-6_2-8790">
+          </div>
+        </div>
+    </div>
+  </div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>wERP</title>
+	<link rel="stylesheet" href="#{request.contextPath}/estilos/geral.css" />
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+	<script type="text/javascript"
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" />
+</h:head>
+<h:body>
+	<ui:include src="/templates/cabecalho.xhtml" />
+	<main>
+		<ui:insert name="conteudo" class="container"></ui:insert>
+	</main>
+	<ui:include src="/templates/rodape.xhtml" />
+	<ui:include src="/templates/dialogs.xhtml" />
+	<ui:insert name="scripts"></ui:insert>
+</h:body>
+</html>

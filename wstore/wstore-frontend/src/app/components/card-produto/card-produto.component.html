@@ -1,0 +1,14 @@
+<div id="card-produto" [routerLink]="['/detalhes-produto', produto?.codigo]">
+    <div id="imagem" style="margin:10px">
+        <img src={{produto?.imagem}} style="border-radius:5px"/>
+    </div>
+    <p id="descricao">{{produto?.descricao}}</p>
+    <div id="precos">
+        <p id="normal">{{produto?.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
+        <p id="parcelado" style="font-size: 12px; font-family: system-ui"> 10 x {{ ((produto?.preco || 0) / 10) | currency:'BRL':'symbol':'1.2-2' }}</p>
+    </div>
+    <div style="width: auto; margin: 0 auto">
+        <app-rating [produto]="produto"></app-rating>
+        <p style="display: inline; font-size: 14px; font-family: system-ui">({{produto?.totalAvaliacoes}})</p>
+    </div>
+</div>

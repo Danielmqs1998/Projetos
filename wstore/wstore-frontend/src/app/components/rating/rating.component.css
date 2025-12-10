@@ -1,0 +1,13 @@
+.stars use {
+    fill: white;
+    stroke: black;
+    stroke-width: 0;
+    transition: fill 150ms ease;
+    cursor: default; 
+}
+
+svg[data-rating="1"] .stars use:nth-child(-n+1) { fill: rgb(21, 54, 119); }
+svg[data-rating="2"] .stars use:nth-child(-n+2) { fill: rgb(21, 54, 119); }
+svg[data-rating="3"] .stars use:nth-child(-n+3) { fill: rgb(21, 54, 119); }
+svg[data-rating="4"] .stars use:nth-child(-n+4) { fill: rgb(21, 54, 119); }
+svg[data-rating="5"] .stars use:nth-child(-n+5) { fill: rgb(21, 54, 119); }

@@ -1,0 +1,73 @@
+<header>
+  <div id="menu">
+    <div id="logo">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; padding: 15px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 40 40" fill="none">
+        <!-- Carrinho de compras -->
+        <g fill="#fff">
+          <path d="M4 4h3l3.6 7.59-1.35 2.44C8.52 15.37 9.48 17 11 17h16v-2H11l1.1-2h10.45c.75 0 1.41-.41 1.75-1.03L28 10H10.42l-.94-2H4V4z"/>
+          <circle cx="12" cy="24" r="2"/>
+          <circle cx="22" cy="24" r="2"/>
+        </g>
+        </svg>
+        <span style="font-family: fantasy; font-size: 1.2rem; color: #ffffff">
+          WStore
+        </span>
+      </a>
+    </div>
+    <div *ngIf="paginaPrincipal" id="barra-pesquisa">
+      <p> WStore - A loja da Web</p>
+      <div style="display: flex; flex-direction: row; width: 100%">
+          <input type="text" placeholder="Pesquisar produtos..." />
+          <button style="width: 50px; border-radius: 5px; border: none; margin:2px" id="btn-pesq-barra">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 64 64" fill="none">
+              <circle cx="28" cy="28" r="16" stroke="#333" stroke-width="4"/>
+              <line x1="40" y1="40" x2="58" y2="58" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </button>
+      </div>
+    </div>
+    <div *ngIf="paginaPrincipal" id="botoes">
+      <nav style="display: flex; align-items: center;">
+        <div *ngIf="usuarioLoja == null" style="margin-top: 15px">
+          <a class="btn-menu" routerLink="/cadastro" style="color:white; padding: 5px; margin: 15px; border-radius: 5px; text-decoration: none;">Cadastro</a>
+          <a class="btn-menu" routerLink="/login" style="color:white; padding: 5px; margin: 15px; border-radius: 5px; text-decoration: none;">Login</a>
+        </div>
+        <div *ngIf="usuarioLoja != null" style="margin-top: 18px; height: 40px;" id="botoes-usuario">
+          <a routerLink="/cadastro" style="color:white; text-wrap-mode: nowrap; font-size: 14px">Perfil</a>
+          <p style="color:white; font-size: 9px;">{{usuarioLoja.username}}</p>
+        </div>
+        <a *ngIf="usuarioLoja != null" routerLink="/carrinho-compra" [queryParams]="{teste:'abc'}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="40" viewBox="0 0 96 34">
+            <!-- Círculo de fundo com carrinho centralizado -->
+            <circle cx="35" cy="32" r="25" fill="#333" />
+
+            <!-- Carrinho no centro do círculo -->
+            <path d="M16 28h4l4 14h26l5-12H26" 
+                  stroke="#fff" stroke-width="2.5" fill="none" 
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 28c0-3 2-4 4-4h6" 
+                  stroke="#fff" stroke-width="2.5" fill="none"/>
+            <circle cx="32" cy="46" r="4" fill="#fff"/>
+            <circle cx="46" cy="46" r="4" fill="#fff"/>
+
+            <!-- Contador (badge) ao lado -->
+            <circle cx="76" cy="8" r="15" fill="#a1b2b3"/>
+            <text x="76" y="14" text-anchor="middle" font-size="18" font-family="Arial" fill="black" font-weight="bold">
+              {{itensCarrinho.length}}
+            </text>
+          </svg>
+        </a>
+      </nav>
+    </div>
+  </div>
+  <div *ngIf="paginaPrincipal" id="menu-categorias">
+    <nav>
+      <button mat-flat-button><a routerLink="/home">Eletrônicos</a></button>
+      <button mat-flat-button><a routerLink="/home">Acessórios</a></button>
+      <button mat-flat-button><a routerLink="/home">Mobília</a></button>
+      <button mat-flat-button><a routerLink="/home">Moda</a></button>
+      <button mat-flat-button><a routerLink="/home">Ferramentas</a></button>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	template="/templates/layout.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<h2 align="center">
+				<h:outputLabel
+					value="#{cadastroProdutoController.produto.codigo > 0 ? 'Dados do produto' : 'Cadastro de produto'}" />
+			</h2>
+
+			<p:panel style="margin: 1%" header="Dados gerais">
+			
+				<div class="row mb-3">
+					<div class="col-sm-12" id="codigo-interno"
+						style="#{cadastroProdutoController.produto.codigo > 0 ? 'display:block' : 'display:none'}">
+						<strong> <p:outputLabel
+								value="Código interno: #{cadastroProdutoController.produto.codigo}" />
+						</strong>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-sm-4">
+						<label for="descricao">Descrição</label>
+						<p:inputText class="form-control" id="descricao" label="Descrição" maxlenght="100"
+							value="#{cadastroProdutoController.produto.descricao}" />
+						<p:message for="nome" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="codigo_barras">Código de barras</label>
+						<p:inputText class="form-control" id="codigo_barras"
+							label="Código de barras" maxlenght="13"
+							value="#{cadastroProdutoController.produto.codigoBarra}" />
+						<p:message for="codigo_barras" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="quantidade">Quantidade</label>
+						<p:inputText class="form-control" id="quantidade"
+							label="Quantidade"
+							value="#{cadastroProdutoController.produto.quantidade}"
+							maxlength="4" />
+						<p:message for="quantidade" class="mt-2 text-danger" />
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-sm-6">
+						<label for="url_imagem">URL da imagem</label>
+						<p:inputText class="form-control" id="url_imagem"
+							label="URL da imagem"
+							value="#{cadastroProdutoController.produto.imagem}" />
+					</div>
+					<div class="col-sm-3">
+						<label for="preco">Preço</label>
+						<p:inputText class="form-control" id="preco" label="Preço"
+							value="#{cadastroProdutoController.produto.preco}" />
+						<p:message for="preco" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3 text-center">
+						<label for="categoria" class="d-block">Categoria</label>
+						<p:toggleSwitch id="categoria" class="d-inline-block"
+							value="#{cadastroProdutoController.produto.categoria}" />
+					</div>
+				</div>
+			</p:panel>
+
+			<p:panel style="margin: 1%" header="Fornecedor">
+				<div class="row mb-3 ">
+					<div class="col-sm-3">
+						<label for="codigo_fornecedor">Código do fornecedor</label>
+						<p:inputText class="form-control" id="codigo_fornecedor"
+							label="Código do fornecedor"
+							value="#{cadastroProdutoController.produto.fornecedor}" />
+						<p:message for="endereco" class="mt-2 text-danger"
+							style="color: red;" />
+					</div>
+				</div>
+			</p:panel>
+
+			<div class="row" style="margin: 2% auto">
+				<p:commandButton
+					value="#{cadastroProdutoController.produto.codigo > 0 ? 'Atualizar' : 'Cadastrar'}"
+					class="mx-auto btn btn-primary btn-sm" style="width: 20%">
+					<p:ajax listener="#{cadastroProdutoControlle.cadastrar}"
+						process="@form" update="@form" />
+				</p:commandButton>
+			</div>
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="scripts">
+		<script>
+			function fecharDialog() {
+				window.location.href = "#{facesContext.externalContext.requestContextPath}"
+						+ '/paginas/visualizar_produtos.xhtml';
+			}
+		</script>
+	</ui:define>
+</ui:composition>

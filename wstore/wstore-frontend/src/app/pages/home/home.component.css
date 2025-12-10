@@ -1,0 +1,128 @@
+#container {
+    display: flex;
+}
+
+#filtros {
+    height: auto; /* Alterado de 500px para auto para conter apenas o necessário */
+    margin: 5px;
+    margin-top: 20px;
+    background-color: rgb(25, 66, 102);
+    width: 250px;
+    border-radius: 15px;
+    align-self: flex-start; /* Adicionado para manter o filtro no topo */
+    border: none;
+}
+
+#filtros div {
+    margin: 25px;
+    color: white;
+}
+
+#filtro-valor-maximo input, #filtro-valor-minimo input {
+    border-radius: 5px;
+    border: none;
+}
+
+#filtro-estado {
+    justify-content: start;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+}
+
+#filtro-estado div {
+    margin: 10px;
+    width: auto;
+}
+
+#filtros button {
+    border: none;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#painel-produtos {
+    margin: 5px;
+    margin-top: 20px;
+    border-radius: 15px;
+    width: 100%;
+    min-height: 500px; /* Altura mínima para garantir que tenha um tamanho inicial */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));    
+    grid-gap: 50px;
+    margin-bottom: 100px;
+}
+
+.pagination ::ng-deep .ngx-pagination {
+    justify-self: center;
+    background-color: rgb(25, 66, 102);
+    border-radius: 5px; 
+    padding: 5px;
+}
+
+.pagination ::ng-deep .ngx-pagination ul {
+    padding: 0px;
+}
+
+@media (max-width: 830px) {
+
+    #painel-produtos {
+        margin: 20px 0px 0px 0px;
+        border-radius: 0px;
+    }
+
+    #container{
+        flex-direction: column;
+    }
+
+    #filtros {
+        width: auto;
+        margin: 0px;
+        border-radius: 0px;
+        height: auto;
+        align-self: auto;
+    }
+
+    #filtros input {
+        width: 100%;
+    }
+
+    #menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    #menu-categorias nav {
+        background-color: rgb(25, 66, 102);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        flex-direction: column;
+        color: white;
+        height: auto;
+    }
+
+    #menu-categorias nav a {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    #filtro-estado {
+        align-items: center;
+    }
+
+    #filtro-estado input {
+        width: auto;
+    }
+
+    #filtro-estado div {
+        margin: 3px;
+    }
+}

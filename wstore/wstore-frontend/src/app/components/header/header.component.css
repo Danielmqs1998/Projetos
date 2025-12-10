@@ -1,0 +1,156 @@
+header {
+  background-color: rgb(25, 82, 132);
+}
+
+#menu {
+  display: flex;
+  align-items: center;
+  /* Centraliza verticalmente */
+  justify-content: space-between;
+  /* Distribui os 3 blocos */
+  padding: 10px 20px;
+  gap: 20px;
+  /* Espaçamento entre blocos */
+}
+
+#botoes-usuario {
+  display: flex;
+  flex-direction: column;
+}
+
+#botoes-usuario a {
+  color: white;
+  text-decoration: none;
+  font-family: fantasy;
+  margin-right: 15px;
+}
+
+#logo {
+  width: 25%;
+  /* Logo ocupa 25% do espaço */
+  display: flex;
+  min-height: 70px;
+  justify-content: start;
+}
+
+#barra-pesquisa {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#barra-pesquisa p {
+  color: white;
+  margin: 5px;
+}
+
+#barra-pesquisa button {
+  cursor: pointer;
+}
+
+#barra-pesquisa button:hover {
+  transition: 2s;
+  background-color: aliceblue;
+}
+
+#botoes {
+  width: 25%;
+  /* Botões ocupam 25% do espaço */
+  display: flex;
+  justify-content: center;
+}
+
+#botoes {
+  width: 25%;
+  /* Botões ocupam 25% do espaço */
+  display: flex;
+  justify-content: center;
+}
+
+#menu-categorias nav {
+  background-color: rgb(25, 66, 102);
+  display: flex;
+  align-items: center;
+  /* Centraliza verticalmente */
+  justify-content: center;
+  /* Distribui os 3 blocos */
+  padding: 10px 20px;
+  height: 30px;
+  color: white;
+  gap: 10px;
+  /* Espaçamento entre blocos */
+}
+
+#menu-categorias button {
+  width: 100px;
+}
+
+#menu-categorias a {
+  color: white;
+  padding: 5px;
+  margin: 10px;
+  text-decoration: none;
+  min-width: 80px;
+  text-align: center;
+  justify-content: center;
+}
+
+#barra-pesquisa input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.btn-menu {
+  color: white;
+  padding: 5px;
+  margin: 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: fantasy;
+}
+
+@media (max-width: 830px) {
+
+  #barra-pesquisa {
+    width: 100%;
+  }
+
+  #barra-pesquisa input {
+    margin: 3px;
+  }
+
+  #logo {
+    justify-content: center;
+  }
+
+  #menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  #menu-categorias nav {
+    background-color: rgb(25, 66, 102);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    flex-direction: column;
+    color: white;
+    height: auto;
+  }
+
+  #menu-categorias nav button {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+}

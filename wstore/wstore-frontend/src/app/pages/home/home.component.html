@@ -1,0 +1,35 @@
+<div id="container">
+    <fieldset id="filtros">
+        <div id="filtro-valor-maximo">
+            <label for="ipt-valor-maximo"> Preço máx. </label>
+            <input type="number" maxlength="8" id="ipt-valor-maximo" />
+        </div>
+        <div id="filtro-valor-minimo">
+            <label for="ipt-valor-minimo"> Preço mín. </label>
+            <input type="number" maxlength="8" id="ipt-valor-minimo" />
+        </div>
+        <div id="filtro-estado">
+            <div>
+                <input id="chk-novo" type="checkbox" />
+                <label for="chk-novo">Novo</label>
+            </div>
+            <div>
+                <input id="chk-usado" type="checkbox" />
+                <label for="chk-usado">Usado</label>
+            </div>
+            <div>
+                <input id="chk-promocao" type="checkbox" />
+                <label for="chk-promocao">Promoção</label>
+            </div>
+            <div>
+                <input id="chk-frete-gratis" type="checkbox" />
+                <label for="chk-frete-gratis">Frete grátis</label>
+            </div>
+        </div>
+        <button mat-flat-button id="btn-pesquisa-filtros" (click)="teste()">Aplicar filtros</button>
+    </fieldset>
+    <div id="painel-produtos">
+        <app-card-produto *ngFor="let produto of produtos | paginate: { itemsPerPage: 16, currentPage: paginaAtual, totalItems: totalItems }" [produto]=produto />
+    </div>
+</div>
+<pagination-controls class="pagination" [previousLabel]="previousLabel" [nextLabel]="nextLabel" (pageChange)="consultaProdutos($event)"></pagination-controls>

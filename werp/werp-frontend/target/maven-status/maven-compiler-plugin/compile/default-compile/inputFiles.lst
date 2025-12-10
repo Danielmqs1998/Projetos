@@ -1,0 +1,17 @@
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\controller\CadastroClienteController.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\controller\CadastroProdutoController.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\controller\HomeController.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\controller\LoginController.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\controller\VisualizarClienteController.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\model\Cliente.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\model\Produto.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\model\TotalizadorVendas.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\model\Venda.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\MyBean.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\rest\AuthRequest.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\rest\AuthResponse.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\rest\ProductREST.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\services\LoginService.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\services\TokenService.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\util\AuthenticationFilter.java
+C:\Users\Daniel\eclipse-workspace\werp\werp-frontend\src\main\java\com\werp\util\PropertiesLoader.java

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>wERP</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:panel style="margin:5% auto; width: 500px; text-align:center"
+			header="w-ERP">
+			<p:inputText style="width:250px; margin: 0 auto; display: block;"
+				value="#{loginController.usuario}" />
+			<br />
+			<p:inputText type="password"
+				style="width:250px; margin: 0 auto; display: block;"
+				value="#{loginController.senha}" />
+			<br />
+			<p:commandButton value="LOGIN"
+				style="width:250px; margin: 0 auto; display: block;"
+				action="#{loginController.login}" />
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

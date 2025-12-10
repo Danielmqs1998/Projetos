@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<header>
+	<h:form>
+		<p:menubar style="margin: 1%" hideDelay="1000">
+			<f:facet name="start">
+				<a href="#{request.contextPath}/paginas/index.xhtml"><h:graphicImage style="width: 110px; height:45px;" value="logo.png" /></a>
+			</f:facet>
+			<p:submenu label="Clientes" icon="pi pi-fw pi-user">
+				<p:menuitem value="Cadastrar" icon="pi pi-fw pi-user-plus"
+					url="#{request.contextPath}/paginas/cadastro_clientes.xhtml" />
+				<p:menuitem value="Visualizar" icon="pi pi-fw pi-users"
+					url="#{request.contextPath}/paginas/visualizar_clientes.xhtml" />
+			</p:submenu>
+			<p:submenu label="Produtos" icon="pi pi-fw pi-box">
+				<p:menuitem value="Cadastrar" icon="pi pi-fw pi-stop" 
+					url="#{request.contextPath}/paginas/cadastro_produtos.xhtml" />
+				<p:menuitem value="Visualizar" icon="pi pi-fw pi-clone" />
+			</p:submenu>
+			<p:submenu label="Tarefas" icon="pi pi-fw pi-calendar">
+				<p:submenu label="Edit" icon="pi pi-fw pi-pencil">
+					<p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus" />
+					<p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus" />
+				</p:submenu>
+				<p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
+					<p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus" />
+				</p:submenu>
+			</p:submenu>
+			<f:facet name="options">
+				<p:commandButton action="#{homeController.logout}" value="Logout"
+					icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" />
+			</f:facet>
+		</p:menubar>
+	</h:form>
+</header>
+</html>

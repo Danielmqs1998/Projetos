@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./werp-backend
+    container_name: werp-backend
+    ports:
+      - "3000:3000"
+    networks:
+      - werpnet
+
+  frontend:
+    build: ./werp-frontend
+    container_name: werp-frontend
+    ports:
+      - "8080:8080"
+    networks:
+      - werpnet
+
+networks:
+  werpnet:

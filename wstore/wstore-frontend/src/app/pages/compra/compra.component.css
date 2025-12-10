@@ -1,0 +1,21 @@
+
+.horizontal-center {
+  display: flex;
+  justify-content: center;
+}
+
+#dados-compra{
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  background-color: antiquewhite;
+}
+
+#endereco{
+  width: 50%;
+}
+
+#totais{
+  width: 50%;
+}

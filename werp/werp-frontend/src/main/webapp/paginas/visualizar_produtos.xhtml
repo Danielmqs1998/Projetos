@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	template="/templates/layout.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="form">
+
+			<p:dialog header="Confirmar" width="400" id="dialogConfirmarDelecao"
+				widgetVar="dialogConfirmarDelecao" showEffect="fade"
+				hideEffect="fade" modal="true" draggable="false">
+				<h:outputText id="txt-produto-remocao"
+					value="Deseja remover o produto #{visualizarProdutoController.produtoRemover.codigo} ?" />
+				<f:facet name="footer">
+					<p:commandButton type="button" value="Não"
+						styleClass="ui-button-flat mr-2" style="width: 6rem" />
+					<p:commandButton type="button" value="Sim"
+						onclick="PF('dialogInformarSenha').show(); PF('dialogConfirmarDelecao').hide()"
+						style="width: 6rem" />
+				</f:facet>
+			</p:dialog>
+
+			<p:dialog widgetVar="dialogInformarSenha" width="400"
+				showEffect="fade" hideEffect="fade" modal="true" draggable="false">
+				<label for="senha-del-produto">Informe a senha</label>
+				<h:inputSecret class="form-control" id="senha-del-produto" />
+				<f:facet name="footer">
+					<h:commandButton value="Confirmar"
+						action="#{visualizarProdutoController.removerProduto}"
+						class="btn btn-primary btn-bg mt-1 mx-auto" style="width: 6rem">
+						<p:ajax process="@form" update="tbl-produtos"
+							oncomplete="PF('dialogInformarSenha').hide();" />
+					</h:commandButton>
+				</f:facet>
+			</p:dialog>
+
+			<h2 align="center" class="mb-5">Lista de produtos</h2>
+
+			
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-sm-2">
+						<p:outputLabel for="categoria">Categoria</p:outputLabel>
+						<p:selectOneMenu class="form-control" id="categoria"
+							value="#{visualizarProdutoController.filtroCategoria}">
+							<f:selectItem itemLabel="Geral" itemValue="0" />
+							<f:selectItem itemLabel="Eletrônicos" itemValue="1" />
+							<f:selectItem itemLabel="Acessórios" itemValue="2" />
+							<f:selectItem itemLabel="Mobília" itemValue="3" />
+							<f:selectItem itemLabel="Moda" itemValue="4" />
+							<f:selectItem itemLabel="Ferramentas" itemValue="5" />
+							<p:ajax event="change" update="tbl-produtos" />
+						</p:selectOneMenu>
+					</div>
+					<div class="col-sm-4">
+						<div class="row">		
+					    	<p:outputLabel for="descricao">Descrição / Código de barras</p:outputLabel>
+					    </div>
+						<div class="row">
+						    <span class="ui-input-icon-left" style="width:100%">
+						        <i class="pi pi-search" />
+						        <p:inputText class="form-control" id="descricao"
+						                     maxlength="100"
+						                     value="#{visualizarProdutoController.filtroCodigoDescricao}" >
+				                     <p:ajax event="keyup" update="tbl-produtos" />
+			                     </p:inputText>
+						    </span>
+					    </div>
+					</div>
+				</div>
+			</div> 	
+
+			<p:dataTable  style="margin: 1%" id="tbl-produtos" var="produto"
+				value="#{visualizarProdutoController.produtos}" rows="10"
+				paginator="true" paginatorPosition="bottom" lazy="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} produtos"
+				rowsPerPageTemplate="10,20">
+
+				<p:column headerText="Cód. de barra">
+					<h:outputText value="#{produto.codigoBarras}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{produto.descricao}" />
+				</p:column>
+
+				<p:column headerText="Quantidade em estoque">
+					<h:outputText value="#{produto.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Preço">
+					<h:outputText value="#{produto.preco}" />
+				</p:column>
+
+				<p:column width="100">
+					<h:commandButton style="width: 100%"
+						action="#{visualizarProdutoController.redirecionar(produto.codigo, produto.loja)}"
+						value="Editar" class="btn btn-primary btn-sm" />
+				</p:column>
+
+				<p:column width="100">
+					<h:commandButton style="width: 100%" value="Remover"
+						action="#{visualizarProdutoController.setProdutoRemover(produto)}"
+						class="btn btn-danger btn-sm">
+						<p:ajax process="@form" update=":form:dialogConfirmarDelecao"
+							oncomplete="PF('dialogConfirmarDelecao').show(); return false;" />
+					</h:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="scripts">
+		<script type="text/javascript">
+			window.onpageshow = function(event) {
+				if (event.persisted) { // Verifica se a página veio do cache
+					window.location.reload();
+				}
+			};
+		</script>
+	</ui:define>
+</ui:composition>

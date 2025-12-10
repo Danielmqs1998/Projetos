@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	template="/templates/layout.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<h2 align="center">Visualizar clientes</h2>
+			<p:dataTable style="margin: 1%" id="clientes" var="cliente"
+				value="#{visualizarClienteController.clientes}">
+				<p:column headerText="Código">
+					<h:outputText value="#{cliente.codigo}" />
+				</p:column>
+				<p:column headerText="CNPJ">
+					<h:outputText value="#{cliente.cnpj}" />
+				</p:column>
+				<p:column headerText="Nome fantasia">
+					<h:outputText value="#{cliente.nomeFantasia}" />
+				</p:column>
+				<p:column width="100">
+					<h:commandButton style="width: 100%"
+						action="#{visualizarClienteController.redirecionar(cliente.codigo)}"
+						value="Editar" class="btn btn-primary btn-sm" />
+				</p:column>
+				<p:column width="100">
+					<h:commandButton style="width: 100%" value="Remover"
+						action="#{visualizarClienteController.setClienteRemocao(cliente.codigo)}"
+						class="btn btn-danger btn-sm">
+						<p:ajax process="@form" update="@form"
+							oncomplete="PF('dialogConfirmarDelecao').show(); return false;" />
+					</h:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="scripts">
+		<script type="text/javascript">
+			window.onpageshow = function(event) {
+				if (event.persisted) { // Verifica se a página veio do cache
+					window.location.reload();
+				}
+			};
+		</script>
+	</ui:define>
+</ui:composition>

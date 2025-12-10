@@ -1,0 +1,29 @@
+
+html, body {
+    height: 100%; /* Necessário para ocupar 100% da altura da tela */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o container ocupe toda a altura da tela */
+}
+
+/* Área principal (header + main) */
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante entre header e footer */
+    padding: 20px;
+}
+
+footer {
+    background-color: #0288d1;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+}

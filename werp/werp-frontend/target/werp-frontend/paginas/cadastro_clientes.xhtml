@@ -1,0 +1,153 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	template="/templates/layout.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<h2 align="center">
+				<h:outputLabel
+					value="#{cadastroClienteController.cliente.codigo > 0 ? 'Dados do cliente' : 'Cadastro de cliente'}" />
+			</h2>
+
+			<p:panel style="margin: 1%" header="Dados gerais">
+				<div class="row mb-3">
+					<div class="col-sm-12" id="codigo-interno"
+						style="#{cadastroClienteController.cliente.codigo > 0 ? 'display:block' : 'display:none'}">
+						<strong> <p:outputLabel value="Código interno: #{cadastroClienteController.cliente.codigo}" /></strong>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-sm-4">
+						<label for="nome">Nome fantasia</label>
+						<p:inputText class="form-control" id="nome" label="Nome fantasia"
+							value="#{cadastroClienteController.cliente.nomeFantasia}" />
+						<p:message for="nome" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="cnpj">CNPJ</label>
+						<p:inputMask mask="99.999.999/9999-99" class="form-control"
+							id="cnpj" label="CNPJ"
+							value="#{cadastroClienteController.cliente.cnpj}" />
+						<p:message for="cnpj" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="contato">Telefone</label>
+						<p:inputMask mask="(99)9999-9999" class="form-control"
+							id="contato" label="Telefone"
+							value="#{cadastroClienteController.cliente.contato}" />
+						<p:message for="contato" class="mt-2 text-danger" />
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<div class="col-sm-6">
+						<label for="email">E-mail</label>
+						<p:inputText class="form-control" id="email" label="E-mail"
+							value="#{cadastroClienteController.cliente.email}" />
+					</div>
+					<div class="col-sm-4">
+						<label for="ramo">Ramo</label>
+						<p:inputText class="form-control" id="ramo" label="Ramo"
+							value="#{cadastroClienteController.cliente.ramo}" />
+						<p:message for="ramo" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-2 text-center">
+						<label for="ativo" class="d-block">Ativo</label>
+						<p:toggleSwitch id="ativo" class="d-inline-block"
+							value="#{cadastroClienteController.cliente.ativo}" />
+					</div>
+				</div>
+			</p:panel>
+
+			<p:panel style="margin: 1%" header="Endereço">
+				<div class="row mb-3 ">
+					<div class="col-sm-3">
+						<label for="cnpj">País</label>
+						<p:inputText class="form-control" id="pais" label="País"
+							value="#{cadastroClienteController.cliente.endereco.pais}" />
+						<p:message for="pais" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="email">Estado</label>
+						<p:inputText class="form-control" id="estado" label="Estado"
+							value="#{cadastroClienteController.cliente.endereco.estado}" />
+						<p:message for="estado" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="email">Cidade</label>
+						<p:inputText class="form-control" id="cidade" label="Cidade"
+							value="#{cadastroClienteController.cliente.endereco.cidade}" />
+						<p:message for="cidade" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="email">Bairro</label>
+						<p:inputText class="form-control" id="bairro" label="Bairro"
+							value="#{cadastroClienteController.cliente.endereco.bairro}" />
+						<p:message for="bairro" class="mt-2 text-danger" />
+					</div>
+				</div>
+
+				<div class="row mb-3 ">
+					<div class="col-sm-6">
+						<label for="nome">Endereço</label>
+						<p:inputText class="form-control" id="endereco" label="Endereço"
+							value="#{cadastroClienteController.cliente.endereco.endereco}" />
+						<p:message for="endereco" class="mt-2 text-danger"
+							style="color: red;" />
+					</div>
+					<div class="col-sm-3">
+						<label for="email">CEP</label>
+						<p:inputMask mask="99999-999" class="form-control" id="cep"
+							label="CEP"
+							value="#{cadastroClienteController.cliente.endereco.cep}" />
+						<p:message for="cep" class="mt-2 text-danger" />
+					</div>
+				</div>
+			</p:panel>
+
+			<p:panel style="margin: 1%" header="Contrato">
+				<div class="row mb-3">
+					<div class="col-sm-3">
+						<label for="cnpj">Categoria</label>
+						<p:selectOneMenu class="form-control" id="categoria"
+							value="#{cadastroClienteController.cliente.contrato.categoria}">
+							<f:selectItem itemLabel="Vendedor" itemValue="VENDEDOR" />
+							<f:selectItem itemLabel="Fornecedor" itemValue="FORNECEDOR" />
+						</p:selectOneMenu>
+						<p:message for="categoria" class="mt-2 text-danger" />
+					</div>
+					<div class="col-sm-3">
+						<label for="email">Data de validade</label>
+						<p:inputMask mask="99/99/9999" class="form-control"
+							id="data-validade" label="Estado"
+							value="#{cadastroClienteController.cliente.contrato.dataValidade}" />
+						<p:message for="data-validade" class="mt-2 text-danger" />
+					</div>
+				</div>
+			</p:panel>
+
+			<div class="row" style="margin: 2% auto">
+				<p:commandButton
+					value="#{cadastroClienteController.cliente.codigo > 0 ? 'Atualizar' : 'Cadastrar'}"
+					class="mx-auto btn btn-primary btn-sm" style="width: 20%">
+					<p:ajax listener="#{cadastroClienteController.cadastrar}"
+						process="@form" update="@form" />
+				</p:commandButton>
+			</div>
+
+		</h:form>
+	</ui:define>
+
+	<ui:define name="scripts">
+		<script>
+			function fecharDialog() {
+				window.location.href = "#{facesContext.externalContext.requestContextPath}"
+						+ '/paginas/visualizar_clientes.xhtml';
+			}
+		</script>
+	</ui:define>
+</ui:composition>
