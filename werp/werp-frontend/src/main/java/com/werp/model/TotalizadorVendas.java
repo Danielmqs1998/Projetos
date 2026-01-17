@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class TotalizadorVendas implements Serializable {
 
 	/**
