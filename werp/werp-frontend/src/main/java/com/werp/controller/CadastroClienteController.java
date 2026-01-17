@@ -1,10 +1,13 @@
 package com.werp.controller;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 import org.primefaces.PrimeFaces;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.werp.model.Cliente;
@@ -70,9 +73,12 @@ public class CadastroClienteController implements Serializable {
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			String tokenAtual = (String) session.getAttribute("token_atual");
 			
-			String jsonCliente = gson.toJson(cliente);
+			cliente.setDataCadastro(LocalDate.now());
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.registerModule(new JavaTimeModule());
+			String jsonCliente = mapper.writeValueAsString(cliente);
 			
-			Response response = client.target(URL + "/cliente/cadastro").request(MediaType.APPLICATION_JSON)
+			Response response = client.target(URL + "/clientes/cadastro").request(MediaType.APPLICATION_JSON)
 					.header("Authorization", "Bearer " + tokenAtual)
 					.post(Entity.json(jsonCliente));
 			
@@ -89,6 +95,7 @@ public class CadastroClienteController implements Serializable {
 	        PrimeFaces.current().dialog().showMessageDynamic(message);
 
 		} catch (Exception e) {
+	        PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro", "Falha interna!"));
 			e.printStackTrace();
 		}
 	}
@@ -99,7 +106,7 @@ public class CadastroClienteController implements Serializable {
 			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 			String tokenAtual = (String) session.getAttribute("token_atual");
 			
-			Response response = client.target(URL + "/cliente/consultar")
+			Response response = client.target(URL + "/clientes/consultar")
 					.queryParam("codigo", codigo)
 					.request(MediaType.APPLICATION_JSON)
 					.header("Authorization", "Bearer " + tokenAtual)

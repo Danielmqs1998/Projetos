@@ -95,19 +95,23 @@
 					<h:outputText value="#{produto.preco}" />
 				</p:column>
 
-				<p:column width="100">
-					<h:commandButton style="width: 100%"
-						action="#{visualizarProdutoController.redirecionar(produto.codigo, produto.loja)}"
-						value="Editar" class="btn btn-primary btn-sm" />
+				<p:column width="120">
+					<p:commandButton value="Editar"
+							    icon="pi pi-pencil"
+							    styleClass="ui-button-primary"
+							    style="width:100%" 
+							    action="#{visualizarProdutoController.redirecionar(produto.codigo, produto.loja)}" />
 				</p:column>
 
-				<p:column width="100">
-					<h:commandButton style="width: 100%" value="Remover"
-						action="#{visualizarProdutoController.setProdutoRemover(produto)}"
-						class="btn btn-danger btn-sm">
+				<p:column width="120">
+						<p:commandButton value="Remover"
+							    icon="pi pi-trash"
+							    styleClass="ui-button-danger"
+							    style="width:100%" 
+								action="#{visualizarProdutoController.setProdutoRemover(produto)}" >
 						<p:ajax process="@form" update=":form:dialogConfirmarDelecao"
 							oncomplete="PF('dialogConfirmarDelecao').show(); return false;" />
-					</h:commandButton>
+					</p:commandButton>
 				</p:column>
 
 			</p:dataTable>

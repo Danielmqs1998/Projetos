@@ -42,11 +42,6 @@ public class ProdutoController {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-	@GetMapping("/total") 
-	public Integer obterTotalProdutos(){
-	    return (int) produtoRepository.count();
-	}
-	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<?> cadastrarProduto(@RequestBody Produto produto){
 		ResponseEntity<?> response;

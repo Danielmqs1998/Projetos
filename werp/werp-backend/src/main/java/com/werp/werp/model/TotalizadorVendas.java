@@ -3,11 +3,15 @@ package com.werp.werp.model;
 import java.io.Serializable;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TotalizadorVendas implements Serializable {
 
 	/**
@@ -21,6 +25,7 @@ public class TotalizadorVendas implements Serializable {
 
 	@Getter
 	@Setter
+	@AllArgsConstructor
 	public class TotalizadorVendaMes {
 
 		private Integer ano;
@@ -32,9 +37,11 @@ public class TotalizadorVendas implements Serializable {
 
 	@Getter
 	@Setter
+	@AllArgsConstructor
 	public class TotalizadorVendaVendedor {
 
 		private Integer codigoVendedor;
+		private String nomeVendedor;
 		private double totalRegistros;
 		private double totalValores;
 
@@ -42,6 +49,7 @@ public class TotalizadorVendas implements Serializable {
 
 	@Getter
 	@Setter
+	@AllArgsConstructor
 	public class TotalizadorVendaProduto {
 		
 		private String codigoProduto;

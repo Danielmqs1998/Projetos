@@ -10,7 +10,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class TotalizadorVendas implements Serializable {
@@ -44,6 +43,7 @@ public class TotalizadorVendas implements Serializable {
 	public static class TotalizadorVendaVendedor {
 
 		private Integer codigoVendedor;
+		private String nomeVendedor;
 		private double totalRegistros;
 		private double totalValores;
 

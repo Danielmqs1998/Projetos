@@ -7,32 +7,74 @@
 
 	<ui:define name="conteudo">
 		<h:form>
-			<h2 align="center">Lista de produtos</h2>
-			<p:dataTable style="margin: 1%" id="clientes" var="cliente"
-				value="#{visualizarClienteController.clientes}">
+
+			<p:dialog header="Confirmar" width="400"
+				widgetVar="dialogConfirmarDelecao" showEffect="fade"
+				hideEffect="fade" modal="true" draggable="false">
+				<h:outputText id="txt-cliente-remocao"
+					value="Deseja remover o cliente #{visualizarClienteController.clienteRemocao} ?" />
+				<f:facet name="footer">
+					<p:commandButton type="button" value="Não"
+						styleClass="ui-button-flat mr-2" style="width: 6rem" />
+					<p:commandButton type="button" value="Sim"
+						onclick="PF('dialogInformarSenha').show(); PF('dialogConfirmarDelecao').hide()"
+						style="width: 6rem" />
+				</f:facet>
+			</p:dialog>
+
+			<p:dialog widgetVar="dialogInformarSenha" width="400"
+				showEffect="fade" hideEffect="fade" modal="true" draggable="false">
+				<label for="senha-del-cliente">Informe a senha</label>
+				<h:inputSecret class="form-control" id="senha-del-cliente" />
+				<f:facet name="footer">
+					<h:commandButton oncomplete="PF('dialogInformarSenha').hide();"
+						value="Confirmar"
+						action="#{visualizarClienteController.removerCliente}"
+						class="btn btn-primary btn-bg mt-1 mx-auto" style="width: 6rem" />
+				</f:facet>
+			</p:dialog>
+
+			<h2 align="center" class="mb-5">Lista de clientes</h2>
+
+			<p:dataTable style="margin: 1%" id="tbl-clientes" var="cliente"
+				value="#{visualizarClienteController.clientes}"  rows="10"
+				paginator="true" paginatorPosition="bottom" lazy="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} clientes"
+				rowsPerPageTemplate="10,20">
+
 				<p:column headerText="Código">
 					<h:outputText value="#{cliente.codigo}" />
 				</p:column>
+
 				<p:column headerText="CNPJ">
 					<h:outputText value="#{cliente.cnpj}" />
 				</p:column>
+
 				<p:column headerText="Nome fantasia">
 					<h:outputText value="#{cliente.nomeFantasia}" />
 				</p:column>
-				<p:column width="100">
-					<h:commandButton style="width: 100%"
-						action="#{visualizarClienteController.redirecionar(cliente.codigo)}"
-						value="Editar" class="btn btn-primary btn-sm" />
+
+				<p:column width="120">
+					<p:commandButton value="Editar"
+							    icon="pi pi-pencil"
+							    styleClass="ui-button-primary"
+							    style="width:100%" 
+								action="#{visualizarClienteController.redirecionar(cliente.codigo)}" />
 				</p:column>
-				<p:column width="100">
-					<h:commandButton style="width: 100%" value="Remover"
-						action="#{visualizarClienteController.setClienteRemocao(cliente.codigo)}"
-						class="btn btn-danger btn-sm">
+
+				<p:column width="120">
+					<p:commandButton value="Remover"
+							    icon="pi pi-trash"
+							    styleClass="ui-button-danger"
+							    style="width:100%" 
+								action="#{visualizarClienteController.setClienteRemocao(cliente.codigo)}">
 						<p:ajax process="@form" update="@form"
 							oncomplete="PF('dialogConfirmarDelecao').show(); return false;" />
-					</h:commandButton>
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
+
 		</h:form>
 	</ui:define>
 

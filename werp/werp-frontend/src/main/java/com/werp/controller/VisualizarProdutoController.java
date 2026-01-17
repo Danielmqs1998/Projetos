@@ -59,23 +59,32 @@ public class VisualizarProdutoController implements Serializable {
 	@PostConstruct
 	private void inicializar() {
 		produtos = new LazyDataModel<Produto>() {
+
+	        /**
+			 * 
+			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public List<Produto> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
-                return carregarProdutos(first, pageSize);
-			}
-			
-			@Override
-			public int count(Map<String, FilterMeta> filterBy) {
-				return produtos.getRowCount() > 0 ? totalProdutos : obterTotalProdutos();
-			}
-		};
+	        public List<Produto> load(
+	                int first,
+	                int pageSize,
+	                Map<String, SortMeta> sortBy,
+	                Map<String, FilterMeta> filterBy) {
+
+	            return carregarProdutos(first, pageSize);
+	        }
+
+	        @Override
+	        public int count(Map<String, FilterMeta> filterBy) {
+	            return getRowCount();
+	        }
+	    };
 	}
 
 	private List<Produto> carregarProdutos(int primeiro, int tamanhoPagina) {
 			
-		List<Produto> produtos = new ArrayList<>();
+		List<Produto> listaProdutos = new ArrayList<>();
 		
 		String filtros = "";
 		
@@ -105,9 +114,9 @@ public class VisualizarProdutoController implements Serializable {
 				String json = response.readEntity(String.class);
 				JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
 				JsonArray contentArray = jsonObject.getAsJsonArray("content");
-				totalProdutos = jsonObject.get("numberOfElements").getAsInt();
-
-				produtos = new Gson().fromJson(contentArray, new TypeToken<List<Produto>>(){}.getType());
+				totalProdutos = jsonObject.get("totalElements").getAsInt();
+				listaProdutos = new Gson().fromJson(contentArray, new TypeToken<List<Produto>>(){}.getType());
+				produtos.setRowCount(totalProdutos);
 			} else {
 				PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro", "Falha ao listar produtos!"));
 			}
@@ -117,35 +126,7 @@ public class VisualizarProdutoController implements Serializable {
 			PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro", "Falha ao listar produtos!"));
 		}
 		
-		return produtos;
-	}
-	
-	private Integer obterTotalProdutos() {
-		
-		int totalProdutos = 0;
-		
-		try {
-
-			Client client = ClientBuilder.newBuilder().connectTimeout(30000, TimeUnit.MILLISECONDS).readTimeout(30000, TimeUnit.MILLISECONDS).build();
-
-			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-			String tokenAtual = (String) session.getAttribute("token_atual");
-
-			Response response = client.target(URL + "/produtos/total").request(MediaType.APPLICATION_JSON)
-					.header("Authorization", "Bearer " + tokenAtual).get();
-
-			if (response.getStatus() == 200) {
-				totalProdutos = response.readEntity(Integer.class);
-			} else {
-				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro", "Falha ao obter total de produtos!");
-				PrimeFaces.current().dialog().showMessageDynamic(message);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return totalProdutos;
+		return listaProdutos;
 	}
 
 	public void redirecionar(String codigoProduto, int loja) {

@@ -4,38 +4,50 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-<header>
-	<h:form>
-		<p:menubar style="margin: 1%" hideDelay="1000">
-			<f:facet name="start">
-				<a href="#{request.contextPath}/paginas/index.xhtml"><h:graphicImage style="width: 110px; height:45px;" value="logo.png" /></a>
-			</f:facet>
-			<p:submenu label="Clientes" icon="pi pi-fw pi-user">
-				<p:menuitem value="Cadastrar" icon="pi pi-fw pi-user-plus"
-					url="#{request.contextPath}/paginas/cadastro_clientes.xhtml" />
-				<p:menuitem value="Visualizar" icon="pi pi-fw pi-users"
-					url="#{request.contextPath}/paginas/visualizar_clientes.xhtml" />
-			</p:submenu>
-			<p:submenu label="Produtos" icon="pi pi-fw pi-box">
-				<p:menuitem value="Cadastrar" icon="pi pi-fw pi-stop" 
-					url="#{request.contextPath}/paginas/cadastro_produtos.xhtml" />
-				<p:menuitem value="Visualizar" icon="pi pi-fw pi-clone" />
-			</p:submenu>
-			<p:submenu label="Tarefas" icon="pi pi-fw pi-calendar">
-				<p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-					<p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus" />
-					<p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus" />
+	
+	<header>
+		<h:form>
+			<p:menubar style="margin: 1%" hideDelay="1000">
+	
+				<f:facet name="start">
+					<a href="#{request.contextPath}/paginas/index.xhtml">
+						<p:graphicImage library="imagens" name="logo.png" style="width: 110px; height:45px;"/>
+					</a>
+				</f:facet>
+	
+				<p:submenu label="Cadastros" icon="pi pi-fw pi-file-edit">
+					<p:submenu label="Clientes" icon="fa fa-user">
+						<p:menuitem value="Novo" icon="fa fa-user-plus"
+							url="#{request.contextPath}/paginas/cadastro_clientes.xhtml" />
+						<p:menuitem value="Visualizar" icon="fa fa-users"
+							url="#{request.contextPath}/paginas/visualizar_clientes.xhtml" />
+					</p:submenu>
+		
+					<p:submenu label="Produtos" icon="fa fa-cube">
+						<p:menuitem value="Novo" icon="fa fa-plus"
+							url="#{request.contextPath}/paginas/cadastro_produtos.xhtml" />
+						<p:menuitem value="Visualizar" icon="fa fa-cubes"
+							url="#{request.contextPath}/paginas/visualizar_produtos.xhtml" />
+					</p:submenu>
 				</p:submenu>
-				<p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
-					<p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus" />
+	
+				<p:submenu label="Serviços" icon="fa fa-gear">
+					<p:submenu label="Alertas" icon="fa fa-exclamation-circle">
+						<p:menuitem value="Estoque"/>
+					</p:submenu>
 				</p:submenu>
-			</p:submenu>
-			<f:facet name="options">
-				<p:commandButton action="#{homeController.logout}" value="Logout"
-					icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" />
-			</f:facet>
-		</p:menubar>
-	</h:form>
-</header>
+	
+				<p:submenu label="Relatórios" icon="fa fa-file-text">
+					<p:menuitem value="Vendas no mês"
+						url="#{request.contextPath}/paginas/relatorios/vendas_mes.xhtml" />
+				</p:submenu>
+	
+				<f:facet name="options">
+					<p:commandButton action="#{homeController.logout}" value="Logout"
+						icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" />
+				</f:facet>
+	
+			</p:menubar>
+		</h:form>
+	</header>
 </html>

@@ -5,91 +5,602 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	template="/templates/layout.xhtml">
 
+	<ui:define name="styles">
+		<style>
+			img[id$="img_produto"], label[id$="lbl_img_produto"] {
+				display: flex;
+				background-color: #fff;
+				border-radius: 8px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+				width: 200px;
+				height: 200px;
+				justify-self: center;
+			}
+		</style>
+	</ui:define>
+
 	<ui:define name="conteudo">
 		<h:form>
+
+			<p:dialog header="Erro" widgetVar="dialogErroConsultaProduto"
+				showEffect="fade" hideEffect="fade" modal="true" draggable="false"
+				onHide="fecharDialog()">
+				<h:outputText value="Falha ao consultar dados do produto." />
+			</p:dialog>
+
 			<h2 align="center">
 				<h:outputLabel
 					value="#{cadastroProdutoController.produto.codigo > 0 ? 'Dados do produto' : 'Cadastro de produto'}" />
 			</h2>
-
-			<p:panel style="margin: 1%" header="Dados gerais">
 			
-				<div class="row mb-3">
-					<div class="col-sm-12" id="codigo-interno"
-						style="#{cadastroProdutoController.produto.codigo > 0 ? 'display:block' : 'display:none'}">
-						<strong> <p:outputLabel
-								value="Código interno: #{cadastroProdutoController.produto.codigo}" />
-						</strong>
-					</div>
-				</div>
+			<div class="card">
+		        <p:tabView class="m-3">
+		            <p:tab title="Informações">
+		                <p:panel style="margin: 1%" header="Dados principais">
 
-				<div class="row mb-3">
-					<div class="col-sm-4">
-						<label for="descricao">Descrição</label>
-						<p:inputText class="form-control" id="descricao" label="Descrição" maxlenght="100"
-							value="#{cadastroProdutoController.produto.descricao}" />
-						<p:message for="nome" class="mt-2 text-danger" />
-					</div>
-					<div class="col-sm-3">
-						<label for="codigo_barras">Código de barras</label>
-						<p:inputText class="form-control" id="codigo_barras"
-							label="Código de barras" maxlenght="13"
-							value="#{cadastroProdutoController.produto.codigoBarra}" />
-						<p:message for="codigo_barras" class="mt-2 text-danger" />
-					</div>
-					<div class="col-sm-3">
-						<label for="quantidade">Quantidade</label>
-						<p:inputText class="form-control" id="quantidade"
-							label="Quantidade"
-							value="#{cadastroProdutoController.produto.quantidade}"
-							maxlength="4" />
-						<p:message for="quantidade" class="mt-2 text-danger" />
-					</div>
-				</div>
+							<div class="row mb-3">
+								<div class="col-sm-12" id="codigo-interno"
+									style="#{cadastroProdutoController.produto.codigo > 0 ? 'display:block' : 'display:none'}">
+									<strong> <p:outputLabel
+											value="Código interno: #{cadastroProdutoController.produto.codigo}" />
+									</strong>
+								</div>
+							</div>
+			
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<label for="codigo_barras">Código de barras</label>
+									<p:inputText class="form-control" id="codigo_barras"
+										label="Código de barras" maxlength="13"
+										value="#{cadastroProdutoController.produto.codigoBarras}" />
+									<p:message for="codigo_barras" class="mt-2 text-danger" />
+								</div>
+								<div class="col-sm-2">
+									<label for="loja">Loja</label>
+									<p:inputText class="form-control" id="loja" label="Loja"
+										maxlength="100"
+										value="#{cadastroProdutoController.produto.loja}" />
+									<p:message for="loja" class="mt-2 text-danger" />
+								</div>
+								<div class="col-sm-7">
+									<label for="descricao">Descrição</label>
+									<p:inputText class="form-control" id="descricao" label="Descrição"
+										maxlength="100"
+										value="#{cadastroProdutoController.produto.descricao}" />
+									<p:message for="descricao" class="mt-2 text-danger" />
+								</div>
+							</div>
+			
+							<div class="row mb-3">
+								<div class="col-sm-9">
+									<div class="row mb-3">
+										<div class="col-sm-4">
+											<label for="quantidade">Quantidade</label>
+											<p:inputText class="form-control" id="quantidade" maxlength="8"
+												label="Quantidade"
+												value="#{cadastroProdutoController.produto.quantidade}">
+												<f:convertNumber type="number" locale="pt_BR" />
+											</p:inputText>
+											<p:message for="quantidade" class="mt-2 text-danger" />
+										</div>
+										<div class="col-sm-4">
+											<label for="preco">Preço</label>
+											<p:inputText class="form-control" id="preco" label="Preço"
+												maxlength="8"
+												value="#{cadastroProdutoController.produto.preco}">
+												<f:convertNumber type="number" locale="pt_BR" />
+											</p:inputText>
+											<p:message for="preco" class="mt-2 text-danger" />
+										</div>
+										<div class="col-sm-4">
+											<label for="preco_promocional">Preço Promocional</label>
+											<p:inputText class="form-control" id="preco_promocional"
+												label="Preço promocional"
+												value="#{cadastroProdutoController.produto.precoPromocional}"
+												maxlength="8">
+												<f:convertNumber type="number" locale="pt_BR" />
+											</p:inputText>
+											<p:message for="preco" class="mt-2 text-danger" />
+										</div>
+									</div>
+			
+									<div class="row">
+										<div class="col-sm-4">
+											<label for="categoria">Categoria</label>
+											<p:selectOneMenu class="form-control" id="categoria"
+												value="#{cadastroProdutoController.produto.categoria}">
+												<f:selectItem itemLabel="Eletrônicos" itemValue="1" />
+												<f:selectItem itemLabel="Acessórios" itemValue="2" />
+												<f:selectItem itemLabel="Mobília" itemValue="3" />
+												<f:selectItem itemLabel="Moda" itemValue="4" />
+												<f:selectItem itemLabel="Ferramentas" itemValue="5" />
+											</p:selectOneMenu>
+											<p:message for="categoria" class="mt-2 text-danger" />
+										</div>
+										<div class="col-sm-8">
+											<label for="url_imagem">URL da imagem principal</label>
+											<p:inputText class="form-control" id="url_imagem"
+												label="URL da imagem"
+												value="#{cadastroProdutoController.produto.imagem}" />
+											<p:message for="url_imagem" class="mt-2 text-danger" />
+										</div>
+									</div>
+								</div>
+			
+								<div class="col-sm-3" style="text-align: center">
+									<p:outputLabel id="lbl_img_produto" value="Sem imagem"
+										style="display:#{cadastroProdutoController.carregouImagem ? 'none' : 'flex'}; justify-content: center; align-items: center;" />
+									<p:graphicImage id="img_produto"
+										value="#{cadastroProdutoController.produto.imagem}"
+										style="display:#{cadastroProdutoController.carregouImagem ? 'block' : 'none'}" />
+									<p:commandButton icon="pi pi-arrow-down" value="Carregar" class="mx-auto btn-xs btn-primary "
+										style="margin: 15px">
+										<p:ajax listener="#{cadastroProdutoController.carregarImagem}"
+											process="@this url_imagem" update="img_produto lbl_img_produto" />
+									</p:commandButton>
+								</div>
+							</div>
+						</p:panel>
+						
+						<p:panel style="margin: 1%" header="Dados de apresentação">			
+						
+							<div class="row" style="display: flex">											
+								<div class="col-sm-10">
+									<label for="url_imagem_apresentacao_1">URL da imagem de apresentação (1)</label>
+									<p:inputText class="form-control" id="url_imagem_apresentacao_1"
+										label="URL da imagem"
+										value="#{cadastroProdutoController.produto.detalhes.urlImagemApresentacao1}" />
+									<p:message for="url_imagem_apresentacao_1" class="mt-2 text-danger" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: center;">						
+									<p:commandButton icon="pi pi-eye"  value="Visualizar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.abrirImagem(cadastroProdutoController.produto.detalhes.urlImagemApresentacao1)}"
+											process="@this url_imagem_apresentacao_1"/>
+									</p:commandButton>
+								</div>									
+							</div>
+							
+							<div class="row" style="display: flex">											
+								<div class="col-sm-10">
+									<label for="url_imagem_apresentacao_2">URL da imagem de apresentação (2)</label>
+									<p:inputText class="form-control" id="url_imagem_apresentacao_2"
+										label="URL da imagem"
+										value="#{cadastroProdutoController.produto.detalhes.urlImagemApresentacao2}" />
+									<p:message for="url_imagem_apresentacao_2" class="mt-2 text-danger" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: center;">						
+									<p:commandButton icon="pi pi-eye"  value="Visualizar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.abrirImagem(cadastroProdutoController.produto.detalhes.urlImagemApresentacao2)}"
+											process="@this url_imagem_apresentacao_2" />
+									</p:commandButton>
+								</div>									
+							</div>
+							
+							<div class="row" style="display: flex">											
+								<div class="col-sm-10">
+									<label for="url_imagem_apresentacao_3">URL da imagem de apresentação (3)</label>
+									<p:inputText class="form-control" id="url_imagem_apresentacao_3"
+										label="URL da imagem"
+										value="#{cadastroProdutoController.produto.detalhes.urlImagemApresentacao3}" />
+									<p:message for="url_imagem_apresentacao_3" class="mt-2 text-danger" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: center;">						
+									<p:commandButton icon="pi pi-eye"  value="Visualizar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.abrirImagem(cadastroProdutoController.produto.detalhes.urlImagemApresentacao3)}"
+											process="@this url_imagem_apresentacao_3" />
+									</p:commandButton>
+								</div>									
+							</div>
+							
+								
+							<div class="row" style="display: flex">											
+								<div class="col-sm-10">
+									<label for="url_imagem_apresentacao_4">URL da imagem de apresentação (4)</label>
+									<p:inputText class="form-control" id="url_imagem_apresentacao_4"
+										label="URL da imagem"
+										value="#{cadastroProdutoController.produto.detalhes.urlImagemApresentacao4}" />
+									<p:message for="url_imagem_apresentacao_4" class="mt-2 text-danger" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: center;">						
+									<p:commandButton icon="pi pi-eye"  value="Visualizar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.abrirImagem(cadastroProdutoController.produto.detalhes.urlImagemApresentacao4)}"
+											process="@this url_imagem_apresentacao_4" />
+									</p:commandButton>
+								</div>									
+							</div>
+							
+								
+							<div class="row" style="display: flex">											
+								<div class="col-sm-10">
+									<label for="url_imagem_apresentacao_5">URL da imagem de apresentação (5)</label>
+									<p:inputText class="form-control" id="url_imagem_apresentacao_5"
+										label="URL da imagem"
+										value="#{cadastroProdutoController.produto.detalhes.urlImagemApresentacao5}" />
+									<p:message for="url_imagem_apresentacao_5" class="mt-2 text-danger" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: center;">						
+									<p:commandButton icon="pi pi-eye"  value="Visualizar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.abrirImagem(cadastroProdutoController.produto.detalhes.urlImagemApresentacao5)}"
+											process="@this url_imagem_apresentacao_5" />
+									</p:commandButton>
+								</div>									
+							</div>
+							
+							<div class="row">
+								<div class="col-sm-12">
+									<label for="texto_apresentacao">Texto de apresentação</label>
+									<p:inputTextarea class="form-control" id="texto_apresentacao"
+										label="Texto de apresentação" maxlength="5000"  style="min-height: 500px"
+										value="#{cadastroProdutoController.produto.detalhes.textoApresentacao}" />
+									<p:message for="texto_apresentacao" class="mt-2 text-danger" />
+								</div>
+							</div>
+							
+						</p:panel>
 
-				<div class="row mb-3">
-					<div class="col-sm-6">
-						<label for="url_imagem">URL da imagem</label>
-						<p:inputText class="form-control" id="url_imagem"
-							label="URL da imagem"
-							value="#{cadastroProdutoController.produto.imagem}" />
-					</div>
-					<div class="col-sm-3">
-						<label for="preco">Preço</label>
-						<p:inputText class="form-control" id="preco" label="Preço"
-							value="#{cadastroProdutoController.produto.preco}" />
-						<p:message for="preco" class="mt-2 text-danger" />
-					</div>
-					<div class="col-sm-3 text-center">
-						<label for="categoria" class="d-block">Categoria</label>
-						<p:toggleSwitch id="categoria" class="d-inline-block"
-							value="#{cadastroProdutoController.produto.categoria}" />
-					</div>
-				</div>
-			</p:panel>
-
-			<p:panel style="margin: 1%" header="Fornecedor">
-				<div class="row mb-3 ">
-					<div class="col-sm-3">
-						<label for="codigo_fornecedor">Código do fornecedor</label>
-						<p:inputText class="form-control" id="codigo_fornecedor"
-							label="Código do fornecedor"
-							value="#{cadastroProdutoController.produto.fornecedor}" />
-						<p:message for="endereco" class="mt-2 text-danger"
-							style="color: red;" />
-					</div>
-				</div>
-			</p:panel>
+		            </p:tab>
+		            	            
+		            <p:tab title="Especificações">
+        				<p:panel style="margin: 1%" header="Dados específicos">
+							<div class="row mb-3" style="display: flex">
+								<div class="col-sm-5">
+									<label for="especificacao_tipo">Tipo</label>
+									<p:inputText class="form-control" id="especificacao_tipo"
+										label="Tipo de especificação"
+										value="#{cadastroProdutoController.tipoEspecificacao}" />
+								</div>
+								
+								<div class="col-sm-5">
+									<label for="especificacao_descricao">Descrição</label>
+									<p:inputText class="form-control" id="especificacao_descricao"
+										label="Descrição"
+										value="#{cadastroProdutoController.descricaoEspecificacao}" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: end;">						
+									<p:commandButton icon="pi pi-plus"  value="Adicionar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.adicionarEspecificacao}"
+											process="@this especificacao_tipo especificacao_descricao"
+											update="tbl-especificacoes especificacao_tipo especificacao_descricao" />
+									</p:commandButton>
+								</div>		
+												
+							</div>
+							
+							<div class="row">
+								<div class="col-md-12">				
+									<div class="card">				
+													
+								        <p:dataTable id="tbl-especificacoes" var="especificacao" value="#{cadastroProdutoController.produto.detalhes.especificacoes}">			   
+								         
+								            <p:column headerText="Tipo">
+								                <h:outputText value="#{especificacao.tipo}" />
+								            </p:column>
+								
+								            <p:column headerText="Descrição">
+								                <h:outputText value="#{especificacao.descricao}" />
+								            </p:column>		
+								            
+								          <p:column width="200">
+												<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" >
+													<p:ajax listener="#{cadastroProdutoController.produto.detalhes.especificacoes.remove(especificacao)}"
+															process="@this"
+															update="tbl-especificacoes" />
+												</p:commandButton>
+											</p:column>
+								            						            					
+								        </p:dataTable>				
+								        				        
+								    </div>
+							    </div>
+						    </div>
+							    
+						</p:panel>		
+						
+						<p:panel style="margin: 1%" header="Modelos">
+						
+							<div class="row mb-3" style="display: flex">
+													
+								<div class="col-sm-3">
+									<label for="modelo_descricao">Descrição do modelo</label>
+									<p:inputText class="form-control" id="modelo_descricao"
+										label="Descrição do modelo"
+										value="#{cadastroProdutoController.descricaoModelo}" />
+								</div>
+								
+								<div class="col-sm-7">
+									<label for="modelo_url_imagem">URL da imagem</label>
+									<p:inputText class="form-control" id="modelo_url_imagem"
+										label="URL da imagem do modelo"
+										value="#{cadastroProdutoController.urlImagemModelo}" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: end;">						
+									<p:commandButton icon="pi pi-plus"  value="Adicionar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.adicionarModelo}"
+											process="@this modelo_descricao modelo_url_imagem"
+											update="tbl-modelos modelo_descricao modelo_url_imagem" />
+									</p:commandButton>
+								</div>		
+												
+							</div>
+							
+							<div class="row">
+								<div class="col-md-12">				
+									<div class="card">		
+															
+								        <p:dataTable id="tbl-modelos" var="modelo" value="#{cadastroProdutoController.produto.detalhes.modelos}">			   
+								
+								            <p:column headerText="Descrição">
+								                <h:outputText value="#{modelo.descricao}" />
+								            </p:column>		
+								            
+										 	<p:column headerText="Imagem do modelo">
+		            							<p:graphicImage id="imagem_modelo"
+												    value="#{modelo.urlImagem}"
+												    style="width: 80px; height: 80px; display:#{empty modelo.urlImagem ? 'none' : 'block'}" />
+								            </p:column>		
+									            
+								           <p:column width="200">
+												<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" >
+													<p:ajax listener="#{cadastroProdutoController.produto.detalhes.modelos.remove(modelo)}"
+														process="@this"
+														update="tbl-modelos" />
+												</p:commandButton>
+											</p:column>
+								            						            					
+								        </p:dataTable>			
+								        					        
+								    </div>
+							    </div>
+						    </div>
+							    
+						</p:panel>	
+						
+						<p:panel style="margin: 1%" header="Itens da embalagem">
+							<div class="row mb-3" style="display: flex">
+								
+								<div class="col-sm-10">
+									<label for="item_embalagem_descricao">Descrição do item</label>
+									<p:inputText class="form-control" id="item_embalagem_descricao"
+										label="Descrição do item"
+										value="#{cadastroProdutoController.descricaoItemEmbalagem}" />
+								</div>
+								
+								<div class="col-sm-2"  style="align-content: end;">						
+									<p:commandButton icon="pi pi-plus"  value="Adicionar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+										<p:ajax listener="#{cadastroProdutoController.adicionarItemEmbalagem}"
+											process="@this item_embalagem_descricao"
+											update="tbl-itens-embalagem item_embalagem_descricao" />
+									</p:commandButton>
+								</div>		
+												
+							</div>
+							
+							<div class="row">
+								<div class="col-md-12">				
+									<div class="card">								
+								        <p:dataTable id="tbl-itens-embalagem" var="item" value="#{cadastroProdutoController.produto.detalhes.itensEmbalagem}">			   
+								
+								            <p:column headerText="Descrição">
+								                <h:outputText value="#{item}" />
+								            </p:column>		
+								            
+								           <p:column width="200">
+												<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" >
+													<p:ajax listener="#{cadastroProdutoController.produto.detalhes.itensEmbalagem.remove(item)}"
+														process="@this"
+														update="tbl-itens-embalagem" />
+												</p:commandButton>
+											</p:column>
+								            						            					
+								        </p:dataTable>								        
+								    </div>
+							    </div>
+						    </div>
+							    
+						</p:panel>		
+						
+						<p:panel style="margin: 1%" header="Dados técnicos">
+																
+							<div class="row mb-3 ">
+							
+								<div class="col-sm-4">
+									<label for="codigo_fornecedor">Marca</label>
+									<p:inputText class="form-control" id="marca"
+										label="Marca"
+										value="#{cadastroProdutoController.produto.detalhes.marca}" />
+									<p:message for="marca" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+								<div class="col-sm-8">
+									<label for="fabricante">Fabricante</label>
+									<p:inputText class="form-control" id="fabricante"
+										label="Fabricante"
+										value="#{cadastroProdutoController.produto.detalhes.fabricante}" />
+									<p:message for="fabricante" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+							</div>
+							
+							<div class="row mb-3 ">
+							
+								<div class="col-sm-3">
+									<label for="peso">Peso (g)</label>
+									<p:inputText class="form-control" id="peso"
+										label="Peso"
+										value="#{cadastroProdutoController.produto.detalhes.peso}" />
+									<p:message for="peso" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+								<div class="col-sm-3">
+									<label for="altura">Altura (cm)</label>
+									<p:inputText class="form-control" id="altura"
+										label="Altura"
+										value="#{cadastroProdutoController.produto.detalhes.altura}" />
+									<p:message for="altura" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+								<div class="col-sm-3">
+									<label for="largura">Largura (cm)</label>
+									<p:inputText class="form-control" id="largura"
+										label="Largura"
+										value="#{cadastroProdutoController.produto.detalhes.largura}" />
+									<p:message for="largura" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+								<div class="col-sm-3">
+									<label for="comprimento">Comprimento (cm) </label>
+									<p:inputText class="form-control" id="comprimento"
+										label="Comprimento"
+										value="#{cadastroProdutoController.produto.detalhes.comprimento}" />
+									<p:message for="peso" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+							</div>
+							
+							<div class="row mb-3 ">
+															
+								<div class="col-sm-3">
+									<label for="material">Material</label>
+									<p:inputText class="form-control" id="material"
+										label="Material"
+										value="#{cadastroProdutoController.produto.detalhes.material}" />
+									<p:message for="material" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+								<div class="col-sm-3">
+									<label for="garantia">Garantia</label>
+									<p:inputText class="form-control" id="garantia"
+										label="Garantia"
+										value="#{cadastroProdutoController.produto.detalhes.garantia}" />
+									<p:message for="garantia" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+								<div class="col-sm-3">
+									<label for="validade">Validade</label>
+									<p:inputText class="form-control" id="validade"
+										label="Validade"
+										value="#{cadastroProdutoController.produto.detalhes.validade}" />
+									<p:message for="validade" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+								
+							</div>
+							
+						</p:panel>							
+		            </p:tab>
+		            
+		            <p:tab>	                                 
+		                <f:facet name="title">
+		                    <span>Pagamento/Entrega</span>
+		                </f:facet>      
+		                
+	                	<p:panel style="margin: 1%" header="Meios de pagamento">
+							<div class="row ">
+								<div class="col-sm-9 mb-3">
+									<p:selectOneMenu class="form-control" id="meio_pagamento"
+										value="#{cadastroProdutoController.meioPagamentoSelecionado}">
+										 <f:selectItems 
+									        value="#{cadastroProdutoController.meiosPagamento}"
+									        var="mp"
+									        itemValue="#{mp.codigo}" 
+									        itemLabel="#{mp.codigo} - #{mp.descricao}" 
+								          />
+									</p:selectOneMenu>
+								</div>
+								
+								<div class="col-sm-3">
+									<p:commandButton icon="pi pi-plus"  value="Adicionar" class="mx-auto btn-xs btn-primary" style="width: 100%">
+											<p:ajax listener="#{cadastroProdutoController.adicionarMeioPagamento(cadastroProdutoController.meioPagamentoSelecionado)}"
+												process="@this meio_pagamento"
+												update="tbl-meios-pagamento" />
+									</p:commandButton>
+								</div>
+							</div>
+							
+							<div class="card">
+							
+						        <p:dataTable id="tbl-meios-pagamento" var="pagamento" value="#{cadastroProdutoController.meiosPagamentoSelecionados}">
+						        
+						            <p:column headerText="Código">
+						                <h:outputText value="#{pagamento.codigo}" />
+						            </p:column>
+						
+						            <p:column headerText="Descrição">
+						                <h:outputText value="#{pagamento.descricao}" />
+						            </p:column>
+						
+						            <p:column>
+            							<p:graphicImage id="icone_pagamento"
+										    value="#{pagamento.urlIcone}"
+										    style="width: 50px; height: 50px; display:#{empty pagamento.urlIcone ? 'none' : 'block'}" />
+						            </p:column>						        
+						            
+				                     <p:column width="200">
+											<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" 
+														action="#{cadastroProdutoController.meiosPagamentoSelecionados.remove(pagamento)}">
+											</p:commandButton>
+									</p:column>
+						
+						        </p:dataTable>
+						        
+						    </div>
+						</p:panel>			
+						          			
+						<p:panel style="margin: 1%" header="Dados do fornecedor">
+							<div class="row mb-3 ">
+								<div class="col-sm-3">
+									<label for="codigo_fornecedor">Código do fornecedor</label>
+									<p:inputText class="form-control" id="codigo_fornecedor"
+										label="Código do fornecedor"
+										value="#{cadastroProdutoController.produto.fornecedor}" />
+									<p:message for="codigo_fornecedor" class="mt-2 text-danger"
+										style="color: red;" />
+								</div>
+							</div>
+						</p:panel>					
+		            </p:tab>
+		            
+		        </p:tabView>
+		        
+		    </div>
 
 			<div class="row" style="margin: 2% auto">
 				<p:commandButton
 					value="#{cadastroProdutoController.produto.codigo > 0 ? 'Atualizar' : 'Cadastrar'}"
-					class="mx-auto btn btn-primary btn-sm" style="width: 20%">
-					<p:ajax listener="#{cadastroProdutoControlle.cadastrar}"
+					class="mx-auto btn btn-primary btn-sm" style="width: 15%">
+					<p:ajax listener="#{cadastroProdutoController.cadastrar}"
 						process="@form" update="@form" />
 				</p:commandButton>
 			</div>
-
+			
+			
 		</h:form>
 	</ui:define>
 

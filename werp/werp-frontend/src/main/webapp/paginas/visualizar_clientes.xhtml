@@ -55,19 +55,23 @@
 					<h:outputText value="#{cliente.nomeFantasia}" />
 				</p:column>
 
-				<p:column width="100">
-					<h:commandButton style="width: 100%"
-						action="#{visualizarClienteController.redirecionar(cliente.codigo)}"
-						value="Editar" class="btn btn-primary btn-sm" />
+				<p:column width="120">
+					<p:commandButton value="Editar"
+							    icon="pi pi-pencil"
+							    styleClass="ui-button-primary"
+							    style="width:100%" 
+								action="#{visualizarClienteController.redirecionar(cliente.codigo)}" />
 				</p:column>
 
-				<p:column width="100">
-					<h:commandButton style="width: 100%" value="Remover"
-						action="#{visualizarClienteController.setClienteRemocao(cliente.codigo)}"
-						class="btn btn-danger btn-sm">
+				<p:column width="120">
+					<p:commandButton value="Remover"
+							    icon="pi pi-trash"
+							    styleClass="ui-button-danger"
+							    style="width:100%" 
+								action="#{visualizarClienteController.setClienteRemocao(cliente.codigo)}">
 						<p:ajax process="@form" update="@form"
 							oncomplete="PF('dialogConfirmarDelecao').show(); return false;" />
-					</h:commandButton>
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 

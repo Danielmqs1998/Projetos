@@ -131,8 +131,10 @@
 					<div class="col-sm-3">
 						<label for="email">Data de validade</label>
 						<p:inputMask mask="99/99/9999" class="form-control"
-							id="data-validade" label="Estado"
-							value="#{cadastroClienteController.cliente.contrato.dataValidade}" />
+							id="data-validade" label="Data validade"
+							value="#{cadastroClienteController.cliente.contrato.dataValidade}" >
+							<f:converter converterId="localDateConverter" />
+						</p:inputMask>
 						<p:message for="data-validade" class="mt-2 text-danger" />
 					</div>
 				</div>

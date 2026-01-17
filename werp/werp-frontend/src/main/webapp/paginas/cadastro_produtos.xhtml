@@ -129,7 +129,7 @@
 			
 								<div class="col-sm-3" style="text-align: center">
 									<p:outputLabel id="lbl_img_produto" value="Sem imagem"
-										style="display:#{cadastroProdutoController.carregouImagem ? 'none' : 'block'};" />
+										style="display:#{cadastroProdutoController.carregouImagem ? 'none' : 'flex'}; justify-content: center; align-items: center;" />
 									<p:graphicImage id="img_produto"
 										value="#{cadastroProdutoController.produto.imagem}"
 										style="display:#{cadastroProdutoController.carregouImagem ? 'block' : 'none'}" />
@@ -274,7 +274,8 @@
 							
 							<div class="row">
 								<div class="col-md-12">				
-									<div class="card">								
+									<div class="card">				
+													
 								        <p:dataTable id="tbl-especificacoes" var="especificacao" value="#{cadastroProdutoController.produto.detalhes.especificacoes}">			   
 								         
 								            <p:column headerText="Tipo">
@@ -285,16 +286,19 @@
 								                <h:outputText value="#{especificacao.descricao}" />
 								            </p:column>		
 								            
-								           <p:column width="100">
-												<h:commandButton style="width: 100%" value="Remover"
-													class="btn btn-danger btn-sm">
+								          <p:column width="200">
+												<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" >
 													<p:ajax listener="#{cadastroProdutoController.produto.detalhes.especificacoes.remove(especificacao)}"
-														process="@this"
-														update="tbl-especificacoes" />
-												</h:commandButton>
+															process="@this"
+															update="tbl-especificacoes" />
+												</p:commandButton>
 											</p:column>
 								            						            					
-								        </p:dataTable>								        
+								        </p:dataTable>				
+								        				        
 								    </div>
 							    </div>
 						    </div>
@@ -345,13 +349,15 @@
 												    style="width: 80px; height: 80px; display:#{empty modelo.urlImagem ? 'none' : 'block'}" />
 								            </p:column>		
 									            
-								           <p:column width="100">
-												<h:commandButton style="width: 100%" value="Remover"
-													class="btn btn-danger btn-sm">
+								           <p:column width="200">
+												<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" >
 													<p:ajax listener="#{cadastroProdutoController.produto.detalhes.modelos.remove(modelo)}"
 														process="@this"
 														update="tbl-modelos" />
-												</h:commandButton>
+												</p:commandButton>
 											</p:column>
 								            						            					
 								        </p:dataTable>			
@@ -391,13 +397,15 @@
 								                <h:outputText value="#{item}" />
 								            </p:column>		
 								            
-								           <p:column width="100">
-												<h:commandButton style="width: 100%" value="Remover"
-													class="btn btn-danger btn-sm">
+								           <p:column width="200">
+												<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" >
 													<p:ajax listener="#{cadastroProdutoController.produto.detalhes.itensEmbalagem.remove(item)}"
 														process="@this"
 														update="tbl-itens-embalagem" />
-												</h:commandButton>
+												</p:commandButton>
 											</p:column>
 								            						            					
 								        </p:dataTable>								        
@@ -551,11 +559,13 @@
 										    style="width: 50px; height: 50px; display:#{empty pagamento.urlIcone ? 'none' : 'block'}" />
 						            </p:column>						        
 						            
-				                     <p:column>
-										<h:commandButton value="Remover" style="width: 100%"
-											action="#{cadastroProdutoController.meiosPagamentoSelecionados.remove(pagamento)}"
-											class="btn btn-danger btn-sm">
-										</h:commandButton>
+				                     <p:column width="200">
+											<p:commandButton value="Remover"
+													    icon="pi pi-trash"
+													    styleClass="ui-button-danger"
+													    style="width:100%" 
+														action="#{cadastroProdutoController.meiosPagamentoSelecionados.remove(pagamento)}">
+											</p:commandButton>
 									</p:column>
 						
 						        </p:dataTable>
@@ -584,7 +594,7 @@
 			<div class="row" style="margin: 2% auto">
 				<p:commandButton
 					value="#{cadastroProdutoController.produto.codigo > 0 ? 'Atualizar' : 'Cadastrar'}"
-					class="mx-auto btn btn-primary btn-sm" style="width: 20%">
+					class="mx-auto btn btn-primary btn-sm" style="width: 15%">
 					<p:ajax listener="#{cadastroProdutoController.cadastrar}"
 						process="@form" update="@form" />
 				</p:commandButton>

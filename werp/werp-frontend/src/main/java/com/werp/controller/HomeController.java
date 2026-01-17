@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.werp.model.Estatisticas;
 import com.werp.model.TotalizadorVendas;
 import com.werp.model.TotalizadorVendas.TotalizadorVendaProduto;
+import com.werp.model.TotalizadorVendas.TotalizadorVendaVendedor;
 import com.werp.util.PropertiesLoader;
 
 import jakarta.annotation.PostConstruct;
@@ -23,12 +26,16 @@ import lombok.Getter;
 import lombok.Setter;
 import software.xdev.chartjs.model.charts.BarChart;
 import software.xdev.chartjs.model.charts.LineChart;
+import software.xdev.chartjs.model.charts.PieChart;
 import software.xdev.chartjs.model.data.BarData;
 import software.xdev.chartjs.model.data.LineData;
+import software.xdev.chartjs.model.data.PieData;
 import software.xdev.chartjs.model.dataset.BarDataset;
 import software.xdev.chartjs.model.dataset.LineDataset;
+import software.xdev.chartjs.model.dataset.PieDataset;
 import software.xdev.chartjs.model.options.BarOptions;
 import software.xdev.chartjs.model.options.LineOptions;
+import software.xdev.chartjs.model.options.PieOptions;
 import software.xdev.chartjs.model.options.Plugins;
 import software.xdev.chartjs.model.options.Title;
 import software.xdev.chartjs.model.options.elements.Fill;
@@ -49,8 +56,10 @@ public class HomeController implements Serializable {
 	private final String URL = new PropertiesLoader().getBackend();
 	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private Client client;
-	private String graficoLinha;
-	private String graficoBarra;
+	private String graficoVendasVendedor;
+	private String graficoVendasProduto;
+	private String graficoVendasMes;
+	private Estatisticas estatisticas;
 
 	@PostConstruct
 	public void inicializar() {
@@ -61,6 +70,7 @@ public class HomeController implements Serializable {
 				.build();
 
 		carregarVendas();
+		carregarEstatisticas();
 	}
 
 	public void logout() {
@@ -88,31 +98,84 @@ public class HomeController implements Serializable {
 				TotalizadorVendas vendas = gson.fromJson(response.readEntity(String.class), TotalizadorVendas.class);
 				criarGraficoVendasMes(vendas.getTotalizadorVendaMes());
 				criarGraficoVendasProduto(vendas.getTotalizadorVendaProduto());
+				criarGraficoVendasVendedor(vendas.getTotalizadorVendaVendedor());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	
+	public void carregarEstatisticas() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		String tokenAtual = (String) session.getAttribute("token_atual");
+		Response response = client.target(URL + "/vendas/estatisticas").request()
+				.header("Authorization", "Bearer " + tokenAtual).get();
+		if (response.getStatus() == 200) {
+			try {
+				estatisticas = gson.fromJson(response.readEntity(String.class), Estatisticas.class);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void criarGraficoVendasVendedor(List<TotalizadorVendas.TotalizadorVendaVendedor> totalizadorVendedor) {
+		
+		Double[] totaisVendas = totalizadorVendedor.stream().map(TotalizadorVendaVendedor::getTotalValores).collect(Collectors.toList()).toArray(new Double[]{});
+		
+		String[] vendedores = totalizadorVendedor.stream().map(t -> t.getNomeVendedor()).collect(Collectors.toList()).toArray(new String[]{});
+		
+		String[] cores = IntStream.range(0, totaisVendas.length)
+		        .mapToObj(i -> String.format(
+		                "rgba(%d, %d, %d, 0.6)",
+		                (int) (Math.random() * 255),
+		                (int) (Math.random() * 255),
+		                (int) (Math.random() * 255)
+		        ))
+		        .toArray(String[]::new);
+		
+		graficoVendasVendedor = new PieChart()
+        .setData(new PieData()
+                .addDataset(new PieDataset()
+                    .setData(totaisVendas)
+                    .setLabel("Total (R$)")
+                    .setBackgroundColor(cores)
+                    .setBorderColor("rgba(255, 255, 255, 1)")
+                    .setBorderWidth(1))
+	                .setLabels(vendedores))
+	        		.setOptions(new PieOptions()
+	        				.setResponsive(true)
+	        				.setMaintainAspectRatio(false)
+	        				.setPlugins(new Plugins()
+	        						.setTitle(new Title()
+	        								.setDisplay(true)			                    
+	        								.setText("Vendas por vendedor"))))
+	        		.toJson();
+    }
 
 	private void criarGraficoVendasProduto(List<TotalizadorVendas.TotalizadorVendaProduto> totalizadorProduto) {
 		
 		Double[] totaisVendas = totalizadorProduto.stream().map(TotalizadorVendaProduto::getTotalValores).collect(Collectors.toList()).toArray(new Double[]{});
 		
-		String[] produtos = totalizadorProduto.stream().map(TotalizadorVendaProduto::getCodigoProduto)
-				.collect(Collectors.toList()).toArray(new String[]{});
+		String[] produtos = totalizadorProduto.stream().map(TotalizadorVendaProduto::getCodigoProduto).collect(Collectors.toList()).toArray(new String[]{});
 		
-        graficoBarra = new BarChart()
+        graficoVendasProduto = new BarChart()
         .setData(new BarData()
                 .addDataset(new BarDataset()
                     .setData(totaisVendas)
-                    .setLabel("Quantidade")
+                    .setLabel("Total (R$)")
                     .setBackgroundColor("rgba(2, 136, 209, 0.5)")
                     .setBorderColor("rgba(255, 255, 255, 1)")
                     .setBorderWidth(1))
-                .setLabels(produtos))
-        		.setOptions(new BarOptions().setResponsive(true).setMaintainAspectRatio(false).setPlugins(
-        				new Plugins().setTitle(new Title().setDisplay(true).setText("Vendas por produto"))))
-            .toJson();
+	                .setLabels(produtos))
+	        		.setOptions(new BarOptions()
+	        				.setResponsive(true)
+	        				.setMaintainAspectRatio(false)
+	        				.setPlugins(new Plugins()
+	        						.setTitle(new Title()
+	        								.setDisplay(true)
+	        								.setText("Vendas por produto"))))
+	        		.toJson();
     }
 	
 	private void criarGraficoVendasMes(List<TotalizadorVendas.TotalizadorVendaMes> totalizadorMes) {
@@ -120,19 +183,24 @@ public class HomeController implements Serializable {
 		Double[] totaisVendas = totalizadorMes.stream().map(
 				TotalizadorVendas.TotalizadorVendaMes::getTotalValores).collect(Collectors.toList()).toArray(new Double[]{});
 		
-		String[] meses = totalizadorMes.stream().map(
-				t -> tratarMes(t.getMes())).collect(Collectors.toList()).toArray(new String[]{});
+		String[] meses = totalizadorMes.stream().map(t -> tratarMes(t.getMes())).collect(Collectors.toList()).toArray(new String[]{});
 		
-		graficoLinha = new LineChart()
-				.setData(new LineData().addDataset(new LineDataset().setData(totaisVendas).setLabel("Total")
-						.setBorderColor("rgba(2, 136, 209, 1)").setLineTension(0.1f).setFill(new Fill<Boolean>(false)))
+		graficoVendasMes = new LineChart()
+				.setData(new LineData().addDataset(new LineDataset()
+						.setData(totaisVendas)
+	                    .setLabel("Total (R$)")
+						.setBorderColor("rgba(2, 136, 209, 1)")
+						.setLineTension(0.1f).setFill(new Fill<Boolean>(false)))
 						.setLabels(meses))
-				.setOptions(new LineOptions()
-						.setScales(new Scales().addScale("y", new LinearScaleOptions().setBeginAtZero(true)))
-						.setResponsive(true)
-						.setMaintainAspectRatio(false)
-						.setPlugins(new Plugins().setTitle(new Title().setDisplay(true).setText("Vendas por mês"))))
-				.toJson();
+						.setOptions(new LineOptions()
+								.setScales(new Scales().addScale("y", new LinearScaleOptions().setBeginAtZero(true)))
+								.setResponsive(true)
+								.setMaintainAspectRatio(false)
+								.setPlugins(new Plugins()
+										.setTitle(new Title()
+												.setDisplay(true)
+												.setText("Vendas por mês"))))
+						.toJson();
 	}
 
 	private String tratarMes(int mes) {

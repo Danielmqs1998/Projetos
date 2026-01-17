@@ -24,9 +24,7 @@ public class ProdutoController {
 	private ProdutoRepository produtoRepository;
 	
 	@GetMapping("/listar")
-	public Page<Produto> listarProdutos(
-			@PageableDefault(size=16, sort="codigo") Pageable pageable){
-			
+	public Page<Produto> listarProdutos(@PageableDefault(size=16, sort="codigo") Pageable pageable){
 		return produtoRepository.findAll(pageable);
 	}
 	

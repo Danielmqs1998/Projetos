@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.werp.werp.model.Produto;
 
-public interface ProdutoRepository extends MongoRepository<Produto, String>, ProdutoRepositoryFiltro {
+public interface ProdutoRepository extends MongoRepository<Produto, String> {
 
 	Optional<Produto> findByCodigoAndLoja(String codigo, int loja);
 	

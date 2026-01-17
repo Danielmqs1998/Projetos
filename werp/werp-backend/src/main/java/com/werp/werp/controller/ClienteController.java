@@ -29,7 +29,7 @@ public class ClienteController {
 	private ClienteRepository clienteRepository;
 	
 	@GetMapping("/total") 
-	public Integer obterTotalProdutos(){
+	public Integer obterTotalClientes(){
 	    return (int) clienteRepository.count();
 	}
 

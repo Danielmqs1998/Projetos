@@ -7,6 +7,13 @@
 
 	<ui:define name="conteudo">
 		<h:form>
+
+			<p:dialog header="Erro" widgetVar="dialogErroConsultaCliente"
+				showEffect="fade" hideEffect="fade" modal="true" draggable="false"
+				onHide="fecharDialog()">
+				<h:outputText value="Falha ao consultar dados do cliente." />
+			</p:dialog>
+
 			<h2 align="center">
 				<h:outputLabel
 					value="#{cadastroClienteController.cliente.codigo > 0 ? 'Dados do cliente' : 'Cadastro de cliente'}" />
@@ -16,7 +23,8 @@
 				<div class="row mb-3">
 					<div class="col-sm-12" id="codigo-interno"
 						style="#{cadastroClienteController.cliente.codigo > 0 ? 'display:block' : 'display:none'}">
-						<strong> <p:outputLabel value="Código interno: #{cadastroClienteController.cliente.codigo}" /></strong>
+						<strong> <p:outputLabel
+								value="Código interno: #{cadastroClienteController.cliente.codigo}" /></strong>
 					</div>
 				</div>
 
@@ -112,7 +120,7 @@
 			<p:panel style="margin: 1%" header="Contrato">
 				<div class="row mb-3">
 					<div class="col-sm-3">
-						<label for="cnpj">Categoria</label>
+						<label for="categoria">Categoria</label>
 						<p:selectOneMenu class="form-control" id="categoria"
 							value="#{cadastroClienteController.cliente.contrato.categoria}">
 							<f:selectItem itemLabel="Vendedor" itemValue="VENDEDOR" />

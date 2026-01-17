@@ -1,7 +1,7 @@
 package com.werp.werp.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -31,7 +31,7 @@ public class Cliente implements Serializable {
 	private String ramo;
 	private String contato;
 	private String email;
-	private Date dataCadastro;
+	private LocalDate dataCadastro;
 	private boolean ativo;
 	private Endereco endereco = new Endereco();
 	private Contrato contrato = new Contrato();
@@ -51,7 +51,7 @@ public class Cliente implements Serializable {
 	@Setter
 	public class Contrato {
 		private String categoria;
-		private Date dataValidade;
+		private LocalDate dataValidade;
 	}
 	
 	public void atualizar(Cliente cliente) {

@@ -78,6 +78,7 @@ public class CadastroProdutoController implements Serializable {
 
 		if (codigoProduto == null || loja == null) {
 			produto = new Produto();
+			produto.setDetalhes(new DetalhesProduto());
 		} else {
 			consultarProduto(codigoProduto, Integer.parseInt(loja));
 		}

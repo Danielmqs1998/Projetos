@@ -1,7 +1,7 @@
 package com.werp.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -37,7 +37,7 @@ public class Cliente implements Serializable {
 	@Size(min = 10, message = "Favor informar os 10 dígitos.")
 	private String contato;
 	private String email;
-	private Date dataCadastro;
+	private LocalDate dataCadastro;
 	private boolean ativo;
 	private Endereco endereco = new Endereco();
 	private Contrato contrato = new Contrato();
@@ -69,7 +69,7 @@ public class Cliente implements Serializable {
 	public static class Contrato{
 		private String categoria;
 		@NotNull(message = "Favor informar a data de vencimento do contrato.")
-		private Date dataValidade;
+		private LocalDate dataValidade;
 	}
 }
 
