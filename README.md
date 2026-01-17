@@ -11,7 +11,7 @@ Sistema de ERP básico com funcionalidades como:
 Plataforma de e-commerce simples com funcionalidades como:
  -> Autenticação de usuário
  -> Integração de produtos com o ERP
- -> Listagem de produtos
+ -> Listagem de produtos.
 
 
 
