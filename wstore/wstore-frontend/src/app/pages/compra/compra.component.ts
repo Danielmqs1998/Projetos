@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ModalConfirmacaoComponent } from '../../components/modal-confirmacao/modal-confirmacao.component';
+import { ModalConfirmacaoComponent } from '../../components/modal/modal-confirmacao/modal-confirmacao.component';
 
 export interface PeriodicElement {
   name: string;

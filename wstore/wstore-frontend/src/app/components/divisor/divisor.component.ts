@@ -8,9 +8,5 @@ import { Component, Input } from '@angular/core';
 export class DivisorComponent {
 
     @Input() titulo!: string;
-    
-    ngOnInit() {
-      console.log('Divisor recebido:', this.titulo);
-    }
 
 }

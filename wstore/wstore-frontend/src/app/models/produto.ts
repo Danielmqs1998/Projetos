@@ -1,5 +1,3 @@
-import { Page } from "./rest/page";
-
 export class Produto{
     codigo: string = "";
     codigoBarra: string = "";

@@ -5,12 +5,9 @@ header {
 #menu {
   display: flex;
   align-items: center;
-  /* Centraliza verticalmente */
   justify-content: space-between;
-  /* Distribui os 3 blocos */
   padding: 10px 20px;
   gap: 20px;
-  /* Espaçamento entre blocos */
 }
 
 #botoes-usuario {
@@ -27,10 +24,10 @@ header {
 
 #logo {
   width: 25%;
-  /* Logo ocupa 25% do espaço */
   display: flex;
   min-height: 70px;
   justify-content: start;
+  order: 0;
 }
 
 #barra-pesquisa {
@@ -39,6 +36,7 @@ header {
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  order: 1;
 }
 
 #barra-pesquisa p {
@@ -57,30 +55,29 @@ header {
 
 #botoes {
   width: 25%;
-  /* Botões ocupam 25% do espaço */
   display: flex;
   justify-content: center;
+  order: 2;
 }
 
-#botoes {
-  width: 25%;
-  /* Botões ocupam 25% do espaço */
-  display: flex;
-  justify-content: center;
-}
-
-#menu-categorias nav {
+#menu-categorias {
   background-color: rgb(25, 66, 102);
   display: flex;
   align-items: center;
-  /* Centraliza verticalmente */
   justify-content: center;
-  /* Distribui os 3 blocos */
   padding: 10px 20px;
   height: 30px;
   color: white;
   gap: 10px;
-  /* Espaçamento entre blocos */
+}
+
+button.mat-mdc-unelevated-button {
+  transition: background-color 500ms ease, color 500ms ease;
+}
+
+button.mat-mdc-unelevated-button.categoriaSelecionada {
+  background-color: rgb(55, 147, 228);
+  color: white;
 }
 
 #menu-categorias button {
@@ -116,16 +113,22 @@ header {
 
 @media (max-width: 830px) {
 
-  #barra-pesquisa {
-    width: 100%;
-  }
-
-  #barra-pesquisa input {
-    margin: 3px;
+  #titulo{
+      font-size: 12px;
   }
 
   #logo {
     justify-content: center;
+    order: 0;
+  }
+
+  #barra-pesquisa {
+    width: 100%;
+    order: 3;
+  }
+
+  #botoes{
+    order: 2;
   }
 
   #menu {
@@ -137,7 +140,7 @@ header {
     flex-direction: column;
   }
 
-  #menu-categorias nav {
+  #menu-categorias {
     background-color: rgb(25, 66, 102);
     display: flex;
     align-items: center;
@@ -148,9 +151,10 @@ header {
     height: auto;
   }
 
-  #menu-categorias nav button {
+  #menu-categorias button {
     padding: 0;
     margin: 0;
     width: 100%;
   }
+  
 }

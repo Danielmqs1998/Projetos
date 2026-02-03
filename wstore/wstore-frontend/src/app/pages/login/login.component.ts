@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalInformacaoComponent } from '../../components/modal-informacao/modal-informacao.component';
+import { ModalInformacaoComponent } from '../../components/modal/modal-informacao/modal-informacao.component';
 import { AuthService } from '../../services/auth.service';
 
 @Component({

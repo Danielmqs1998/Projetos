@@ -1,3 +1,4 @@
 /.metadata/
 wstore/wstore-backend/src/main/resources/application-prod.properties
+werp/werp-backend/src/main/resources/application-prod.properties
 RemoteSystemsTempFiles/

@@ -1,35 +1,86 @@
 <div id="container">
     <fieldset id="filtros">
-        <div id="filtro-valor-maximo">
-            <label for="ipt-valor-maximo"> Preço máx. </label>
-            <input type="number" maxlength="8" id="ipt-valor-maximo" />
-        </div>
-        <div id="filtro-valor-minimo">
-            <label for="ipt-valor-minimo"> Preço mín. </label>
-            <input type="number" maxlength="8" id="ipt-valor-minimo" />
-        </div>
-        <div id="filtro-estado">
-            <div>
-                <input id="chk-novo" type="checkbox" />
-                <label for="chk-novo">Novo</label>
+        <div id="filtro-precos" 
+            style="border-radius: 5px; 
+                    display: flex; 
+                    flex-direction: column;
+                    background-color: rgb(25 82 132); 
+                    align-items: center;">
+            <p style="margin-top: 10px"><strong>Preço</strong></p>
+            <div id="filtro-preco-maximo" style="margin: 0px 15px 0px 15px; display: inline-grid;">
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label style="font-size: 18px; color: white;">Preço máximo</mat-label>
+                    <input [(ngModel)]="precoMaximo" matInput type="number" style="color: white; font-weight: 700;"/>
+                </mat-form-field>
             </div>
-            <div>
-                <input id="chk-usado" type="checkbox" />
-                <label for="chk-usado">Usado</label>
-            </div>
-            <div>
-                <input id="chk-promocao" type="checkbox" />
-                <label for="chk-promocao">Promoção</label>
-            </div>
-            <div>
-                <input id="chk-frete-gratis" type="checkbox" />
-                <label for="chk-frete-gratis">Frete grátis</label>
+            <div id="filtro-preco-minimo" style="margin: 0px 15px 0px 15px; display: inline-grid;">
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label style="font-size: 18px; color: white;">Preço mínimo</mat-label>
+                    <input [(ngModel)]="precoMinimo" matInput type="number" style="color: white; font-weight: 700;"/>
+                </mat-form-field>
             </div>
         </div>
-        <button mat-flat-button id="btn-pesquisa-filtros" (click)="teste()">Aplicar filtros</button>
+        <div id="filtro-estado" 
+                style="border-radius: 5px; 
+                       background-color: rgb(25 82 132);
+                       display: flex; 
+                       flex-direction: column;
+                       align-items: center;">
+            <p style="margin-top: 10px"><strong>Estado</strong></p>
+            <div style="display: flex; 
+                       flex-direction: row; 
+                       justify-content: center;">
+                <label >
+                    <mat-radio-group
+                        name="estadoProduto"
+                        [(ngModel)]="estado">
+                        <mat-radio-button
+                            color="primary"
+                            *ngFor="let est of estados"
+                            value="{{ est }}">
+                            {{ est }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </label>
+            </div>
+        </div>
+        <div id="filtro-estado" 
+                style="border-radius: 5px; 
+                       background-color: rgb(25 82 132); 
+                       display: flex; 
+                       flex-direction: column;
+                       align-items: center;">
+            <p style="margin-top: 10px"><strong>Condição</strong></p>
+            <div style="display: flex; 
+                       flex-direction: column; 
+                       justify-content: center;">
+                       
+                    <mat-checkbox
+                        color="primary"
+                        id="chk-promocao" 
+                        [value]="FiltroCondicaoProduto.Promocao" 
+                        type="checkbox" 
+                        (change)="onFiltroCondicoesChange($event)">Promoção</mat-checkbox>
+                
+                    <mat-checkbox 
+                        color="primary"
+                        id="chk-promocao" 
+                        [value]="FiltroCondicaoProduto.FreteGratis" 
+                        type="checkbox" 
+                        (change)="onFiltroCondicoesChange($event)">Frete grátis</mat-checkbox>
+
+                    <mat-checkbox
+                        color="primary"
+                        id="chk-promocao" 
+                        [value]="FiltroCondicaoProduto.FreteGratis" 
+                        type="checkbox" 
+                        (change)="onFiltroCondicoesChange($event)">Entrega rápida</mat-checkbox>
+            </div>
+        </div>
+        <button mat-flat-button id="btn-pesquisa-filtros" (click)="aplicarFiltros()">Aplicar filtros</button>
     </fieldset>
     <div id="painel-produtos">
         <app-card-produto *ngFor="let produto of produtos | paginate: { itemsPerPage: 16, currentPage: paginaAtual, totalItems: totalItems }" [produto]=produto />
     </div>
 </div>
-<pagination-controls class="pagination" [previousLabel]="previousLabel" [nextLabel]="nextLabel" (pageChange)="consultaProdutos($event)"></pagination-controls>
+<pagination-controls class="pagination" [previousLabel]="previousLabel" [nextLabel]="nextLabel" (pageChange)="consultaProdutos($event)"/>

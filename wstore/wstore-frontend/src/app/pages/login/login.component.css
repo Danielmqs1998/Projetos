@@ -1,5 +1,16 @@
+#mensagem {
+     text-align: center; 
+     margin-top: 50px; 
+     color: rgb(255, 255, 255); 
+     width: max-content; 
+     background-color: #195284;
+     justify-self: center;
+     border-radius: 10px;
+     padding: 5px;
+}
+
 #container {
-    background-color: rgba(157, 171, 184, 0.5);
+    background-color: rgba(157, 171, 184, 0.782);
     border-radius: 10px;
     width: max-content;
     margin: 0 auto;
@@ -11,6 +22,16 @@
     border-radius: 5px;
     border: none;
     margin: 5px
+}
+
+fieldset div label {
+    text-align: center;
+    display: block; 
+    border-radius: 10px;
+    padding: 5px;
+    width: max-content;
+    justify-self: center;
+    font-weight: 500;
 }
 
 #container a {

@@ -18,14 +18,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { ModalConfirmacaoComponent } from './components/modal-confirmacao/modal-confirmacao.component';
+import { ModalConfirmacaoComponent } from './components/modal/modal-confirmacao/modal-confirmacao.component';
 import { AboutComponent } from './pages/about/about.component';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { CompraComponent } from './pages/compra/compra.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ProductService } from './services/product.service';
-import { ModalInformacaoComponent } from './components/modal-informacao/modal-informacao.component';
+import { ModalInformacaoComponent } from './components/modal/modal-informacao/modal-informacao.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CardProdutoComponent } from './components/card-produto/card-produto.component';
 import localePt from '@angular/common/locales/pt';
@@ -37,6 +37,9 @@ import { RatingComponent } from './components/rating/rating.component';
 import { MatOption } from '@angular/material/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 registerLocaleData(localePt);
 
@@ -75,7 +78,10 @@ registerLocaleData(localePt);
     MatLabel,
     MatSelect,
     MatFormField,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatRadioModule, 
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     ProductService,
