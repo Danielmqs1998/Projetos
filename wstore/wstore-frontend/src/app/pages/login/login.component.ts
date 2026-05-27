@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalInformacaoComponent } from '../../components/modal/modal-informacao/modal-informacao.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
+import { ModalInformacaoComponent } from '../../components/modal/modal-informacao/modal-informacao.component';
 
 @Component({
   selector: 'app-login',
@@ -11,41 +11,34 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
 
-  login: string = "";
-  senha: string = "";
+  login: string = '';
+  senha: string = '';
+  carregando: boolean = false;
 
   private readonly dialog = inject(MatDialog);
-  private authService: AuthService;
-  private router: Router;
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  constructor(authService: AuthService, router: Router) {
-    this.authService = authService;
-    this.router = router;
-  }
+  efetuarLogin(): void {
+    if (!this.login.trim() || !this.senha.trim()) return;
 
-  abrirModalInformacao(message: String, autenticado: boolean): void {
-
-    this.dialog.open(ModalInformacaoComponent, {
-      data: { message: message },
-    });
-
-    this.dialog.afterAllClosed.subscribe(() => {
-      if (autenticado) {
-        this.router.navigate(['/home'])
-      }
-    })
-
-  }
-
-  efetuarLogin() {
+    this.carregando = true;
     this.authService.efetuarLogin(this.login, this.senha).subscribe({
-      next: usuario => {
-        this.abrirModalInformacao("Login efetuado com sucesso!", true)
+      next: () => {
+        this.carregando = false;
+        // Corrigido: usava dialog.afterAllClosed (global, causava memory leak).
+        // Agora usa dialogRef.afterClosed() (escopo da instancia).
+        const ref = this.dialog.open(ModalInformacaoComponent, {
+          data: { message: 'Login efetuado com sucesso!' }
+        });
+        ref.afterClosed().subscribe(() => this.router.navigate(['/home']));
       },
-      error: (err) => {
-        this.abrirModalInformacao("Falha ao efetuar login!", false)
+      error: () => {
+        this.carregando = false;
+        this.dialog.open(ModalInformacaoComponent, {
+          data: { message: 'Usuário ou senha inválidos.' }
+        });
       }
     });
   }
-
 }

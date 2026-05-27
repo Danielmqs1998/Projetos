@@ -1,43 +1,58 @@
 import { Injectable } from '@angular/core';
-import { Produto } from '../models/produto';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthRequest } from '../models/rest/authRequest';
 import { Page } from '../models/rest/page';
+import { Produto } from '../models/produto';
 import { FiltroService } from './filtro.service';
 import { Filtros } from '../models/filtros';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  private http: HttpClient;
-  private filtroService: FiltroService;
-  private filtros?: Filtros;
+  private readonly apiUrl = environment.apiUrl;
 
-  constructor(http:HttpClient, filtroService: FiltroService) { 
-      this.http = http;
-      this.filtroService = filtroService;
+  constructor(private http: HttpClient, private filtroService: FiltroService) {}
+
+  consultarProdutos(paginaAtual: number): Observable<Page<Produto>> {
+    const filtros: Filtros = this.filtroService.value;
+
+    // HttpParams garante encoding correto e evita concatenacao manual de strings
+    let params = new HttpParams()
+      .set('size', '16')
+      .set('page', String(paginaAtual));
+
+    if (filtros.precoMaximo && filtros.precoMaximo > 0) {
+      params = params.set('precoMaximo', String(filtros.precoMaximo));
+    }
+    if (filtros.precoMinimo && filtros.precoMinimo > 0) {
+      params = params.set('precoMinimo', String(filtros.precoMinimo));
+    }
+    if (filtros.descricao && filtros.descricao.trim().length > 0) {
+      params = params.set('descricao', filtros.descricao.trim());
+    }
+    if (filtros.estado) {
+      params = params.set('estado', filtros.estado);
+    }
+    if (filtros.condicoes && filtros.condicoes.length > 0) {
+      params = params.set('condicoes', filtros.condicoes.join(';'));
+    }
+    if (filtros.categoria) {
+      params = params.set('categoria', filtros.categoria);
+    }
+
+    return this.http.get<Page<Produto>>(`${this.apiUrl}/produtos/listar`, {
+      params,
+      withCredentials: true
+    });
   }
 
-  login(username: string, password: string) {
-      const payload: AuthRequest = { username, password };
-      return this.http.post('http://localhost:3000/auth/login', payload, { withCredentials: true}); 
+  consultarProduto(codigo: string): Observable<Produto> {
+    return this.http.get<Produto>(`${this.apiUrl}/produtos/consultar`, {
+      params: new HttpParams().set('codigo', codigo),
+      withCredentials: true
+    });
   }
-
-  consultarProdutos(paginaAtual: number): Observable<Page<Produto>>{
-      this.filtros = this.filtroService.value;
-      return this.http.get<Page<Produto>>('http://localhost:3000/produtos/listar?size=16' 
-         + '&page=' + paginaAtual
-         + '&precoMaximo=' + this.filtros.precoMaximo
-         + '&precoMinimo=' + this.filtros.precoMinimo
-         + '&descricao=' + this.filtros.descricao
-         + '&estado=' + this.filtros.estado
-         + '&condicoes=' + this.filtros.condicoes.join(";")
-         + '&categoria=' + this.filtros.categoria,
-        { withCredentials: true });
-
-  }
-
 }

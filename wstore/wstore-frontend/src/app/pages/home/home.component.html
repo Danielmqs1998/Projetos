@@ -1,86 +1,83 @@
 <div id="container">
     <fieldset id="filtros">
-        <div id="filtro-precos" 
-            style="border-radius: 5px; 
-                    display: flex; 
-                    flex-direction: column;
-                    background-color: rgb(25 82 132); 
-                    align-items: center;">
+        <p style="font-size: 20px; color: white; text-align: center; font-weight: 800; padding: 3px;">Filtros</p>
+
+        <!-- Faixa de preco -->
+        <div id="filtro-precos"
+            style="border-radius: 5px; display: flex; flex-direction: column;
+                   background-color: rgb(25 82 132); align-items: center;">
             <p style="margin-top: 10px"><strong>Preço</strong></p>
-            <div id="filtro-preco-maximo" style="margin: 0px 15px 0px 15px; display: inline-grid;">
+            <div id="filtro-preco-maximo" style="margin: 0px 15px; display: inline-grid;">
                 <mat-form-field appearance="outline" floatLabel="always">
                     <mat-label style="font-size: 18px; color: white;">Preço máximo</mat-label>
-                    <input [(ngModel)]="precoMaximo" matInput type="number" style="color: white; font-weight: 700;"/>
+                    <input [(ngModel)]="precoMaximo" matInput type="number" min="0"
+                           style="color: white; font-weight: 700;"/>
                 </mat-form-field>
             </div>
-            <div id="filtro-preco-minimo" style="margin: 0px 15px 0px 15px; display: inline-grid;">
+            <div id="filtro-preco-minimo" style="margin: 0px 15px; display: inline-grid;">
                 <mat-form-field appearance="outline" floatLabel="always">
                     <mat-label style="font-size: 18px; color: white;">Preço mínimo</mat-label>
-                    <input [(ngModel)]="precoMinimo" matInput type="number" style="color: white; font-weight: 700;"/>
+                    <input [(ngModel)]="precoMinimo" matInput type="number" min="0"
+                           style="color: white; font-weight: 700;"/>
                 </mat-form-field>
             </div>
         </div>
-        <div id="filtro-estado" 
-                style="border-radius: 5px; 
-                       background-color: rgb(25 82 132);
-                       display: flex; 
-                       flex-direction: column;
-                       align-items: center;">
-            <p style="margin-top: 10px"><strong>Estado</strong></p>
-            <div style="display: flex; 
-                       flex-direction: row; 
-                       justify-content: center;">
-                <label >
-                    <mat-radio-group
-                        name="estadoProduto"
-                        [(ngModel)]="estado">
-                        <mat-radio-button
-                            color="primary"
-                            *ngFor="let est of estados"
-                            value="{{ est }}">
-                            {{ est }}
-                        </mat-radio-button>
-                    </mat-radio-group>
-                </label>
-            </div>
-        </div>
-        <div id="filtro-estado" 
-                style="border-radius: 5px; 
-                       background-color: rgb(25 82 132); 
-                       display: flex; 
-                       flex-direction: column;
-                       align-items: center;">
-            <p style="margin-top: 10px"><strong>Condição</strong></p>
-            <div style="display: flex; 
-                       flex-direction: column; 
-                       justify-content: center;">
-                       
-                    <mat-checkbox
-                        color="primary"
-                        id="chk-promocao" 
-                        [value]="FiltroCondicaoProduto.Promocao" 
-                        type="checkbox" 
-                        (change)="onFiltroCondicoesChange($event)">Promoção</mat-checkbox>
-                
-                    <mat-checkbox 
-                        color="primary"
-                        id="chk-promocao" 
-                        [value]="FiltroCondicaoProduto.FreteGratis" 
-                        type="checkbox" 
-                        (change)="onFiltroCondicoesChange($event)">Frete grátis</mat-checkbox>
 
-                    <mat-checkbox
+        <!-- Estado -->
+        <div id="filtro-estado"
+                style="border-radius: 5px; background-color: rgb(25 82 132);
+                       display: flex; flex-direction: column; align-items: center;">
+            <p style="margin-top: 10px"><strong>Estado</strong></p>
+            <label>
+                <mat-radio-group name="estadoProduto" [(ngModel)]="estado">
+                    <mat-radio-button
                         color="primary"
-                        id="chk-promocao" 
-                        [value]="FiltroCondicaoProduto.FreteGratis" 
-                        type="checkbox" 
-                        (change)="onFiltroCondicoesChange($event)">Entrega rápida</mat-checkbox>
+                        *ngFor="let est of estados"
+                        [value]="est">
+                        {{ est }}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </label>
+        </div>
+
+        <!-- Condicao: corrigido — EntregaRapida apontava para FreteGratis por copiar-e-colar -->
+        <div id="filtro-condicao"
+                style="border-radius: 5px; background-color: rgb(25 82 132);
+                       display: flex; flex-direction: column; align-items: center;">
+            <p style="margin-top: 10px"><strong>Condição</strong></p>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <mat-checkbox
+                    color="primary"
+                    id="chk-promocao"
+                    [value]="FiltroCondicaoProduto.Promocao"
+                    (change)="onFiltroCondicoesChange($event)">Promoção</mat-checkbox>
+
+                <mat-checkbox
+                    color="primary"
+                    id="chk-frete-gratis"
+                    [value]="FiltroCondicaoProduto.FreteGratis"
+                    (change)="onFiltroCondicoesChange($event)">Frete grátis</mat-checkbox>
+
+                <!-- Corrigido: era FreteGratis, agora aponta para EntregaRapida -->
+                <mat-checkbox
+                    color="primary"
+                    id="chk-entrega-rapida"
+                    [value]="FiltroCondicaoProduto.EntregaRapida"
+                    (change)="onFiltroCondicoesChange($event)">Entrega rápida</mat-checkbox>
             </div>
         </div>
-        <button mat-flat-button id="btn-pesquisa-filtros" (click)="aplicarFiltros()">Aplicar filtros</button>
+
+        <button mat-flat-button id="btn-pesquisa-filtros" (click)="aplicarFiltros()">Aplicar</button>
     </fieldset>
+
     <div id="painel-produtos">
-        <app-card-produto *ngFor="let produto of produtos | paginate: { itemsPerPage: 16, currentPage: paginaAtual, totalItems: totalItems }" [produto]=produto />
+        <app-card-produto
+            *ngFor="let produto of produtos | paginate: { itemsPerPage: 16, currentPage: paginaAtual, totalItems: totalItems }"
+            [produto]="produto" />
     </div>
 </div>
-<pagination-controls class="pagination" [previousLabel]="previousLabel" [nextLabel]="nextLabel" (pageChange)="consultaProdutos($event)"/>
+<pagination-controls
+    class="pagination"
+    [previousLabel]="previousLabel"
+    [nextLabel]="nextLabel"
+    (pageChange)="consultaProdutos($event)" />

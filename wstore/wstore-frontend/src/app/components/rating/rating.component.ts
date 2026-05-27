@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Produto } from '../../models/produto';
 
 @Component({
   selector: 'app-rating',
@@ -7,6 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class RatingComponent {
 
-  @Input() produto: any;
-  
+  /** Tipagem correta: era 'any', agora usa o modelo Produto */
+  @Input() produto?: Produto;
+
 }

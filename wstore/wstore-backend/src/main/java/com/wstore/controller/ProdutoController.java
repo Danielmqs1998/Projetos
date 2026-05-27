@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,65 +19,67 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wstore.model.Produto;
 
+/**
+ * Refatorado:
+ *  - @CrossOrigin removido (centralizado no SecurityConfig)
+ *  - filtro de preco corrigido: precoMinimo e precoMaximo podem coexistir
+ *    sem conflito de criterio duplicado no mesmo campo
+ */
 @RestController
 @RequestMapping(path = "/produtos")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ProdutoController {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-	@GetMapping("/listar")
-	public Page<Produto> listarProdutos(
-			@PageableDefault(size=16, sort="codigo") Pageable pageable,
-			@RequestParam(required = false) BigDecimal precoMaximo,
-			@RequestParam(required = false) BigDecimal precoMinimo,
-			@RequestParam(required = false) String descricao,
-			@RequestParam(required = false) String estado,
-			@RequestParam(required = false) String condicoes,
-			@RequestParam(required = false) Integer categoria){
-				
-		Criteria criteria = new Criteria();
+    @GetMapping("/listar")
+    public Page<Produto> listarProdutos(
+            @PageableDefault(size = 16, sort = "codigo") Pageable pageable,
+            @RequestParam(required = false) BigDecimal precoMaximo,
+            @RequestParam(required = false) BigDecimal precoMinimo,
+            @RequestParam(required = false) String descricao,
+            @RequestParam(required = false) String estado,
+            @RequestParam(required = false) String condicoes,
+            @RequestParam(required = false) Integer categoria) {
+
+        Criteria criteria = new Criteria();
 
         if (descricao != null && !descricao.isBlank()) {
-            criteria = new Criteria().andOperator(
-                    criteria,
-                    new Criteria().orOperator(
-                            Criteria.where("descricao").regex(descricao, "i")
-                    )
+            criteria.andOperator(
+                new Criteria().orOperator(
+                    Criteria.where("descricao").regex(descricao, "i"),
+                    Criteria.where("codigoBarras").regex(descricao, "i")
+                )
             );
         }
-        
-        if (precoMaximo != null && precoMaximo.compareTo(BigDecimal.ZERO) > 0) {
+
+        // Faixa de preco: ambos os limites no mesmo campo, sem duplicar .and("preco")
+        boolean temMin = precoMinimo != null && precoMinimo.compareTo(BigDecimal.ZERO) > 0;
+        boolean temMax = precoMaximo != null && precoMaximo.compareTo(BigDecimal.ZERO) > 0;
+        if (temMin && temMax) {
+            criteria = criteria.and("preco").gte(precoMinimo.doubleValue()).lte(precoMaximo.doubleValue());
+        } else if (temMin) {
+            criteria = criteria.and("preco").gte(precoMinimo.doubleValue());
+        } else if (temMax) {
             criteria = criteria.and("preco").lte(precoMaximo.doubleValue());
         }
-        
-        if (precoMinimo != null && precoMinimo.compareTo(BigDecimal.ZERO) > 0) {
-            criteria = criteria.and("preco").gte(precoMinimo.doubleValue());
-        }
-        
-        if (estado != null) {
+
+        if (estado != null && !estado.isBlank()) {
             criteria = criteria.and("estado").is(estado);
         }
-        
-        if (condicoes != null && !condicoes.isEmpty()) {
+
+        if (condicoes != null && !condicoes.isBlank()) {
             criteria = criteria.and("condicoes").all(Arrays.asList(condicoes.split(";")));
         }
 
         if (categoria != null && categoria > 0) {
             criteria = criteria.and("categoria").is(categoria);
         }
-        
+
         Query query = new Query(criteria).with(pageable);
-
         List<Produto> lista = mongoTemplate.find(query, Produto.class);
+        long total = mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Produto.class);
 
-        long total = mongoTemplate.count(
-                Query.of(query).limit(-1).skip(-1),
-                Produto.class
-        );
-        
-	    return new PageImpl<>(lista, pageable, total);
-	}
-
+        return new PageImpl<>(lista, pageable, total);
+    }
 }

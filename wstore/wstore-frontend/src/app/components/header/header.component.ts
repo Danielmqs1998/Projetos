@@ -1,48 +1,72 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ItemCarrinho } from '../../models/itemCarrinho';
+import { Subject, takeUntil } from 'rxjs';
+import { FiltroCategoriaProduto } from '../../enums/filtroCategoriaProduto';
 import { UsuarioLoja } from '../../models/rest/usuarioLoja';
 import { AuthService } from '../../services/auth.service';
+import { CarrinhoService } from '../../services/carrinho.service';
 import { FiltroService } from '../../services/filtro.service';
-import { FiltroCategoriaProduto } from '../../enums/filtroCategoriaProduto';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.css'
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-    public itensCarrinho: ItemCarrinho[] = [];
-    public usuarioLoja: UsuarioLoja | null = null;
-    public paginaPrincipal: Boolean = false;
-    public textoPesquisa: string = "";
-    public FiltroCategoriaProduto = FiltroCategoriaProduto;
-    public categoriaSelecionada = FiltroCategoriaProduto.Todas;
+  public usuarioLoja: UsuarioLoja | null = null;
+  public paginaPrincipal: boolean = false;
+  public textoPesquisa: string = '';
+  public FiltroCategoriaProduto = FiltroCategoriaProduto;
+  public categoriaSelecionada = FiltroCategoriaProduto.Todas;
+  public totalItensCarrinho: number = 0;
 
-    constructor(private router: Router, private authService: AuthService, private filtroService: FiltroService) {
-        this.router.events.subscribe(() => {
-            this.paginaPrincipal = this.router.url === '/home';
-        });   
-    }
+  // Subject para cancelar todas as subscriptions no destroy
+  private destroy$ = new Subject<void>();
 
-    ngOnInit(): void {
-        this.authService.usuario$().subscribe(usuarioLoja => {
-            this.usuarioLoja = usuarioLoja;
-        });
-    }
-    
-    onFiltroCategoriaChange(filtroCategoriaProduto: FiltroCategoriaProduto) {
-        this.categoriaSelecionada = this.filtroService.value.categoria === filtroCategoriaProduto ? FiltroCategoriaProduto.Todas : filtroCategoriaProduto;
-        this.filtroService.update({ categoria: this.categoriaSelecionada});
-    }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private filtroService: FiltroService,
+    public carrinhoService: CarrinhoService
+  ) {}
 
-    pesquisarProduto(){
-        this.filtroService.update({ descricao: this.textoPesquisa });
-    }
+  ngOnInit(): void {
+    // Subscription ao usuario autenticado
+    this.authService.usuario$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(usuario => this.usuarioLoja = usuario);
 
-    adicionarItemCarrinho(codigoProduto: string, quantidade: number): void {
-        this.itensCarrinho.push({ codigoProduto, quantidade });
-    }
+    // Subscription ao estado do carrinho
+    this.carrinhoService.itens$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.totalItensCarrinho = this.carrinhoService.totalItens);
 
+    // Subscription ao router para detectar pagina principal
+    this.router.events
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.paginaPrincipal = this.router.url === '/home');
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onFiltroCategoriaChange(filtroCategoriaProduto: FiltroCategoriaProduto): void {
+    this.categoriaSelecionada =
+      this.filtroService.value.categoria === filtroCategoriaProduto
+        ? FiltroCategoriaProduto.Todas
+        : filtroCategoriaProduto;
+    this.filtroService.update({ categoria: this.categoriaSelecionada });
+  }
+
+  pesquisarProduto(): void {
+    this.filtroService.update({ descricao: this.textoPesquisa });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }
