@@ -1,14 +1,14 @@
 package com.werp.werp.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,75 +20,72 @@ import org.springframework.web.bind.annotation.RestController;
 import com.werp.werp.model.Cliente;
 import com.werp.werp.repository.ClienteRepository;
 
+/**
+ * Controller de clientes refatorado:
+ *  - codigo gerado com UUID (evita colisao por count)
+ *  - autorizacao via @PreAuthorize
+ *  - CORS centralizado no SecurityConfig
+ */
 @RestController
 @RequestMapping(path = "/clientes")
-@CrossOrigin(origins = "*")
 public class ClienteController {
 
-	@Autowired
-	private ClienteRepository clienteRepository;
-	
-	@GetMapping("/total") 
-	public Integer obterTotalClientes(){
-	    return (int) clienteRepository.count();
-	}
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-	@PostMapping(path = "/cadastro")
-	public ResponseEntity<?> cadastrarCliente(@RequestBody Cliente cliente) {
-		ResponseEntity<?> response;
-		try {
-			Cliente cli = clienteRepository.findByCodigo(cliente.getCodigo()).orElse(null);
-			if (cli != null) {
-				cli.atualizar(cliente);
-			} else {
-				cli = cliente;
-				cli.setCodigo(clienteRepository.count() + 1);
-			}
-			clienteRepository.save(cli);
-			response = ResponseEntity.ok(cli.getCodigo());
-		} catch (Exception e) {
-			e.printStackTrace();
-			response = ResponseEntity.badRequest().body("Erro ao efetuar cadastro: " + e.getMessage());
-		}
-		return response;
-	}
+    @GetMapping("/total")
+    public long obterTotalClientes() {
+        return clienteRepository.count();
+    }
 
-	@GetMapping(path = "/consultar")
-	public ResponseEntity<?> consultarCliente(@RequestParam long codigo) {
-		ResponseEntity<?> response = ResponseEntity.noContent().build();
-		try {
-			Cliente cliente = clienteRepository.findByCodigo(codigo).orElse(null);
-			if (cliente != null) {
-				response = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(cliente);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			response = ResponseEntity.badRequest().body("Erro ao consultar dados do cliente " + codigo + ". Erro: " + e.getMessage());
-		}
-		return response;
-	}
+    @PostMapping(path = "/cadastro")
+    public ResponseEntity<?> cadastrarCliente(@RequestBody Cliente cliente) {
+        try {
+            Cliente cli = clienteRepository.findByCodigo(cliente.getCodigo()).orElse(null);
+            if (cli != null) {
+                cli.atualizar(cliente);
+            } else {
+                cli = cliente;
+                // UUID como identificador de negocio evita colisoes por count()
+                cli.setCodigo(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
+            }
+            clienteRepository.save(cli);
+            return ResponseEntity.ok(cli.getCodigo());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Erro ao efetuar cadastro: " + e.getMessage());
+        }
+    }
 
-	@GetMapping(path = "/listagem")
-	public Page<Cliente> listagemClientes(@RequestParam int primeiro, @RequestParam int tamanhoPagina) {
-		int pagina = primeiro / tamanhoPagina;
-		Pageable pageable = PageRequest.of(pagina, tamanhoPagina);
-	    return clienteRepository.findAll(pageable);
-	}
-	
-	@DeleteMapping(path = "/remover")
-	public ResponseEntity<?> removerCliente(@RequestParam long codigo) {
-		ResponseEntity<?> response = ResponseEntity.noContent().build();
-		try {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-				clienteRepository.deleteByCodigo(codigo);
-				response = ResponseEntity.ok().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			response = ResponseEntity.badRequest().body("Erro ao excluir cliente. " + e.getMessage());
-		}
-		return response;
-	}
+    @GetMapping(path = "/consultar")
+    public ResponseEntity<?> consultarCliente(@RequestParam long codigo) {
+        try {
+            return clienteRepository.findByCodigo(codigo)
+                    .map(c -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body((Object) c))
+                    .orElse(ResponseEntity.noContent().build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body("Erro ao consultar cliente " + codigo + ": " + e.getMessage());
+        }
+    }
 
+    @GetMapping(path = "/listagem")
+    public Page<Cliente> listagemClientes(@RequestParam int primeiro, @RequestParam int tamanhoPagina) {
+        int pagina = primeiro / tamanhoPagina;
+        Pageable pageable = PageRequest.of(pagina, tamanhoPagina);
+        return clienteRepository.findAll(pageable);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping(path = "/remover")
+    public ResponseEntity<?> removerCliente(@RequestParam long codigo) {
+        try {
+            clienteRepository.deleteByCodigo(codigo);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Erro ao excluir cliente: " + e.getMessage());
+        }
+    }
 }

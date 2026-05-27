@@ -4,6 +4,16 @@ services:
     container_name: werp-backend
     ports:
       - "3000:3000"
+    environment:
+      # Defina estas variaveis em um arquivo .env (nao commitar no git)
+      - MONGO_URI=${MONGO_URI}
+      - MONGO_DB=${MONGO_DB}
+      - APP_PORT=3000
+      - APP_USER=${APP_USER}
+      - APP_PASS=${APP_PASS}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION_MS=${JWT_EXPIRATION_MS:-3600000}
+      - CORS_ORIGINS=http://localhost:8080
     networks:
       - werpnet
 

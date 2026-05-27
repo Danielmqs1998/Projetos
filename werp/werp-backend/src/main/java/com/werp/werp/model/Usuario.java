@@ -2,41 +2,36 @@ package com.werp.werp.model;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Entidade de usuario refatorada:
+ *  - @Id adicionado (ausente no original)
+ *  - @Indexed(unique=true) em username para garantir unicidade no MongoDB
+ *  - Lombok @Data elimina getters/setters manuais
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "usuarios_erp")
 public class Usuario implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String username;
-	private String password;
-	private String role;
+    @Id
+    private String id;
 
-	public String getUsername() {
-		return username;
-	}
+    @Indexed(unique = true)
+    private String username;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    private String password;
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
+    /** Ex: ROLE_ADMIN ou ROLE_USER */
+    private String role;
 }
