@@ -1,38 +1,25 @@
 package wpos;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import wpos.view.PdvView;
 
+/**
+ * Ponto de entrada da aplicação WPOS — PDV JavaFX.
+ */
 public class Wpos extends Application {
 
-	@Override
-	public void start(Stage primaryStage) {
-		Button btn = new Button();
-		btn.setText("Say 'Hello World'");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void start(Stage stage) {
+        PdvView view = new PdvView();
+        stage.setScene(view.build(stage));
+        stage.setTitle("WPOS — Ponto de Venda");
+        stage.setMinWidth(720);
+        stage.setMinHeight(480);
+        stage.show();
+    }
 
-			@Override
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World!");
-			}
-		});
-
-		StackPane root = new StackPane();
-		root.getChildren().add(btn);
-
-		Scene scene = new Scene(root, 300, 250);
-
-		primaryStage.setTitle("Hello World!");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
