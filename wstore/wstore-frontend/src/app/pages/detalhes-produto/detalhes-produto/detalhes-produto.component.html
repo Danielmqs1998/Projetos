@@ -1,91 +1,233 @@
-  <div class="container">
-    <div class="bloco-dados-principais">
-      <div id="carousel">
+<!-- Estado de carregamento -->
+<div class="estado-carregando" *ngIf="carregando">
+  <div class="spinner"></div>
+  <p>Carregando produto...</p>
+</div>
 
+<!-- Estado de erro -->
+<div class="estado-erro" *ngIf="!carregando && erro">
+  <div class="erro-icone">✕</div>
+  <p>{{ erro }}</p>
+  <button mat-flat-button (click)="voltarParaListagem()">← Voltar à loja</button>
+</div>
+
+<!-- Conteúdo principal -->
+<div class="container" *ngIf="!carregando && !erro && produto">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a (click)="voltarParaListagem()">Loja</a>
+    <span class="sep">›</span>
+    <span>{{ categoriaLabel[produto.categoria] || 'Produto' }}</span>
+    <span class="sep">›</span>
+    <span class="atual">{{ produto.descricao }}</span>
+  </nav>
+
+  <!-- Bloco superior: imagem + dados + ações -->
+  <div class="bloco-dados-principais">
+
+    <!-- Carousel / imagem -->
+    <div class="bloco-imagem">
+      <div class="carousel">
+        <img [src]="produto.imagem || 'assets/sem-imagem.png'"
+             [alt]="produto.descricao"
+             class="imagem-principal"
+             (error)="$any($event.target).src='assets/sem-imagem.png'" />
+        <span class="badge-usado" *ngIf="produto.usado">Usado</span>
+        <span class="badge-desconto" *ngIf="percentualDesconto > 0">-{{ percentualDesconto }}%</span>
       </div>
-
-      <div class="dados-pagamento">
-        <span class="text-txt-nome-produto_2-60">Nome do produto</span>
-        <span class="text-txt-parcela-produto_15-25">R$ 777,77</span>
-        <span class="text-txt-valor-produto_15-27">10 x R$ 777,77</span>
-        <div id="avaliacao">
-          <app-rating [produto]="produto"></app-rating>
-          <span class="text-txt-valor-produto_17-419">(200)</span>
-        </div>
-      </div>
-
-      <div id="opcoes">
-        <!-- Dados do fabricante/pagamento -->
-        <div class="dados-fabricante">  
-          <div class="frame-12_17-1102">
-            <span class="text-dados-do-fabricante_17-1103">Dados do fabricante</span>
-
-
-          </div>
-
-
-          <div class="opcoes-pagamento-1104">
-            <span class="text-formas-de-pagamento_17-1107">Formas de pagamento</span>
-            <div class="frame-14_17-1119">
-          
-            
-            </div>
-          </div>
-        </div>
-        
-        <!-- Endereço de entrega + CEP-->
-        <div class="building-blocks-primary-tabs-label-only_17-512">
-
-        </div>
-
-        <!-- Quantidade-->
-        <div class="botoes-pagamento">
-          <mat-form-field>
-            <mat-label>Quantidade</mat-label>
-              <mat-select>
-                <mat-option *ngFor="let quantidade of [1, 2, 3]" [value]="quantidade">
-                  {{ quantidade }}
-                </mat-option>
-              </mat-select>
-          </mat-form-field>
-          <div id="btn-comprar">
-            <button mat-flat-button (click)="teste()">Comprar</button>
-          </div>
-          <div id="btn-adicionar-carrinho">
-            <button mat-flat-button (click)="teste()">Adicionar ao carrinho</button>
-          </div>
-        </div>
-
-      </div>
-
+      <div class="codigo-produto">Cód: {{ produto.codigoBarra || produto.codigo }}</div>
     </div>
 
-    <div class="topicos">
-        <div class="topico-descricao">
-          <app-divisor titulo="Descrição do produto"></app-divisor>
-          <p class="txt-descricao-produto">ABawdqweaweaawrawrawrawrawraraw
-            523ABawdqweaweaawrawrawrawrawrarawrABawdqw15343awrawrawrawrarawrABawdqweaweaawrawraw
-            rawrawrarawrABawdqweaweaawrawrawrawrawrarawrA7546457awdqweaweaawrawrawrawrawrarawrAB
-            awdqweaweaatetwrewrwt545wrawrararr
-          </p>
-        </div>
+    <!-- Dados e preço -->
+    <div class="dados-pagamento">
+      <h1 class="txt-nome-produto">{{ produto.descricao }}</h1>
 
-        <div class="topico-especificacoes">
-          <app-divisor titulo="Especificações"></app-divisor>
-          <div class="frame-6_2-8790">
+      <div class="avaliacao">
+        <app-rating [produto]="produto"></app-rating>
+        <span class="txt-rating-produtos">({{ produto.totalAvaliacoes }})</span>
+      </div>
+
+      <div class="bloco-preco">
+        <ng-container *ngIf="precoComDesconto; else semDesconto">
+          <span class="txt-preco-original">{{ produto.preco | currency:'BRL':'symbol':'1.2-2' }}</span>
+          <span class="txt-valor-produto destaque">{{ precoComDesconto | currency:'BRL':'symbol':'1.2-2' }}</span>
+        </ng-container>
+        <ng-template #semDesconto>
+          <span class="txt-valor-produto">{{ produto.preco | currency:'BRL':'symbol':'1.2-2' }}</span>
+        </ng-template>
+        <span class="txt-parcelas-produto">
+          em 10x de {{ precoParcelado | currency:'BRL':'symbol':'1.2-2' }} sem juros
+        </span>
+      </div>
+
+      <div class="linha-divisor"></div>
+
+      <div class="bloco-formas-pagamento">
+        <p class="label-secao">Formas de pagamento</p>
+        <div class="icones-pagamento">
+          <div class="icone-pag" title="Cartão de Crédito">
+            <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="32" rx="4" fill="#1a3a5c"/>
+              <rect y="8" width="48" height="8" fill="#c0a84a"/>
+              <rect x="6" y="22" width="10" height="4" rx="1" fill="#8aabcc"/>
+            </svg>
+            <span>Crédito</span>
+          </div>
+          <div class="icone-pag" title="Cartão de Débito">
+            <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="32" rx="4" fill="#2d6a2d"/>
+              <rect y="8" width="48" height="8" fill="#7fc97f"/>
+              <rect x="6" y="22" width="10" height="4" rx="1" fill="#c0e8c0"/>
+            </svg>
+            <span>Débito</span>
+          </div>
+          <div class="icone-pag" title="Pix">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4L36 16L24 28L12 16Z" fill="#32bcad"/>
+              <path d="M24 20L36 32L24 44L12 32Z" fill="#32bcad"/>
+            </svg>
+            <span>Pix</span>
+          </div>
+          <div class="icone-pag" title="Boleto">
+            <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="32" rx="2" fill="#f5f0e8"/>
+              <rect x="4" y="6" width="2" height="20" fill="#222"/>
+              <rect x="8" y="6" width="4" height="20" fill="#222"/>
+              <rect x="14" y="6" width="2" height="20" fill="#222"/>
+              <rect x="18" y="6" width="6" height="20" fill="#222"/>
+              <rect x="26" y="6" width="2" height="20" fill="#222"/>
+              <rect x="30" y="6" width="4" height="20" fill="#222"/>
+              <rect x="36" y="6" width="2" height="20" fill="#222"/>
+              <rect x="40" y="6" width="4" height="20" fill="#222"/>
+            </svg>
+            <span>Boleto</span>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="topico-avaliacoes">
-          <app-divisor titulo="Avaliações"></app-divisor>
-          <div class="frame-6_2-8790">
-          </div>
-        </div>
+    <!-- Painel lateral de ações -->
+    <div class="painel-acoes">
 
-        <div class="topico-relacionados">
-          <app-divisor titulo="Produtos relacionados"></app-divisor>
-          <div class="frame-6_2-8790">
-          </div>
-        </div>
+      <!-- Disponibilidade -->
+      <div class="disponibilidade" [class.sem-estoque]="produto.quantidade === 0">
+        <span class="dot"></span>
+        <span>{{ produto.quantidade > 0 ? 'Em estoque (' + produto.quantidade + ' un.)' : 'Fora de estoque' }}</span>
+      </div>
+
+      <!-- Quantidade -->
+      <div class="campo-quantidade">
+        <label for="select-qtd" class="label-secao">Quantidade</label>
+        <mat-form-field appearance="outline" class="select-quantidade">
+          <mat-select id="select-qtd" [(ngModel)]="quantidade" [disabled]="produto.quantidade === 0">
+            <mat-option *ngFor="let op of opcoes" [value]="op"
+              [disabled]="op > produto.quantidade">{{ op }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Botões de compra -->
+      <button class="btn-comprar"
+              [disabled]="produto.quantidade === 0"
+              (click)="comprarAgora()">
+        Comprar agora
+      </button>
+
+      <button class="btn-carrinho"
+              [disabled]="produto.quantidade === 0"
+              (click)="adicionarAoCarrinho()">
+        <span *ngIf="!adicionado">🛒 Adicionar ao carrinho</span>
+        <span *ngIf="adicionado" class="txt-adicionado">✔ Adicionado!</span>
+      </button>
+
+      <!-- Endereço de entrega -->
+      <div class="bloco-entrega">
+        <p class="label-secao">Entrega</p>
+        <p class="txt-entrega">Será entregue no endereço cadastrado na sua conta.</p>
+        <p class="txt-entrega frete">🚚 Frete a calcular no checkout</p>
+      </div>
+
     </div>
   </div>
+
+  <!-- Tópicos inferiores -->
+  <div class="topicos">
+
+    <!-- Descrição -->
+    <div class="topico">
+      <app-divisor titulo="Descrição do produto"></app-divisor>
+      <p class="txt-descricao-produto">
+        {{ produto.descricao }}.
+        Produto de qualidade com garantia do fabricante.
+        Confira as especificações abaixo para mais informações sobre este item.
+      </p>
+    </div>
+
+    <!-- Especificações -->
+    <div class="topico">
+      <app-divisor titulo="Especificações"></app-divisor>
+      <table class="tabela-especificacoes">
+        <tbody>
+          <tr>
+            <td class="spec-label">Código</td>
+            <td>{{ produto.codigo }}</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Código de barras</td>
+            <td>{{ produto.codigoBarra || '—' }}</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Categoria</td>
+            <td>{{ categoriaLabel[produto.categoria] }}</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Condição</td>
+            <td>{{ produto.usado ? 'Usado' : 'Novo' }}</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Estoque</td>
+            <td>{{ produto.quantidade }} unidades</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Avaliações -->
+    <div class="topico">
+      <app-divisor titulo="Avaliações"></app-divisor>
+      <div class="bloco-avaliacoes">
+        <div class="resumo-avaliacao">
+          <span class="numero-rating">{{ produto.classificacao }}</span>
+          <app-rating [produto]="produto"></app-rating>
+          <span class="total-avaliacoes">{{ produto.totalAvaliacoes }} avaliações</span>
+        </div>
+        <p class="sem-avaliacoes" *ngIf="produto.totalAvaliacoes === 0">
+          Nenhuma avaliação ainda. Seja o primeiro!
+        </p>
+      </div>
+    </div>
+
+    <!-- Produtos relacionados -->
+    <div class="topico">
+      <app-divisor titulo="Produtos relacionados"></app-divisor>
+      <div class="grid-relacionados" *ngIf="produtosRelacionados.length > 0; else semRelacionados">
+        <div class="card-relacionado"
+             *ngFor="let rel of produtosRelacionados"
+             (click)="navegarParaRelacionado(rel.codigo)"
+             role="button" tabindex="0"
+             (keyup.enter)="navegarParaRelacionado(rel.codigo)">
+          <img [src]="rel.imagem || 'assets/sem-imagem.png'"
+               [alt]="rel.descricao"
+               (error)="$any($event.target).src='assets/sem-imagem.png'" />
+          <p class="rel-descricao">{{ rel.descricao }}</p>
+          <p class="rel-preco">{{ rel.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
+        </div>
+      </div>
+      <ng-template #semRelacionados>
+        <p class="sem-relacionados">Nenhum produto relacionado encontrado.</p>
+      </ng-template>
+    </div>
+
+  </div>
+</div>

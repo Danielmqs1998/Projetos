@@ -8,7 +8,11 @@ import { Produto } from '../../models/produto';
 })
 export class RatingComponent {
 
-  /** Tipagem correta: era 'any', agora usa o modelo Produto */
   @Input() produto?: Produto;
 
+  /** Converte classificacao (0–5) para inteiro seguro. */
+  get rating(): number {
+    const r = Math.round(this.produto?.classificacao ?? 0);
+    return Math.min(5, Math.max(0, r));
+  }
 }
