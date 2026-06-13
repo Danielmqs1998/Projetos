@@ -1,0 +1,13 @@
+# Perfil de desenvolvimento local — NUNCA commitar este arquivo.
+# Copie este arquivo para application-local.properties e preencha os valores.
+
+spring.data.mongodb.uri=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+spring.data.mongodb.database=<nome_do_banco>
+
+server.port=3000
+
+# Gerar com: openssl rand -hex 32
+jwt.secret=<chave_com_pelo_menos_32_caracteres>
+jwt.expiration-ms=3600000
+
+cors.allowed-origins=http://localhost:4200

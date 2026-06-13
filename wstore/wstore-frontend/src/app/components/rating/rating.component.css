@@ -1,13 +1,15 @@
 .stars use {
-    fill: white;
-    stroke: black;
-    stroke-width: 0;
+    /* cinza-azulado sólido: visível tanto no fundo branco do painel
+       quanto no fundo azul do card, sem depender de transparência */
+    fill: #c8d4e0;
+    stroke: #9bafc4;
+    stroke-width: 0.5;
     transition: fill 150ms ease;
-    cursor: default; 
+    cursor: default;
 }
 
-svg[data-rating="1"] .stars use:nth-child(-n+1) { fill: rgb(21, 54, 119); }
-svg[data-rating="2"] .stars use:nth-child(-n+2) { fill: rgb(21, 54, 119); }
-svg[data-rating="3"] .stars use:nth-child(-n+3) { fill: rgb(21, 54, 119); }
-svg[data-rating="4"] .stars use:nth-child(-n+4) { fill: rgb(21, 54, 119); }
-svg[data-rating="5"] .stars use:nth-child(-n+5) { fill: rgb(21, 54, 119); }
+svg[data-rating="1"] .stars use:nth-child(-n+1) { fill: #f5c518; stroke: #c89a00; }
+svg[data-rating="2"] .stars use:nth-child(-n+2) { fill: #f5c518; stroke: #c89a00; }
+svg[data-rating="3"] .stars use:nth-child(-n+3) { fill: #f5c518; stroke: #c89a00; }
+svg[data-rating="4"] .stars use:nth-child(-n+4) { fill: #f5c518; stroke: #c89a00; }
+svg[data-rating="5"] .stars use:nth-child(-n+5) { fill: #f5c518; stroke: #c89a00; }

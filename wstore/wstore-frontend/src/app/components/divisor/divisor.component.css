@@ -1,5 +1,15 @@
-.divider {
-  height: 3px;
-  background-color: #ccc;
-  width: 100%;
+.faixa-titulo {
+  background-color: rgb(25, 66, 102);
+  border-radius: 8px;
+  padding: 10px 18px;
+  margin-bottom: 18px;
+}
+
+.titulo-secao {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
 }

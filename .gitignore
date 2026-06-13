@@ -1,4 +1,37 @@
+# IDE e build
 /.metadata/
+RemoteSystemsTempFiles/
+
+# Eclipse — gerados automaticamente, nao versionados
+**/.classpath
+**/.project
+**/.factorypath
+**/.settings/
+
+# Maven — bytecode e artefatos compilados
+**/target/
+
+# Gradle
+**/build/
+**/.gradle/
+
+# Java bytecode (wpos compila direto na pasta bin)
+**/bin/**/*.class
+**/bin/**/.gitignore
+
+# Backups criados durante o desenvolvimento
+**/_backup_*/
+**/_backup_original/
+
+# Configuracoes locais de ambiente — nunca commitar
+wstore/wstore-backend/src/main/resources/application-local.properties
 wstore/wstore-backend/src/main/resources/application-prod.properties
 werp/werp-backend/src/main/resources/application-prod.properties
-RemoteSystemsTempFiles/
+werp/werp-backend/src/main/resources/application-local.properties
+
+# Arquivos temporarios de ferramentas
+**/blackbox_mcp_settings.json
+**/mcp_probe.js
+
+# Projetos nao relacionados ao monorepo
+engemix/

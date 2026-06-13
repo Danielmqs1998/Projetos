@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)))
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/produtos/listar").permitAll()
+                .requestMatchers("/auth/**", "/produtos/listar", "/produtos/consultar").permitAll()
                 .anyRequest().authenticated())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .authenticationProvider(authenticationProvider());

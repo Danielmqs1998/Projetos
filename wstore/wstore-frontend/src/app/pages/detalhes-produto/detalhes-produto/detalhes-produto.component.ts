@@ -71,7 +71,7 @@ export class DetalhesProdutoComponent implements OnInit, OnDestroy {
     this.imagemAtiva = 0;
 
     this.productService.consultarProduto(codigo).subscribe({
-      next: (produto) => {
+      next: (produto: Produto) => {
         this.produto = produto;
         this.carregando = false;
         this.carregarRelacionados(produto.categoria);

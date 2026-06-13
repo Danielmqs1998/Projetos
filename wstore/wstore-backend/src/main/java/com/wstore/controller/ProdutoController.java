@@ -31,10 +31,20 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    /** Consulta individual por codigo — usado pela pagina de detalhes. */
+    /**
+     * Consulta individual por codigo - usado pela pagina de detalhes.
+     * Usa MongoTemplate com trim para evitar falhas por espacos no codigo.
+     * Fallback para findByCodigo caso o MongoTemplate nao encontre.
+     */
     @GetMapping("/consultar")
     public ResponseEntity<Produto> consultarProduto(@RequestParam String codigo) {
-        return produtoRepository.findByCodigo(codigo)
+        String codigoNormalizado = codigo.trim();
+        Query query = new Query(Criteria.where("codigo").is(codigoNormalizado));
+        Produto produto = mongoTemplate.findOne(query, Produto.class);
+        if (produto != null) {
+            return ResponseEntity.ok(produto);
+        }
+        return produtoRepository.findByCodigo(codigoNormalizado)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

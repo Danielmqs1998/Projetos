@@ -6,9 +6,9 @@
 
 <!-- Estado de erro -->
 <div class="estado-erro" *ngIf="!carregando && erro">
-  <div class="erro-icone">✕</div>
+  <div class="erro-icone">X</div>
   <p>{{ erro }}</p>
-  <button mat-flat-button (click)="voltarParaListagem()">← Voltar à loja</button>
+  <button mat-flat-button (click)="voltarParaListagem()">Voltar à loja</button>
 </div>
 
 <!-- Conteúdo principal -->
@@ -26,7 +26,7 @@
   <!-- Bloco superior: imagem + dados + ações -->
   <div class="bloco-dados-principais">
 
-    <!-- Carousel / imagem -->
+    <!-- Imagem -->
     <div class="bloco-imagem">
       <div class="carousel">
         <img [src]="produto.imagem || 'assets/sem-imagem.png'"
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Dados e preço -->
-    <div class="dados-pagamento">
+    <div class="dados-pagamento painel">
       <h1 class="txt-nome-produto">{{ produto.descricao }}</h1>
 
       <div class="avaliacao">
@@ -108,15 +108,13 @@
     </div>
 
     <!-- Painel lateral de ações -->
-    <div class="painel-acoes">
+    <div class="painel-acoes painel">
 
-      <!-- Disponibilidade -->
       <div class="disponibilidade" [class.sem-estoque]="produto.quantidade === 0">
         <span class="dot"></span>
         <span>{{ produto.quantidade > 0 ? 'Em estoque (' + produto.quantidade + ' un.)' : 'Fora de estoque' }}</span>
       </div>
 
-      <!-- Quantidade -->
       <div class="campo-quantidade">
         <label for="select-qtd" class="label-secao">Quantidade</label>
         <mat-form-field appearance="outline" class="select-quantidade">
@@ -127,7 +125,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Botões de compra -->
       <button class="btn-comprar"
               [disabled]="produto.quantidade === 0"
               (click)="comprarAgora()">
@@ -137,15 +134,14 @@
       <button class="btn-carrinho"
               [disabled]="produto.quantidade === 0"
               (click)="adicionarAoCarrinho()">
-        <span *ngIf="!adicionado">🛒 Adicionar ao carrinho</span>
+        <span *ngIf="!adicionado">Adicionar ao carrinho</span>
         <span *ngIf="adicionado" class="txt-adicionado">✔ Adicionado!</span>
       </button>
 
-      <!-- Endereço de entrega -->
       <div class="bloco-entrega">
         <p class="label-secao">Entrega</p>
         <p class="txt-entrega">Será entregue no endereço cadastrado na sua conta.</p>
-        <p class="txt-entrega frete">🚚 Frete a calcular no checkout</p>
+        <p class="txt-entrega frete">Frete a calcular no checkout</p>
       </div>
 
     </div>
@@ -155,7 +151,7 @@
   <div class="topicos">
 
     <!-- Descrição -->
-    <div class="topico">
+    <div class="topico painel">
       <app-divisor titulo="Descrição do produto"></app-divisor>
       <p class="txt-descricao-produto">
         {{ produto.descricao }}.
@@ -165,7 +161,7 @@
     </div>
 
     <!-- Especificações -->
-    <div class="topico">
+    <div class="topico painel">
       <app-divisor titulo="Especificações"></app-divisor>
       <table class="tabela-especificacoes">
         <tbody>
@@ -194,7 +190,7 @@
     </div>
 
     <!-- Avaliações -->
-    <div class="topico">
+    <div class="topico painel">
       <app-divisor titulo="Avaliações"></app-divisor>
       <div class="bloco-avaliacoes">
         <div class="resumo-avaliacao">
@@ -209,20 +205,15 @@
     </div>
 
     <!-- Produtos relacionados -->
-    <div class="topico">
+    <div class="topico painel">
       <app-divisor titulo="Produtos relacionados"></app-divisor>
       <div class="grid-relacionados" *ngIf="produtosRelacionados.length > 0; else semRelacionados">
-        <div class="card-relacionado"
-             *ngFor="let rel of produtosRelacionados"
-             (click)="navegarParaRelacionado(rel.codigo)"
-             role="button" tabindex="0"
-             (keyup.enter)="navegarParaRelacionado(rel.codigo)">
-          <img [src]="rel.imagem || 'assets/sem-imagem.png'"
-               [alt]="rel.descricao"
-               (error)="$any($event.target).src='assets/sem-imagem.png'" />
-          <p class="rel-descricao">{{ rel.descricao }}</p>
-          <p class="rel-preco">{{ rel.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
-        </div>
+        <app-card-produto
+          *ngFor="let rel of produtosRelacionados"
+          [produto]="rel"
+          (click)="navegarParaRelacionado(rel.codigo)"
+          style="cursor: pointer">
+        </app-card-produto>
       </div>
       <ng-template #semRelacionados>
         <p class="sem-relacionados">Nenhum produto relacionado encontrado.</p>

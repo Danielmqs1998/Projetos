@@ -107,6 +107,7 @@ button.mat-mdc-unelevated-button.categoriaSelecionada {
   padding: 5px;
   margin: 15px;
   border-radius: 5px;
+  border: solid;
   text-decoration: none;
   font-family: fantasy;
 }
