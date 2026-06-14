@@ -1,66 +1,11 @@
-﻿#container {
-}
-/* Paginacao */
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
-}
-
-/* Remove fundo branco padrao do ngx-pagination */
-.pagination ::ng-deep .ngx-pagination {
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 4px;
-  list-style: none;
-}
-
-.pagination ::ng-deep .ngx-pagination li {
-  display: flex;
-}
-
-.pagination ::ng-deep .ngx-pagination a,
-.pagination ::ng-deep .ngx-pagination span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 36px;
-  height: 36px;
-  padding: 0 10px;
-  border-radius: 8px;
-  background: rgba(25, 66, 102, 0.85);
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 14px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: background .18s;
-}
-
-.pagination ::ng-deep .ngx-pagination a:hover {
-  background: rgb(25, 66, 102);
-}
-
-.pagination ::ng-deep .ngx-pagination .current {
-  background: rgb(25, 66, 102) !important;
-  color: #ffffff !important;
-  border: 2px solid rgba(255,255,255,0.5);
-}
-
-.pagination ::ng-deep .ngx-pagination .disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
+#container {
     display: flex;
     background-image: url('../../../assets/background-wstore.JPG');
     background-size: cover;
     background-attachment: fixed;
 }
 
+/* ── Painel de filtros ───────────────────────────────────────────── */
 #filtros {
     height: auto;
     margin: 5px;
@@ -69,13 +14,10 @@
     width: 300px;
     border-radius: 15px;
     align-self: flex-start;
-    /* Remove a borda e a legenda nativa do fieldset */
     border: none;
     padding: 10px;
 }
 
-/* Esconde o elemento <legend> nativo do fieldset — o titulo e renderizado
-   como <p> dentro do fieldset para ter controle total sobre o estilo */
 #filtros legend { display: none; }
 
 #filtros > p:first-child {
@@ -121,7 +63,7 @@
     cursor: pointer;
 }
 
-/* ── Wrapper do painel + overlay ─────────────────────────────────── */
+/* ── Wrapper do painel + overlay de carregamento ─────────────────── */
 #painel-wrapper {
     position: relative;
     flex: 1;
@@ -173,19 +115,84 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     grid-gap: 50px;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 }
 
 /* ── Paginação ───────────────────────────────────────────────────── */
-.pagination ::ng-deep .ngx-pagination {
-    justify-self: center;
-    background-color: rgb(25, 66, 102);
-    border-radius: 5px;
-    padding: 5px;
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
 }
 
-.pagination ::ng-deep .ngx-pagination ul {
-    padding: 0;
+/* O ngx-pagination injeta background branco por padrao em varios elementos.
+   Todos recebem background transparente — a imagem de fundo da home
+   aparece atras de todos os botoes. */
+.pagination ::ng-deep .ngx-pagination {
+    background: transparent !important;
+    padding: 4px 0;
+    margin: 0;
+    display: flex;
+    gap: 4px;
+    list-style: none;
+}
+
+.pagination ::ng-deep .ngx-pagination li {
+    display: flex;
+    background: transparent !important;
+}
+
+/* Todos os botoes: fundo transparente com texto branco */
+.pagination ::ng-deep .ngx-pagination a,
+.pagination ::ng-deep .ngx-pagination span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: rgba(25, 66, 102, 0.75) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background .18s;
+    backdrop-filter: blur(4px);
+}
+
+.pagination ::ng-deep .ngx-pagination a:hover {
+    background: rgba(25, 66, 102, 0.95) !important;
+}
+
+/* Pagina atual */
+.pagination ::ng-deep .ngx-pagination .current span {
+    background: rgb(25, 66, 102) !important;
+    border: 2px solid rgba(255, 255, 255, 0.55) !important;
+    color: #ffffff !important;
+}
+
+/* Desabilitado (primeira/ultima pagina) */
+.pagination ::ng-deep .ngx-pagination .disabled span {
+    background: rgba(25, 66, 102, 0.35) !important;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Anterior / Proximo — igual aos demais botoes */
+.pagination ::ng-deep .ngx-pagination .pagination-previous a,
+.pagination ::ng-deep .ngx-pagination .pagination-previous span,
+.pagination ::ng-deep .ngx-pagination .pagination-next a,
+.pagination ::ng-deep .ngx-pagination .pagination-next span {
+    background: rgba(25, 66, 102, 0.75) !important;
+    color: #ffffff !important;
+}
+
+.pagination ::ng-deep .ngx-pagination .pagination-previous a:hover,
+.pagination ::ng-deep .ngx-pagination .pagination-next a:hover {
+    background: rgba(25, 66, 102, 0.95) !important;
 }
 
 /* ── Responsivo ──────────────────────────────────────────────────── */
