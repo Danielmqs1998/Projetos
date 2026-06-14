@@ -1,4 +1,75 @@
-footer {
-    background-color: rgb(25, 82, 132);
-    min-height: 200px;
+.footer {
+  background: linear-gradient(160deg, rgb(25,66,102) 0%, rgb(15,40,70) 100%);
+  color: #cdd8e8;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  padding: 48px 32px 0;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+/* Coluna marca */
+.footer-logo {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.footer-logo-txt {
+  font-size: 22px; font-weight: 800; color: #ffffff;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #ffffff, #a8c8f0);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.footer-slogan {
+  font-size: 13px; color: #8aaac8; line-height: 1.5; max-width: 220px; margin: 0;
+}
+
+/* Colunas genéricas */
+.col { display: flex; flex-direction: column; gap: 10px; }
+.col-titulo {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .8px; color: #ffffff; margin: 0 0 4px;
+}
+.col a {
+  font-size: 14px; color: #9db8d4; text-decoration: none;
+  transition: color .2s;
+}
+.col a:hover { color: #ffffff; }
+
+.footer-link-icone {
+  display: flex; align-items: center; gap: 7px;
+}
+
+/* Badges de tecnologia */
+.tech-badge {
+  display: inline-block; padding: 4px 10px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 20px; font-size: 12px; color: #cdd8e8;
+  width: fit-content;
+}
+
+/* Rodapé inferior */
+.footer-bottom {
+  max-width: 1200px; margin: 0 auto;
+  padding: 16px 0 20px;
+  font-size: 12px; color: #6a8aaa;
+  text-align: center;
+}
+
+@media (max-width: 830px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .col-marca { grid-column: 1/-1; }
+}
+@media (max-width: 520px) {
+  .footer       { padding: 32px 16px 0; }
+  .footer-inner { grid-template-columns: 1fr; }
 }

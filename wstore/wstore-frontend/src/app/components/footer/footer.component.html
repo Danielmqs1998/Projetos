@@ -1,3 +1,61 @@
 <footer *ngIf="podeExibir" class="footer">
-    
+
+  <div class="footer-inner">
+
+    <!-- Coluna 1: marca -->
+    <div class="col col-marca">
+      <div class="footer-logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="36" height="36" rx="8" fill="white" fill-opacity="0.12"/>
+          <path d="M6 8h3.5l4 9 4-9h5l4 9 4-9H34" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 20l3 8h12l3-8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="14" cy="30" r="1.8" fill="#ffffff"/>
+          <circle cx="22" cy="30" r="1.8" fill="#ffffff"/>
+        </svg>
+        <span class="footer-logo-txt">WStore</span>
+      </div>
+      <p class="footer-slogan">Um novo conceito de e-commerce na Web</p>
+    </div>
+
+    <!-- Coluna 2: links -->
+    <div class="col">
+      <p class="col-titulo">Navegação</p>
+      <a routerLink="/home">Home</a>
+      <a routerLink="/login">Login</a>
+      <a routerLink="/cadastro">Cadastro</a>
+      <a routerLink="/compra">Carrinho</a>
+    </div>
+
+    <!-- Coluna 3: contato -->
+    <div class="col">
+      <p class="col-titulo">Contato</p>
+      <a href="mailto:danielmqs1998@gmail.com" class="footer-link-icone">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/>
+        </svg>
+        danielmqs1998&#64;gmail.com
+      </a>
+      <a href="https://github.com/Danielmqs1998" target="_blank" rel="noopener" class="footer-link-icone">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.2 22 16.447 22 12.021 22 6.484 17.523 2 12 2z"/>
+        </svg>
+        Danielmqs1998
+      </a>
+    </div>
+
+    <!-- Coluna 4: stack -->
+    <div class="col">
+      <p class="col-titulo">Tecnologias</p>
+      <span class="tech-badge">Angular</span>
+      <span class="tech-badge">Spring Boot</span>
+      <span class="tech-badge">MongoDB</span>
+      <span class="tech-badge">Java 17</span>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© {{ anoAtual }} WStore — Daniel M. Q. S. Todos os direitos reservados.</span>
+  </div>
+
 </footer>

@@ -6,9 +6,9 @@
 
 <!-- Estado de erro -->
 <div class="estado-erro" *ngIf="!carregando && erro">
-  <div class="erro-icone">X</div>
+  <div class="erro-icone">✕</div>
   <p>{{ erro }}</p>
-  <button mat-flat-button (click)="voltarParaListagem()">Voltar à loja</button>
+  <button mat-flat-button (click)="voltarParaListagem()">← Voltar à loja</button>
 </div>
 
 <!-- Conteúdo principal -->
@@ -33,7 +33,7 @@
              [alt]="produto.descricao"
              class="imagem-principal"
              (error)="$any($event.target).src='assets/sem-imagem.png'" />
-        <span class="badge-usado" *ngIf="produto.usado">Usado</span>
+        <span class="badge-usado"    *ngIf="produto.usado">Usado</span>
         <span class="badge-desconto" *ngIf="percentualDesconto > 0">-{{ percentualDesconto }}%</span>
       </div>
       <div class="codigo-produto">Cód: {{ produto.codigoBarra || produto.codigo }}</div>
@@ -56,9 +56,7 @@
         <ng-template #semDesconto>
           <span class="txt-valor-produto">{{ produto.preco | currency:'BRL':'symbol':'1.2-2' }}</span>
         </ng-template>
-        <span class="txt-parcelas-produto">
-          em 10x de {{ precoParcelado | currency:'BRL':'symbol':'1.2-2' }} sem juros
-        </span>
+        <span class="txt-parcelas-produto">em 10x de {{ precoParcelado | currency:'BRL':'symbol':'1.2-2' }} sem juros</span>
       </div>
 
       <div class="linha-divisor"></div>
@@ -67,39 +65,23 @@
         <p class="label-secao">Formas de pagamento</p>
         <div class="icones-pagamento">
           <div class="icone-pag" title="Cartão de Crédito">
-            <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="48" height="32" rx="4" fill="#1a3a5c"/>
-              <rect y="8" width="48" height="8" fill="#c0a84a"/>
-              <rect x="6" y="22" width="10" height="4" rx="1" fill="#8aabcc"/>
-            </svg>
+            <svg viewBox="0 0 48 32" fill="none"><rect width="48" height="32" rx="4" fill="#1a3a5c"/><rect y="8" width="48" height="8" fill="#c0a84a"/><rect x="6" y="22" width="10" height="4" rx="1" fill="#8aabcc"/></svg>
             <span>Crédito</span>
           </div>
           <div class="icone-pag" title="Cartão de Débito">
-            <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="48" height="32" rx="4" fill="#2d6a2d"/>
-              <rect y="8" width="48" height="8" fill="#7fc97f"/>
-              <rect x="6" y="22" width="10" height="4" rx="1" fill="#c0e8c0"/>
-            </svg>
+            <svg viewBox="0 0 48 32" fill="none"><rect width="48" height="32" rx="4" fill="#2d6a2d"/><rect y="8" width="48" height="8" fill="#7fc97f"/><rect x="6" y="22" width="10" height="4" rx="1" fill="#c0e8c0"/></svg>
             <span>Débito</span>
           </div>
           <div class="icone-pag" title="Pix">
-            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 4L36 16L24 28L12 16Z" fill="#32bcad"/>
-              <path d="M24 20L36 32L24 44L12 32Z" fill="#32bcad"/>
-            </svg>
+            <svg viewBox="0 0 48 48" fill="none"><path d="M24 4L36 16L24 28L12 16Z" fill="#32bcad"/><path d="M24 20L36 32L24 44L12 32Z" fill="#32bcad"/></svg>
             <span>Pix</span>
           </div>
           <div class="icone-pag" title="Boleto">
-            <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="48" height="32" rx="2" fill="#f5f0e8"/>
-              <rect x="4" y="6" width="2" height="20" fill="#222"/>
-              <rect x="8" y="6" width="4" height="20" fill="#222"/>
-              <rect x="14" y="6" width="2" height="20" fill="#222"/>
-              <rect x="18" y="6" width="6" height="20" fill="#222"/>
-              <rect x="26" y="6" width="2" height="20" fill="#222"/>
-              <rect x="30" y="6" width="4" height="20" fill="#222"/>
-              <rect x="36" y="6" width="2" height="20" fill="#222"/>
-              <rect x="40" y="6" width="4" height="20" fill="#222"/>
+            <svg viewBox="0 0 48 32" fill="none"><rect width="48" height="32" rx="2" fill="#f5f0e8"/>
+              <rect x="4" y="6" width="2" height="20" fill="#222"/><rect x="8" y="6" width="4" height="20" fill="#222"/>
+              <rect x="14" y="6" width="2" height="20" fill="#222"/><rect x="18" y="6" width="6" height="20" fill="#222"/>
+              <rect x="26" y="6" width="2" height="20" fill="#222"/><rect x="30" y="6" width="4" height="20" fill="#222"/>
+              <rect x="36" y="6" width="2" height="20" fill="#222"/><rect x="40" y="6" width="4" height="20" fill="#222"/>
             </svg>
             <span>Boleto</span>
           </div>
@@ -109,7 +91,6 @@
 
     <!-- Painel lateral de ações -->
     <div class="painel-acoes painel">
-
       <div class="disponibilidade" [class.sem-estoque]="produto.quantidade === 0">
         <span class="dot"></span>
         <span>{{ produto.quantidade > 0 ? 'Em estoque (' + produto.quantidade + ' un.)' : 'Fora de estoque' }}</span>
@@ -119,31 +100,24 @@
         <label for="select-qtd" class="label-secao">Quantidade</label>
         <mat-form-field appearance="outline" class="select-quantidade">
           <mat-select id="select-qtd" [(ngModel)]="quantidade" [disabled]="produto.quantidade === 0">
-            <mat-option *ngFor="let op of opcoes" [value]="op"
-              [disabled]="op > produto.quantidade">{{ op }}</mat-option>
+            <mat-option *ngFor="let op of opcoes" [value]="op" [disabled]="op > produto.quantidade">{{ op }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <button class="btn-comprar"
-              [disabled]="produto.quantidade === 0"
-              (click)="comprarAgora()">
+      <button class="btn-comprar" [disabled]="produto.quantidade === 0" (click)="comprarAgora()">
         Comprar agora
       </button>
-
-      <button class="btn-carrinho"
-              [disabled]="produto.quantidade === 0"
-              (click)="adicionarAoCarrinho()">
-        <span *ngIf="!adicionado">Adicionar ao carrinho</span>
-        <span *ngIf="adicionado" class="txt-adicionado">✔ Adicionado!</span>
+      <button class="btn-carrinho" [disabled]="produto.quantidade === 0" (click)="adicionarAoCarrinho()">
+        <span *ngIf="!adicionado">🛒 Adicionar ao carrinho</span>
+        <span *ngIf="adicionado"  class="txt-adicionado">✔ Adicionado!</span>
       </button>
 
       <div class="bloco-entrega">
         <p class="label-secao">Entrega</p>
         <p class="txt-entrega">Será entregue no endereço cadastrado na sua conta.</p>
-        <p class="txt-entrega frete">Frete a calcular no checkout</p>
+        <p class="txt-entrega frete">🚚 Frete a calcular no checkout</p>
       </div>
-
     </div>
   </div>
 
@@ -154,8 +128,7 @@
     <div class="topico painel">
       <app-divisor titulo="Descrição do produto"></app-divisor>
       <p class="txt-descricao-produto">
-        {{ produto.descricao }}.
-        Produto de qualidade com garantia do fabricante.
+        {{ produto.descricao }}. Produto de qualidade com garantia do fabricante.
         Confira as especificações abaixo para mais informações sobre este item.
       </p>
     </div>
@@ -166,12 +139,16 @@
       <table class="tabela-especificacoes">
         <tbody>
           <tr>
-            <td class="spec-label">Código</td>
+            <td class="spec-label">Código do produto</td>
             <td>{{ produto.codigo }}</td>
           </tr>
           <tr>
-            <td class="spec-label">Código de barras</td>
+            <td class="spec-label">Código de barras (EAN)</td>
             <td>{{ produto.codigoBarra || '—' }}</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Descrição</td>
+            <td>{{ produto.descricao }}</td>
           </tr>
           <tr>
             <td class="spec-label">Categoria</td>
@@ -179,11 +156,47 @@
           </tr>
           <tr>
             <td class="spec-label">Condição</td>
-            <td>{{ produto.usado ? 'Usado' : 'Novo' }}</td>
+            <td>
+              <span class="badge-condicao" [class.usado]="produto.usado">
+                {{ produto.usado ? 'Usado' : 'Novo' }}
+              </span>
+            </td>
           </tr>
           <tr>
-            <td class="spec-label">Estoque</td>
-            <td>{{ produto.quantidade }} unidades</td>
+            <td class="spec-label">Disponibilidade</td>
+            <td>
+              <span class="badge-estoque" [class.esgotado]="produto.quantidade === 0">
+                {{ produto.quantidade > 0 ? produto.quantidade + ' unidades em estoque' : 'Fora de estoque' }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="spec-label">Preço</td>
+            <td class="spec-preco">{{ produto.preco | currency:'BRL':'symbol':'1.2-2' }}</td>
+          </tr>
+          <tr *ngIf="precoComDesconto">
+            <td class="spec-label">Preço promocional</td>
+            <td class="spec-preco destaque">
+              {{ precoComDesconto | currency:'BRL':'symbol':'1.2-2' }}
+              <span class="spec-badge-desc">-{{ percentualDesconto }}%</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="spec-label">Parcelamento</td>
+            <td>10x de {{ precoParcelado | currency:'BRL':'symbol':'1.2-2' }} sem juros</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Fornecedor</td>
+            <td>{{ fornecedorLabel }}</td>
+          </tr>
+          <tr>
+            <td class="spec-label">Classificação</td>
+            <td>
+              <div class="spec-rating">
+                <app-rating [produto]="produto"></app-rating>
+                <span>{{ produto.classificacao }}/5 ({{ produto.totalAvaliacoes }} avaliações)</span>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -195,8 +208,10 @@
       <div class="bloco-avaliacoes">
         <div class="resumo-avaliacao">
           <span class="numero-rating">{{ produto.classificacao }}</span>
-          <app-rating [produto]="produto"></app-rating>
-          <span class="total-avaliacoes">{{ produto.totalAvaliacoes }} avaliações</span>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <app-rating [produto]="produto"></app-rating>
+            <span class="total-avaliacoes">{{ produto.totalAvaliacoes }} avaliações</span>
+          </div>
         </div>
         <p class="sem-avaliacoes" *ngIf="produto.totalAvaliacoes === 0">
           Nenhuma avaliação ainda. Seja o primeiro!
@@ -204,20 +219,40 @@
       </div>
     </div>
 
-    <!-- Produtos relacionados -->
-    <div class="topico painel">
+    <!-- Produtos relacionados com setas -->
+    <div class="topico painel" *ngIf="produtosRelacionados.length > 0">
       <app-divisor titulo="Produtos relacionados"></app-divisor>
-      <div class="grid-relacionados" *ngIf="produtosRelacionados.length > 0; else semRelacionados">
-        <app-card-produto
-          *ngFor="let rel of produtosRelacionados"
-          [produto]="rel"
-          (click)="navegarParaRelacionado(rel.codigo)"
-          style="cursor: pointer">
-        </app-card-produto>
+      <div class="carrossel-wrapper">
+        <button class="seta seta-esq"
+                (click)="deslizarEsquerda()"
+                [disabled]="!podeDeslizarEsquerda"
+                aria-label="Anterior">
+          ‹
+        </button>
+
+        <div class="grid-relacionados">
+          <app-card-produto
+            *ngFor="let rel of relacionadosVisiveis"
+            [produto]="rel"
+            (click)="navegarParaRelacionado(rel.codigo)"
+            style="cursor:pointer">
+          </app-card-produto>
+        </div>
+
+        <button class="seta seta-dir"
+                (click)="deslizarDireita()"
+                [disabled]="!podeDeslizarDireita"
+                aria-label="Próximo">
+          ›
+        </button>
       </div>
-      <ng-template #semRelacionados>
-        <p class="sem-relacionados">Nenhum produto relacionado encontrado.</p>
-      </ng-template>
+
+      <!-- Indicadores de posição -->
+      <div class="indicadores" *ngIf="produtosRelacionados.length > VISIVEIS">
+        <span *ngFor="let _ of produtosRelacionados; let i = index"
+              [class.ativo]="i >= indiceCarrossel && i < indiceCarrossel + VISIVEIS"
+              class="ponto"></span>
+      </div>
     </div>
 
   </div>

@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public condicoes: FiltroCondicaoProduto[] = [];
   public categoria: FiltroCategoriaProduto = FiltroCategoriaProduto.Todas;
   public FiltroCondicaoProduto = FiltroCondicaoProduto;
+  public carregando: boolean = false;
 
   private destroy$ = new Subject<void>();
 
@@ -46,7 +47,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.carregarUsuario().subscribe();
     this.consultaProdutos(1);
 
-    // Quando os filtros mudam, volta para pagina 1
     this.filtroService.filtros$
       .pipe(skip(1), takeUntil(this.destroy$))
       .subscribe(() => {
@@ -62,15 +62,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   consultaProdutos(pagina: number): void {
     this.paginaAtual = pagina;
-    // API usa pagina base 0; o componente de paginacao usa base 1
+    this.carregando = true;
     this.productService.consultarProdutos(this.paginaAtual - 1).subscribe({
       next: (page) => {
         this.produtos = page.content;
         this.ultimaPagina = page.last;
         this.totalItems = page.totalElements;
+        this.carregando = false;
       },
       error: () => {
-        // Substituir alert() por notificacao mais elegante no futuro
+        this.carregando = false;
         alert('Falha ao listar produtos, consulte o suporte técnico.');
       }
     });

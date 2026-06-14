@@ -1,4 +1,9 @@
-#container {
+﻿#container {
+    display: flex;
+    background-image: url('../../../assets/background-wstore.JPG');
+    background-size: cover;
+    background-attachment: fixed;
+}
     display: flex;
 }
 
@@ -124,4 +129,44 @@
         margin: 5px;
     }   
 
+}
+/* ── Wrapper + overlay de carregamento ── */
+#painel-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+#overlay-carregando {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: rgba(244,246,249,0.80);
+    backdrop-filter: blur(3px);
+    z-index: 10;
+    border-radius: 15px;
+    color: rgb(25,66,102);
+    font-weight: 700;
+    font-size: 15px;
+    animation: fadeIn 0.2s ease;
+}
+
+.spinner-overlay {
+    width: 44px; height: 44px;
+    border: 4px solid #d0d7e2;
+    border-top-color: rgb(25,66,102);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+#painel-produtos.carregando {
+    opacity: 0.35;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
 }

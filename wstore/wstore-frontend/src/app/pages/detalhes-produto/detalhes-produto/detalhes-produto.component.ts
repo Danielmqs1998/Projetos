@@ -18,27 +18,24 @@ export class DetalhesProdutoComponent implements OnInit, OnDestroy {
   produtosRelacionados: Produto[] = [];
   carregando = true;
   erro: string | null = null;
-
-  // Quantidade selecionada pelo usuario
   quantidade = 1;
   opcoes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  // Indice da imagem ativa no carousel (preparado para multiplas imagens)
   imagemAtiva = 0;
-
-  // Feedback de acao do carrinho
   adicionado = false;
+
+  // Carrossel de relacionados
+  indiceCarrossel = 0;
+  readonly VISIVEIS = 4; // quantos cards aparecem por vez
 
   private destroy$ = new Subject<void>();
 
   readonly categoriaLabel: Record<number, string> = {
-    0: 'Todos',
-    1: 'Eletrônicos',
-    2: 'Acessórios',
-    3: 'Mobília',
-    4: 'Moda',
-    5: 'Ferramentas',
-    6: 'Lazer'
+    0: 'Todos', 1: 'Eletrônicos', 2: 'Acessórios',
+    3: 'Mobília', 4: 'Moda', 5: 'Ferramentas', 6: 'Lazer'
+  };
+
+  readonly condicaoLabel: Record<number, string> = {
+    0: 'Padrão', 1: 'Promoção', 2: 'Frete grátis', 3: 'Entrega rápida'
   };
 
   constructor(
@@ -50,13 +47,10 @@ export class DetalhesProdutoComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Recarrega a pagina ao navegar entre produtos relacionados
-    this.route.paramMap
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(params => {
-        const codigo = params.get('codigo');
-        if (codigo) this.carregarProduto(codigo);
-      });
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      const codigo = params.get('codigo');
+      if (codigo) this.carregarProduto(codigo);
+    });
   }
 
   ngOnDestroy(): void {
@@ -69,6 +63,7 @@ export class DetalhesProdutoComponent implements OnInit, OnDestroy {
     this.erro = null;
     this.adicionado = false;
     this.imagemAtiva = 0;
+    this.indiceCarrossel = 0;
 
     this.productService.consultarProduto(codigo).subscribe({
       next: (produto: Produto) => {
@@ -87,32 +82,54 @@ export class DetalhesProdutoComponent implements OnInit, OnDestroy {
     this.filtroService.update({ categoria: categoria as FiltroCategoriaProduto });
     this.productService.consultarProdutos(0).subscribe({
       next: (page) => {
-        // Exclui o produto atual da lista de relacionados
         this.produtosRelacionados = page.content
           .filter(p => p.codigo !== this.produto?.codigo)
-          .slice(0, 4);
+          .slice(0, 8); // até 8 para o carrossel ter para onde deslizar
       },
       error: () => { this.produtosRelacionados = []; }
     });
   }
 
-  get precoParcelado(): number {
-    return (this.produto?.preco ?? 0) / 10;
+  // ── Carrossel ──────────────────────────────────────────────────
+  get relacionadosVisiveis(): Produto[] {
+    return this.produtosRelacionados.slice(
+      this.indiceCarrossel,
+      this.indiceCarrossel + this.VISIVEIS
+    );
   }
 
+  get podeDeslizarEsquerda(): boolean { return this.indiceCarrossel > 0; }
+  get podeDeslizarDireita(): boolean {
+    return this.indiceCarrossel + this.VISIVEIS < this.produtosRelacionados.length;
+  }
+
+  deslizarEsquerda(): void { if (this.podeDeslizarEsquerda) this.indiceCarrossel--; }
+  deslizarDireita(): void  { if (this.podeDeslizarDireita)  this.indiceCarrossel++; }
+
+  // ── Preços ────────────────────────────────────────────────────
+  get precoParcelado(): number { return (this.produto?.preco ?? 0) / 10; }
+
   get precoComDesconto(): number | null {
-    const p = this.produto;
-    if (!p) return null;
-    // Usa precoPromocional se existir (campo do backend nao mapeado no frontend ainda)
-    return (p as any).precoPromocional > 0 ? (p as any).precoPromocional : null;
+    const p = this.produto as any;
+    return p?.precoPromocional > 0 ? p.precoPromocional : null;
   }
 
   get percentualDesconto(): number {
-    const p = this.produto;
-    if (!p || !(p as any).precoPromocional) return 0;
-    return Math.round((1 - (p as any).precoPromocional / p.preco) * 100);
+    const p = this.produto as any;
+    if (!p?.precoPromocional) return 0;
+    return Math.round((1 - p.precoPromocional / p.preco) * 100);
   }
 
+  // ── Especificações extras ─────────────────────────────────────
+  get fornecedorLabel(): string {
+    const f = this.produto?.fornecedor ?? 0;
+    const map: Record<number, string> = {
+      0: 'Não informado', 1: 'Nacional', 2: 'Importado', 3: 'Fabricante próprio'
+    };
+    return map[f] ?? `Fornecedor ${f}`;
+  }
+
+  // ── Ações ─────────────────────────────────────────────────────
   adicionarAoCarrinho(): void {
     if (!this.produto?.codigo) return;
     this.carrinhoService.adicionar(this.produto.codigo, this.quantidade);
@@ -126,11 +143,6 @@ export class DetalhesProdutoComponent implements OnInit, OnDestroy {
     this.router.navigate(['/compra']);
   }
 
-  navegarParaRelacionado(codigo: string): void {
-    this.router.navigate(['/detalhes-produto', codigo]);
-  }
-
-  voltarParaListagem(): void {
-    this.router.navigate(['/home']);
-  }
+  navegarParaRelacionado(codigo: string): void { this.router.navigate(['/detalhes-produto', codigo]); }
+  voltarParaListagem(): void { this.router.navigate(['/home']); }
 }

@@ -2,6 +2,55 @@ header {
   background-color: rgb(25, 82, 132);
 }
 
+/* ── Logo ────────────────────────────────────────────────────────── */
+#logo {
+  width: 25%;
+  display: flex;
+  min-height: 70px;
+  justify-content: flex-start;
+  align-items: center;
+  order: 0;
+}
+
+#logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: background .2s;
+}
+#logo-link:hover { background: rgba(255,255,255,.08); }
+
+#logo-icon { flex-shrink: 0; }
+
+#logo-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+#logo-nome {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  background: linear-gradient(90deg, #ffffff 60%, #a8c8f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#logo-sub {
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+}
+
+/* ── Menu principal ──────────────────────────────────────────────── */
 #menu {
   display: flex;
   align-items: center;
@@ -14,20 +63,11 @@ header {
   display: flex;
   flex-direction: column;
 }
-
 #botoes-usuario a {
   color: white;
   text-decoration: none;
   font-family: fantasy;
   margin-right: 15px;
-}
-
-#logo {
-  width: 25%;
-  display: flex;
-  min-height: 70px;
-  justify-content: start;
-  order: 0;
 }
 
 #barra-pesquisa {
@@ -38,19 +78,14 @@ header {
   justify-content: center;
   order: 1;
 }
-
-#barra-pesquisa p {
-  color: white;
-  margin: 5px;
-}
-
-#barra-pesquisa button {
-  cursor: pointer;
-}
-
-#barra-pesquisa button:hover {
-  transition: 2s;
-  background-color: aliceblue;
+#barra-pesquisa button { cursor: pointer; }
+#barra-pesquisa button:hover { transition: .2s; background-color: aliceblue; }
+#barra-pesquisa input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 #botoes {
@@ -60,6 +95,49 @@ header {
   order: 2;
 }
 
+/* ── Ícone do carrinho redesenhado ───────────────────────────────── */
+#btn-carrinho-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-left: 12px;
+  transition: background .2s;
+  text-decoration: none;
+}
+#btn-carrinho-header:hover { background: rgba(255,255,255,.15); }
+
+.carrinho-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #e53935;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  padding: 0 4px;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+.btn-menu {
+  color: white;
+  padding: 5px;
+  margin: 15px;
+  border-radius: 5px;
+  border: solid;
+  text-decoration: none;
+  font-family: fantasy;
+}
+
+/* ── Menu de categorias ──────────────────────────────────────────── */
 #menu-categorias {
   background-color: rgb(25, 66, 102);
   display: flex;
@@ -74,16 +152,11 @@ header {
 button.mat-mdc-unelevated-button {
   transition: background-color 500ms ease, color 500ms ease;
 }
-
 button.mat-mdc-unelevated-button.categoriaSelecionada {
   background-color: rgb(55, 147, 228);
   color: white;
 }
-
-#menu-categorias button {
-  width: 100px;
-}
-
+#menu-categorias button { width: 100px; }
 #menu-categorias a {
   color: white;
   padding: 5px;
@@ -91,71 +164,28 @@ button.mat-mdc-unelevated-button.categoriaSelecionada {
   text-decoration: none;
   min-width: 80px;
   text-align: center;
-  justify-content: center;
 }
 
-#barra-pesquisa input {
-  width: 100%;
-  padding: 8px;
-  font-size: 1rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.btn-menu {
-  color: white;
-  padding: 5px;
-  margin: 15px;
-  border-radius: 5px;
-  border: solid;
-  text-decoration: none;
-  font-family: fantasy;
-}
-
+/* ── Responsivo ──────────────────────────────────────────────────── */
 @media (max-width: 830px) {
+  #titulo { font-size: 12px; }
 
-  #titulo{
-      font-size: 12px;
-  }
-
-  #logo {
-    justify-content: center;
-    order: 0;
-  }
-
-  #barra-pesquisa {
-    width: 100%;
-    order: 3;
-  }
-
-  #botoes{
-    order: 2;
-  }
+  #logo { justify-content: center; order: 0; }
+  #barra-pesquisa { width: 100%; order: 3; }
+  #botoes { order: 2; }
 
   #menu {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 10px 20px;
     gap: 20px;
-    flex-direction: column;
   }
 
   #menu-categorias {
-    background-color: rgb(25, 66, 102);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
     flex-direction: column;
-    color: white;
     height: auto;
   }
+  #menu-categorias button { padding: 0; margin: 0; width: 100%; }
 
-  #menu-categorias button {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-  }
-  
+  #logo-nome { font-size: 1.2rem; }
+  #logo-sub  { display: none; }
 }

@@ -1,3 +1,4 @@
 .main {
-    background-image: url("../assets/background-wstore.JPG");
+  /* background removido da tela de detalhes — controlado por cada pagina */
+  background-color: #f4f6f9;
 }
