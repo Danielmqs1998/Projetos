@@ -1,14 +1,60 @@
 <div id="card-produto" [routerLink]="['/detalhes-produto', produto?.codigo]">
-    <div id="imagem" style="margin:10px">
-        <img src={{produto?.imagem}} style="border-radius:5px"/>
-    </div>
-    <p id="descricao">{{produto?.descricao}}</p>
-    <div id="precos">
-        <p id="normal">{{produto?.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
-        <p id="parcelado" style="font-size: 12px; font-family: system-ui"> 10 x {{ ((produto?.preco || 0) / 10) | currency:'BRL':'symbol':'1.2-2' }}</p>
-    </div>
-    <div style="width: auto; margin: 0 auto">
-        <app-rating [produto]="produto"></app-rating>
-        <p style="display: inline; font-size: 14px; font-family: system-ui">({{produto?.totalAvaliacoes}})</p>
-    </div>
+
+  <!-- Badges de condição -->
+  <div class="badges" *ngIf="produto?.condicoes?.length">
+    <span class="badge badge-pm" *ngIf="produto?.condicoes?.includes('PM')"
+          title="Promoção">
+      <!-- tag de desconto -->
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+        <line x1="7" y1="7" x2="7.01" y2="7"/>
+      </svg>
+      Promoção
+    </span>
+    <span class="badge badge-fg" *ngIf="produto?.condicoes?.includes('FG')"
+          title="Frete Grátis">
+      <!-- caminhão -->
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13" rx="1"/>
+        <path d="M16 8h4l3 5v4h-7V8z"/>
+        <circle cx="5.5" cy="18.5" r="2.5"/>
+        <circle cx="18.5" cy="18.5" r="2.5"/>
+      </svg>
+      Frete grátis
+    </span>
+    <span class="badge badge-er" *ngIf="produto?.condicoes?.includes('ER')"
+          title="Entrega Rápida">
+      <!-- raio -->
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Entrega rápida
+    </span>
+  </div>
+
+  <div id="imagem" style="margin:10px">
+    <img [src]="produto?.imagem" [alt]="produto?.descricao"
+         style="border-radius:5px"
+         (error)="$any($event.target).src='assets/sem-imagem.png'"/>
+  </div>
+
+  <p id="descricao">{{ produto?.descricao }}</p>
+
+  <div id="precos">
+    <p id="normal">{{ produto?.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
+    <p id="parcelado" style="font-size:12px;font-family:system-ui">
+      10 x {{ ((produto?.preco || 0) / 10) | currency:'BRL':'symbol':'1.2-2' }}
+    </p>
+  </div>
+
+  <div style="width:auto;margin:0 auto">
+    <app-rating [produto]="produto"></app-rating>
+    <p style="display:inline;font-size:14px;font-family:system-ui">
+      ({{ produto?.totalAvaliacoes }})
+    </p>
+  </div>
+
 </div>
