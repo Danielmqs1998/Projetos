@@ -1,4 +1,4 @@
-/* ── Variáveis ─────────────────────────────────────────────────────── */
+﻿/* ── Variáveis ─────────────────────────────────────────────────────── */
 :host {
   --azul-escuro:  #19426e;
   --azul-medio:   #1e5494;
@@ -206,32 +206,52 @@
 .total-avaliacoes { font-size: 13px; color: var(--cinza-texto); }
 .sem-avaliacoes   { font-size: 14px; color: var(--cinza-texto); font-style: italic; margin: 0 0 0 8px; }
 
-/* ── Carrossel de relacionados ───────────────────────────────────── */
+/* Carrossel de relacionados */
 .carrossel-wrapper {
-  display: flex; align-items: center; gap: 8px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
   padding: 4px 0;
 }
 
 .seta {
   flex-shrink: 0;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--azul-escuro);
-  background: var(--branco);
-  color: var(--azul-escuro);
-  font-size: 24px; line-height: 1;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background .2s, color .2s;
-  user-select: none;
+  width: 38px;
+  min-height: 60px;
+  border: none;
+  border-radius: 10px;
+  background: var(--azul-escuro);
+  color: var(--branco);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .18s, box-shadow .18s, transform .12s;
+  box-shadow: 0 2px 8px rgba(25,66,110,.25);
+  padding: 0;
 }
-.seta:hover:not(:disabled) { background: var(--azul-escuro); color: var(--branco); }
-.seta:disabled { opacity: .3; cursor: not-allowed; }
+.seta svg { display: block; }
+.seta:hover:not(:disabled) {
+  background: var(--azul-medio);
+  box-shadow: 0 4px 14px rgba(25,66,110,.38);
+  transform: scaleY(1.03);
+}
+.seta:active:not(:disabled) { transform: scale(.97); }
+.seta:disabled {
+  background: var(--cinza-borda);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: .55;
+}
+.seta-esq { border-radius: 10px 0 0 10px; margin-right: 2px; }
+.seta-dir { border-radius: 0 10px 10px 0; margin-left: 2px; }
 
 .grid-relacionados {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  padding: 0 4px;
 }
 .grid-relacionados app-card-produto { display: block; transition: transform .2s; }
 .grid-relacionados app-card-produto:hover { transform: translateY(-4px); }

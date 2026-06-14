@@ -1,18 +1,27 @@
-<header>
+﻿<header>
   <div id="menu">
 
     <!-- Logo WStore redesenhado -->
     <div id="logo">
       <a routerLink="/home" id="logo-link" aria-label="WStore — página inicial">
-        <svg id="logo-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="44" height="44" rx="10" fill="rgba(255,255,255,0.13)"/>
-          <!-- W estilizado -->
-          <polyline points="7,13 12,31 18,20 22,31 28,13 33,31 37,13"
-                    stroke="#ffffff" stroke-width="2.6"
-                    stroke-linecap="round" stroke-linejoin="round"
-                    fill="none"/>
-          <!-- sublinhado decorativo -->
-          <line x1="7" y1="36" x2="37" y2="36" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+        <svg id="logo-icon" width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gBg" x1="0" y1="0" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06"/>
+            </linearGradient>
+            <linearGradient id="gW" x1="5" y1="10" x2="41" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%"   stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#a8c8f0"/>
+            </linearGradient>
+          </defs>
+          <rect width="46" height="46" rx="11" fill="url(#gBg)"/>
+          <rect x="0.75" y="0.75" width="44.5" height="44.5" rx="10.5"
+                stroke="rgba(255,255,255,0.22)" stroke-width="1.5" fill="none"/>
+          <path d="M7 12 L13.5 33 L20 19.5 L23 27 L26 19.5 L32.5 33 L39 12"
+                stroke="url(#gW)" stroke-width="3" fill="none"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="23" cy="37" r="2.2" fill="#f5a623"/>
         </svg>
 
         <div id="logo-texto">
