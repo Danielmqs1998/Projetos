@@ -1,35 +1,4 @@
 ﻿#container {
-}
-/* Paginacao */
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-}
-
-.pagination ::ng-deep .ngx-pagination {
-    background: transparent;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.pagination ::ng-deep .ngx-pagination li a,
-.pagination ::ng-deep .ngx-pagination li span {
-    background: transparent;
-    color: #ffffff;
-}
-
-.pagination ::ng-deep .ngx-pagination li.current {
-    background: rgb(25, 66, 102);
-    border-radius: 3px;
-}
-
-.pagination ::ng-deep .ngx-pagination li.disabled a,
-.pagination ::ng-deep .ngx-pagination li.disabled span {
-    color: rgba(255,255,255,0.5);
-}
-
-#container {
     display: flex;
     background-image: url('../../../assets/background-wstore.JPG');
     background-size: cover;
@@ -149,81 +118,20 @@
     margin-bottom: 40px;
 }
 
-/* ── Paginação ───────────────────────────────────────────────────── */
+/* Paginacao */
 .pagination {
-    display: flex;
-    justify-content: center;
+    justify-self: center;
     margin-bottom: 40px;
 }
 
-/* O ngx-pagination injeta background branco por padrao em varios elementos.
-   Todos recebem background transparente — a imagem de fundo da home
-   aparece atras de todos os botoes. */
 .pagination ::ng-deep .ngx-pagination {
-    background: transparent !important;
-    padding: 4px 0;
-    margin: 0;
-    display: flex;
-    gap: 4px;
-    list-style: none;
+    background-color: rgb(25, 66, 102);
+    border-radius: 5px;
+    padding: 5px;
 }
 
-.pagination ::ng-deep .ngx-pagination li {
-    display: flex;
-    background: transparent !important;
-}
-
-/* Todos os botoes: fundo transparente com texto branco */
-.pagination ::ng-deep .ngx-pagination a,
-.pagination ::ng-deep .ngx-pagination span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 38px;
-    height: 38px;
-    padding: 0 12px;
-    border-radius: 8px;
-    background: rgba(25, 66, 102, 0.75) !important;
-    color: #ffffff !important;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    transition: background .18s;
-    backdrop-filter: blur(4px);
-}
-
-.pagination ::ng-deep .ngx-pagination a:hover {
-    background: rgba(25, 66, 102, 0.95) !important;
-}
-
-/* Pagina atual */
-.pagination ::ng-deep .ngx-pagination .current span {
-    background: rgb(25, 66, 102) !important;
-    border: 2px solid rgba(255, 255, 255, 0.55) !important;
-    color: #ffffff !important;
-}
-
-/* Desabilitado (primeira/ultima pagina) */
-.pagination ::ng-deep .ngx-pagination .disabled span {
-    background: rgba(25, 66, 102, 0.35) !important;
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Anterior / Proximo — igual aos demais botoes */
-.pagination ::ng-deep .ngx-pagination .pagination-previous a,
-.pagination ::ng-deep .ngx-pagination .pagination-previous span,
-.pagination ::ng-deep .ngx-pagination .pagination-next a,
-.pagination ::ng-deep .ngx-pagination .pagination-next span {
-    background: rgba(25, 66, 102, 0.75) !important;
-    color: #ffffff !important;
-}
-
-.pagination ::ng-deep .ngx-pagination .pagination-previous a:hover,
-.pagination ::ng-deep .ngx-pagination .pagination-next a:hover {
-    background: rgba(25, 66, 102, 0.95) !important;
+.pagination ::ng-deep .ngx-pagination ul {
+    padding: 0;
 }
 
 /* ── Responsivo ──────────────────────────────────────────────────── */
@@ -247,15 +155,6 @@
     }
 
     #filtros input { width: 100%; }
-
-    #menu {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        gap: 20px;
-        flex-direction: column;
-    }
 
     #filtro-estado { align-items: center; }
     #filtro-estado input { width: auto; }
