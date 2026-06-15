@@ -41,7 +41,6 @@
     </button>
   </fieldset>
 
-  <!-- Painel de produtos com overlay de carregamento -->
   <div id="painel-wrapper">
     <div id="overlay-carregando" *ngIf="carregando">
       <div class="spinner-overlay"></div>
@@ -53,11 +52,13 @@
         *ngFor="let produto of produtos | paginate: { itemsPerPage: 16, currentPage: paginaAtual, totalItems: totalItems }"
         [produto]="produto" />
     </div>
+
+    <!-- Paginador dentro do painel para herdar a largura correta -->
+    <div id="paginador">
+      <pagination-controls
+        [previousLabel]="previousLabel"
+        [nextLabel]="nextLabel"
+        (pageChange)="consultaProdutos($event)" />
+    </div>
   </div>
 </div>
-
-<pagination-controls
-  class="pagination"
-  [previousLabel]="previousLabel"
-  [nextLabel]="nextLabel"
-  (pageChange)="consultaProdutos($event)" />

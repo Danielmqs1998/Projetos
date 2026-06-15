@@ -119,6 +119,143 @@
 }
 
 /* Paginacao */
+#paginador {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#paginador ::ng-deep .ngx-pagination {
+    background-color: rgb(25, 66, 102);
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-block;
+}
+
+#paginador ::ng-deep .ngx-pagination ul {
+    padding: 0;
+}
+
+#container {
+    display: flex;
+    background-image: url('../../../assets/background-wstore.JPG');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* ── Painel de filtros ───────────────────────────────────────────── */
+#filtros {
+    height: auto;
+    margin: 5px;
+    margin-top: 20px;
+    background-color: rgb(25, 66, 102);
+    width: 300px;
+    border-radius: 15px;
+    align-self: flex-start;
+    border: none;
+    padding: 10px;
+}
+
+#filtros legend { display: none; }
+
+#filtros > p:first-child {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    font-weight: 800;
+    padding: 3px;
+    margin: 0 0 8px;
+}
+
+#filtros div {
+    margin: 10px;
+    padding: 5px;
+    color: white;
+}
+
+#filtro-preco-maximo input, #filtro-preco-minimo input {
+    border-radius: 5px;
+    width: auto;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    max-width: 150px;
+}
+
+#filtro-estado {
+    justify-content: start;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+}
+
+#filtro-estado div {
+    margin: 0;
+    width: auto;
+}
+
+#filtros button {
+    border: none;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* ── Wrapper do painel + overlay de carregamento ─────────────────── */
+#painel-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+#overlay-carregando {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: rgba(244, 246, 249, 0.82);
+    backdrop-filter: blur(3px);
+    z-index: 10;
+    border-radius: 15px;
+    color: rgb(25, 66, 102);
+    font-weight: 700;
+    font-size: 15px;
+    animation: fadeIn 0.2s ease;
+}
+
+.spinner-overlay {
+    width: 44px;
+    height: 44px;
+    border: 4px solid #d0d7e2;
+    border-top-color: rgb(25, 66, 102);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+#painel-produtos.carregando {
+    opacity: 0.35;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+/* ── Grade de produtos ───────────────────────────────────────────── */
+#painel-produtos {
+    margin: 5px;
+    margin-top: 20px;
+    border-radius: 15px;
+    width: 100%;
+    min-height: 500px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-gap: 50px;
+    margin-bottom: 40px;
+}
+
+/* Paginacao */
 .pagination {
     justify-self: center;
     margin-bottom: 40px;
