@@ -1,4 +1,4 @@
-<div id="container">
+﻿<div id="container">
   <fieldset id="filtros">
     <p style="font-size: 20px; color: white; text-align: center; font-weight: 800; padding: 3px;">Filtros</p>
 
@@ -22,7 +22,7 @@
       <p style="margin-top:10px"><strong>Estado</strong></p>
       <label>
         <mat-radio-group name="estadoProduto" [(ngModel)]="estado">
-          <mat-radio-button color="primary" *ngFor="let est of estados" [value]="est">{{ est }}</mat-radio-button>
+          <mat-radio-button color="primary" *ngFor="let est of estados" [value]="est">{{ est || 'Todos' }}</mat-radio-button>
         </mat-radio-group>
       </label>
     </div>

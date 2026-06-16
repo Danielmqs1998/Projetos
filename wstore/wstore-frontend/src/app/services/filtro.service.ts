@@ -10,12 +10,14 @@ import { FiltroCategoriaProduto } from '../enums/filtroCategoriaProduto';
 export class FiltroService {
 
   private filtrosSubject = new BehaviorSubject<Filtros>({
-    precoMaximo: 0.0,
-    precoMinimo: 0.0,
-    categoria: FiltroCategoriaProduto.Todas, 
-    condicoes: [], 
-    descricao: "", 
-    estado: FiltroEstadoProduto.Novo});
+    precoMaximo:  0,
+    precoMinimo:  0,
+    categoria:    FiltroCategoriaProduto.Todas,
+    condicoes:    [],
+    descricao:    '',
+    // Inicializa sem filtro de estado para retornar todos os produtos
+    estado:       FiltroEstadoProduto.Todos
+  });
 
   filtros$ = this.filtrosSubject.asObservable();
 
@@ -29,5 +31,4 @@ export class FiltroService {
   get value(): Filtros {
     return this.filtrosSubject.value;
   }
-
 }

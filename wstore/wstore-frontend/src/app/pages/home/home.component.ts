@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+﻿import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, skip, takeUntil } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Produto } from '../../models/produto';
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public nextLabel: string = 'Próx.';
   public precoMaximo?: number | null;
   public precoMinimo?: number | null;
-  public estado: FiltroEstadoProduto = FiltroEstadoProduto.Novo;
+  public estado: FiltroEstadoProduto = FiltroEstadoProduto.Todos;
   public estados = Object.values(FiltroEstadoProduto);
   public condicoes: FiltroCondicaoProduto[] = [];
   public categoria: FiltroCategoriaProduto = FiltroCategoriaProduto.Todas;

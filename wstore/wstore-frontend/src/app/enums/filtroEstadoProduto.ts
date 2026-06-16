@@ -1,4 +1,5 @@
 export enum FiltroEstadoProduto {
-    Novo = "Novo",
+    Todos = "",
+    Novo  = "Novo",
     Usado = "Usado"
 }
