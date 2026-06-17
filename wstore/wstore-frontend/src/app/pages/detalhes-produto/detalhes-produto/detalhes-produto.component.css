@@ -206,12 +206,12 @@
 .sem-avaliacoes   { font-size: 14px; color: var(--cinza-texto); font-style: italic; margin: 0 0 0 8px; }
 
 /* Carrossel de relacionados */
+/* Carrossel de relacionados */
 .carrossel-wrapper {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 8px 0;
-}
+  gap: 10px;
+  padding: 12px 2px 8px;
 
 .seta {
   flex-shrink: 0;
